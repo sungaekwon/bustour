@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<!--
+  fragments/header.html : 위쪽(top) 조각
+  - th:fragment="header" 가 붙은 <header> 태그 "통째로"가 조각이다.
+  - 이 파일의 <html>, <body>는 서버 없이 열어 볼 때만 의미가 있고, 조각으로 쓸 때는 무시된다.
+
+  메뉴 링크
+    /                 : 메인
+    /#tours           : 투어 목록 = 메인의 투어 3단 위치
+    /my/reservations  : 내 예약 (6단계에서 만듦. 지금은 로그인 화면 → 로그인 후 404)
+    /login, /signup   : 로그인 · 회원가입
+
+  ★ ${loginName} : web/GlobalModelAdvice 가 모든 화면에 넣어 주는 값
+    로그인 안 함 → null → "로그인 · 회원가입"
+    로그인 함   → "김부산" → "김부산님 · 로그아웃"
+-->
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<body>
+
+<header class="site-header" th:fragment="header">
+  <div class="container header-inner">
+
+    <a class="logo" th:href="@{/}">
+      <img class="logo-icon" th:src="@{/img/logo-icon.svg}" alt="" width="40" height="40">
+      <span class="logo-text">부산<span class="logo-accent">한바퀴</span></span>
+    </a>
+
+    <nav class="menu" aria-label="주 메뉴">
+      <a th:href="@{/#tours}">투어 목록</a>
+      <a th:href="@{/my/reservations}">내 예약</a>
+
+      <!-- 로그인 전 -->
+      <span class="menu-auth" th:if="${loginName == null}">
+        <a th:href="@{/login}">로그인</a>
+        <span class="menu-dot" aria-hidden="true">·</span>
+        <a th:href="@{/signup}">회원가입</a>
+      </span>
+
+      <!-- 로그인 후 -->
+      <span class="menu-auth" th:if="${loginName != null}">
+        <span class="menu-user"><strong th:text="${loginName}">김부산</strong>님</span>
+        <span class="menu-dot" aria-hidden="true">·</span>
+        <!-- ★ 로그아웃은 링크(GET)가 아니라 POST 폼
+             시큐리티는 CSRF가 켜져 있으면 POST /logout 만 받는다 (남의 사이트가 몰래 로그아웃시키는 것 방지)
+             th:action → CSRF 토큰 자동 포함 / 버튼은 CSS로 링크처럼 보이게 (menu-link-btn) -->
+        <form class="inline-form" th:action="@{/logout}" method="post">
+          <button type="submit" class="menu-link-btn">로그아웃</button>
+        </form>
+      </span>
+    </nav>
+
+  </div>
+</header>
+
+</body>
+</html>

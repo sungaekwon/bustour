@@ -1,0 +1,33 @@
+# ===== Gradle 빌드 결과 (다시 만들 수 있는 것은 올리지 않음) =====
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# ===== 인텔리제이 설정 (사람마다 다름) =====
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+
+# ===== 비밀 값 (절대 올리지 않음) =====
+.env
+*.env
+
+# ===== 기타 =====
+*.log
+HELP.md
+.DS_Store
+
+# ===== 추가 ======
+# ===== k6 결과 (용량 · 불필요) =====
+k6/**/*.json
+k6/**/*.html
+
+# ===== 다른 편집기 =====
+.vscode/
+bin/
+
+# ===== 윈도우 · 압축 =====
+Thumbs.db
+*.zip

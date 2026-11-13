@@ -1,0 +1,42 @@
+# =====================================================================
+# 운영(서버) 전용 설정 (10단계)
+# [추가]2026.11.13권성애
+#
+# ★ 켜는 법: 환경변수 SPRING_PROFILES_ACTIVE=prod (docker-compose.yml 에 들어 있음)
+#   application.yml(기본)을 먼저 읽고 → 이 파일에 적은 값만 "덮어쓴다"
+#   여기 없는 값(포트 8282, ddl-auto validate, 캐시, 기상청 좌표 등)은 기본 파일 그대로
+#
+# ★ 비밀 값은 여기에도 쓰지 않는다 → 서버의 .env → docker-compose.yml → 환경변수
+# =====================================================================
+
+server:
+  # Nginx 뒤에서 "진짜 요청 정보"를 알아내기
+  #   브라우저 --https--> Nginx --http--> 앱(8282)
+  #   앱은 http 로 받았다고 생각해서, 시큐리티가 로그인 화면으로 돌려보낼 때
+  #   Location: http://bustour.../login 처럼 http 주소를 만들 수 있다.
+  #   native = 톰캣이 Nginx 가 붙여 준 X-Forwarded-Proto / X-Forwarded-For 헤더를 믿고
+  #            "원래는 https 요청, 손님 IP 는 이것" 으로 고쳐서 처리한다.
+  #   → 요청이 https 로 인식되면 톰캣이 세션 쿠키(JSESSIONID)에 Secure 표시도 자동으로 붙인다
+  #   ※ 아무 헤더나 믿는 게 아니라 내부망 IP(도커 네트워크 172.x 등)에서 온 헤더만 믿는다
+  forward-headers-strategy: native
+
+  servlet:
+    session:
+      timeout: 30m                 # 로그인 세션 유지 시간 (아무 요청 없이 30분 지나면 로그아웃)
+
+spring:
+  datasource:
+    hikari:
+      # 9단계 부하테스트 결론: 로컬 적정 풀 20 (10→20 처리량 +27%, 30 은 +1.6% 뿐)
+      # MySQL 컨테이너의 max_connections(docker-compose.yml 에서 50) 보다 작아야 한다
+      maximum-pool-size: 20
+      minimum-idle: 20             # 고정 크기 (기본 파일과 같은 방식)
+
+  thymeleaf:
+    cache: true                    # 운영: 화면 템플릿을 한 번 읽으면 메모리에 보관 (매 요청마다 파일 읽지 않음)
+
+logging:
+  level:
+    root: info
+    com.kwon.bustour: info
+    org.hibernate.SQL: warn        # 운영에서는 SQL 로그를 찍지 않음 (로그 폭증 방지)

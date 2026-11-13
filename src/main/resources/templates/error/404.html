@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<!--
+  error/404.html : 없는 주소 · 없는 투어일 때 (상태 코드 404)
+
+  ★ 스프링 부트 규칙: templates/error/ 안에 "상태코드.html" 을 두면 그 오류일 때 자동으로 보여 준다.
+     (404.html, 500.html … / 4xx.html 처럼 묶어서도 가능)
+     → 컨트롤러를 따로 만들 필요 없음
+-->
+<html th:replace="~{layout/base :: layout(~{::title}, ~{::main})}"
+      xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+  <title>페이지를 찾을 수 없습니다 - 부산한바퀴</title>
+</head>
+<body>
+<main>
+  <section class="container section error-box">
+    <p class="error-code">404</p>
+    <h1 class="page-title">페이지를 찾을 수 없습니다</h1>
+    <p class="page-desc">주소가 바뀌었거나, 지금은 판매하지 않는 투어일 수 있어요.</p>
+    <a class="btn btn-primary" th:href="@{/}">메인으로</a>
+  </section>
+</main>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<!--
+  =====================================================================
+  layout/base.html : 모든 화면의 "틀" (방법 B)
+    top    = fragments/header.html
+    center = 각 화면이 넘겨준 <main>
+    bottom = fragments/footer.html
+
+  ★ th:fragment="layout(title, content)"
+    이 html 태그 전체가 "layout"이라는 이름의 조각이고, 매개변수 2개를 받는다.
+      title   : 각 화면의 <title> 태그
+      content : 각 화면의 <main> 태그
+    각 화면은 이렇게 부른다 (index.html 참고)
+      <html th:replace="~{layout/base :: layout(~{::title}, ~{::main})}">
+        → "layout/base 파일의 layout 조각을 쓰고, 내 <title>과 <main>을 넘긴다"
+
+  ★ 경로 규칙 (타임리프 PDF 2장)
+    ~{layout/base}, ~{fragments/header}  : 템플릿 경로 → templates 기준, 앞에 / 없음, .html 없음
+    @{/css/common.css}                   : URL → / 로 시작 (static 폴더 이름은 안 씀)
+  =====================================================================
+-->
+<html th:fragment="layout(title, content)" xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <!-- 휴대폰에서 화면 폭에 맞게 보이게 (없으면 PC 화면을 작게 줄여서 보여 줌) -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- 각 화면이 넘겨준 <title>로 통째로 바뀜. 넘기지 않으면 "부산한바퀴"가 남음 -->
+  <title th:replace="${title}">부산한바퀴</title>
+
+  <!-- 탭 아이콘: 로고 아이콘 SVG를 그대로 씀 -->
+  <link rel="icon" type="image/svg+xml" th:href="@{/img/logo-icon.svg}">
+
+  <!-- 글꼴 (구글 폰트): 로고 글자 Black Han Sans, 본문 Noto Sans KR
+       인터넷이 안 되면 common.css에 적은 다음 글꼴(맑은 고딕 등)로 자동으로 바뀜 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&amp;family=Noto+Sans+KR:wght@400;700&amp;display=swap">
+
+  <!-- ★ CSRF 토큰 (4단계): fetch 로 POST 할 때 자바스크립트가 이 값을 읽어 헤더에 넣는다 (6단계)
+       _csrf 는 시큐리티가 요청마다 넣어 주는 값. ?. = 값이 없으면 오류 대신 빈칸 (null 안전)
+       폼(th:action)은 자동으로 들어가므로 이 meta 가 필요 없다 -->
+  <meta name="_csrf" th:content="${_csrf?.token}">
+  <meta name="_csrf_header" th:content="${_csrf?.headerName}">
+
+  <!-- 공통 CSS: src/main/resources/static/css/common.css -->
+  <link rel="stylesheet" th:href="@{/css/common.css}">
+</head>
+<body>
+  <!-- top: 조각을 가져와 이 div를 통째로 <header>로 바꿈 (th:replace) -->
+  <div th:replace="~{fragments/header :: header}"></div>
+
+  <!-- center: 각 화면이 넘겨준 <main>으로 통째로 바뀜 -->
+  <main th:replace="${content}">
+    <p>여기에 각 화면의 내용이 들어갑니다.</p>
+  </main>
+
+  <!-- bottom -->
+  <div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<!--
+  =====================================================================
+  member/signup.html : 회원가입 (GET /signup 화면, POST /signup 처리)
+
+  ★ 폼 바인딩
+    th:object="${form}"   : 이 폼이 다루는 객체 = 컨트롤러가 담은 SignupForm
+    th:field="*{name}"    : *{ } = th:object 객체의 필드 → id="name" name="name" value="입력했던 값" 을 만들어 줌
+                            (검사에 실패해서 화면이 다시 나와도 입력값이 그대로 남아 있음. 비밀번호 칸은 비움)
+    th:errors="*{name}"   : 그 필드의 오류 문장 (@NotBlank 등의 message, 또는 rejectValue 로 넣은 문장)
+    th:if="${#fields.hasErrors('name')}" : 그 필드에 오류가 있을 때만 보이게
+
+  ★ th:action → CSRF 토큰 자동 포함
+  =====================================================================
+-->
+<html th:replace="~{layout/base :: layout(~{::title}, ~{::main})}"
+      xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+  <title>회원가입 - 부산한바퀴</title>
+</head>
+<body>
+<main>
+  <section class="container section">
+    <div class="form-box">
+      <h1 class="form-title">회원가입</h1>
+
+      <!-- novalidate : 브라우저 자체 검사를 끄고 서버 검사 결과(한국어 문장)를 보여 주기 위해 -->
+      <form th:action="@{/signup}" th:object="${form}" method="post" novalidate>
+
+        <div class="form-row">
+          <label for="name">이름</label>
+          <!-- th:errorclass : 오류가 있으면 class 에 input-error 를 붙임 (빨간 테두리) -->
+          <input type="text" th:field="*{name}" th:errorclass="input-error" autocomplete="name">
+          <p class="field-error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">이름 오류</p>
+        </div>
+
+        <div class="form-row">
+          <label for="phone">휴대폰 번호 <span class="form-hint">로그인 아이디로 쓰입니다</span></label>
+          <input type="text" th:field="*{phone}" th:errorclass="input-error"
+                 inputmode="numeric" autocomplete="tel" placeholder="010-1234-5678">
+          <p class="field-error" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">휴대폰 오류</p>
+        </div>
+
+        <div class="form-row">
+          <label for="password">비밀번호 <span class="form-hint">영문 + 숫자 포함 8자 이상</span></label>
+          <!-- th:field 는 type="password" 칸에는 value 를 채우지 않는다 (비밀번호를 화면에 다시 보내지 않음) -->
+          <input type="password" th:field="*{password}" th:errorclass="input-error" autocomplete="new-password">
+          <p class="field-error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">비밀번호 오류</p>
+        </div>
+
+        <div class="form-row">
+          <label for="passwordConfirm">비밀번호 확인</label>
+          <input type="password" th:field="*{passwordConfirm}" th:errorclass="input-error" autocomplete="new-password">
+          <p class="field-error" th:if="${#fields.hasErrors('passwordConfirm')}" th:errors="*{passwordConfirm}">확인 오류</p>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block">가입하기</button>
+      </form>
+
+      <p class="form-foot">이미 회원이신가요? <a th:href="@{/login}">로그인</a></p>
+    </div>
+  </section>
+</main>
+</body>
+</html>

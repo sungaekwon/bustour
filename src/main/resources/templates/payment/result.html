@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<!--
+  =====================================================================
+  payment/result.html : 결제 결과 안내 (토스 결제창에서 돌아왔는데 확정하지 못했을 때) — 7단계
+  - model: resultTitle   제목 ("결제를 완료하지 못했습니다.")
+           resultMessage 이유 (서버 · 토스가 준 문장 → th:text 라 HTML 로 해석되지 않음 = 안전)
+           retryId       다시 결제할 수 있으면 예약 번호, 아니면 null (버튼 숨김)
+  =====================================================================
+-->
+<html th:replace="~{layout/base :: layout(~{::title}, ~{::main})}"
+      xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+  <title>결제 결과 - 부산한바퀴</title>
+</head>
+<body>
+<main>
+  <section class="container section">
+    <div class="pay-box">
+      <h1 class="form-title" th:text="${resultTitle}">결제를 완료하지 못했습니다.</h1>
+      <p class="alert alert-error" th:text="${resultMessage}">결제 시간(10분)이 지났습니다.</p>
+
+      <div class="fake-pg-actions">
+        <!-- 다시 결제할 수 있을 때만 (카드 거절 · 결제창 닫음 · PG 연결 실패) -->
+        <a class="btn btn-primary" th:if="${retryId != null}"
+           th:href="@{/payments/{id}(id=${retryId})}">다시 결제하기</a>
+        <a class="btn btn-outline" th:href="@{/my/reservations}">내 예약 보기</a>
+      </div>
+    </div>
+  </section>
+</main>
+</body>
+</html>

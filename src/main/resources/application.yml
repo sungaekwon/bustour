@@ -1,0 +1,112 @@
+# =====================================================================
+# bustour 설정
+#
+# ★ 비밀번호는 이 파일에 쓰지 않는다 → 환경변수에서 읽는다
+#   ${이름}         : 환경변수 "이름"의 값. 없으면 앱이 시작되지 않음 (필수)
+#   ${이름:기본값}  : 환경변수가 없으면 콜론(:) 뒤의 기본값 사용
+#
+# 인텔리제이에서 넣는 곳:
+#   오른쪽 위 실행 설정(BustourApplication) → Edit Configurations...
+#   → Environment variables 칸에  DB_USERNAME=bustour;DB_PASSWORD=비밀번호
+#
+# ※ YAML은 들여쓰기(스페이스 2칸)로 구조를 나타낸다. 탭(Tab)을 쓰면 오류가 난다.
+# ※ start.spring.io가 만든 application.properties는 지운다 (둘 다 있으면 헷갈림)
+# =====================================================================
+
+server:
+  port: 8282                       # 나중에 서버에서 boot-1(8282) / boot-2(8283)
+                                   # ※ concurrency-boot도 8282 → 동시에 켜지 말 것
+
+spring:
+  application:
+    name: bustour
+
+  # ---------------------------------------------------------------
+  # DB 연결 (HikariCP 커넥션풀)
+  # ---------------------------------------------------------------
+  datasource:
+    # 3307 = 이 PC의 MySQL 8.0 포트 (concurrency 프로젝트와 같은 MySQL)
+    # DB_NAME 기본값 bustour = 개발용 스키마. JUnit은 application-test.yml에서 bustour_test로 바꿈
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3307}/${DB_NAME:bustour}?serverTimezone=Asia/Seoul&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true
+    username: ${DB_USERNAME}       # 기본값 없음 → 환경변수 필수
+    password: ${DB_PASSWORD}       # 기본값 없음 → 환경변수 필수
+    hikari:
+      maximum-pool-size: 10        # 최대 커넥션 10개 (concurrency 실험과 같은 조건 → 비교 가능)
+      minimum-idle: 10             # 항상 10개 유지 (고정 크기)
+      connection-timeout: 3000     # 커넥션을 3초 기다려도 없으면 오류 (무한 대기 방지)
+      # 커넥션을 새로 만들 때 한 번 실행하는 SQL
+      # 락 대기 최대 3초 (MySQL 기본 50초는 사용자가 기다리기에 너무 김)
+      connection-init-sql: SET SESSION innodb_lock_wait_timeout = 3
+
+  # ---------------------------------------------------------------
+  # JPA (Hibernate)
+  # ---------------------------------------------------------------
+  jpa:
+    hibernate:
+      # 테이블은 db/02_tables.sql로 직접 만든다 → JPA는 "엔티티와 테이블이 맞는지 확인만"
+      # create / update 는 JPA가 테이블을 마음대로 만들거나 고친다 (CHECK·계산 컬럼이 사라질 수 있음)
+      ddl-auto: validate
+    # 요청이 끝날 때까지 영속성 컨텍스트(DB 연결)를 끌고 가지 않기
+    # → 화면(타임리프)에서 지연 로딩을 하면 에러가 남 = "서비스에서 필요한 걸 미리 가져와라"
+    open-in-view: false
+    # SQL을 콘솔에 보고 싶으면 아래 logging의 org.hibernate.SQL 을 debug로 (show-sql보다 권장)
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true           # SQL 로그를 보기 좋게 줄바꿈
+
+  # ---------------------------------------------------------------
+  # 캐시 (8단계) — Caffeine: 앱 메모리 안의 캐시
+  #   maximumSize=100      : 최대 100개 (넘으면 오래 안 쓴 것부터 버림)
+  #   expireAfterWrite=1h  : 넣고 1시간 뒤 버림 → 다음 요청이 기상청을 다시 부름 (예보는 3시간마다 바뀜)
+  # ---------------------------------------------------------------
+  cache:
+    type: caffeine
+    cache-names: busanWeather
+    caffeine:
+      spec: maximumSize=100,expireAfterWrite=1h
+
+  # ---------------------------------------------------------------
+  # 타임리프 (화면)
+  # ---------------------------------------------------------------
+  thymeleaf:
+    cache: false                   # 개발 중: HTML을 고치면 새로고침만으로 반영 (운영에서는 true)
+    # 기본값이라 안 써도 되지만 위치를 알기 쉽게 적어 둠
+    prefix: classpath:/templates/  # 화면 파일 위치 = src/main/resources/templates/
+    suffix: .html                  # 컨트롤러가 "tour/list"를 돌려주면 → templates/tour/list.html
+
+# ---------------------------------------------------------------
+# 우리 앱 설정 (7단계) — bustour.* 는 스프링이 아니라 우리가 만든 이름
+# ---------------------------------------------------------------
+bustour:
+  pg:
+    # 결제 대행사: fake = 가짜 PG (FakePgClient) / toss = 토스페이먼츠 테스트 키 (TossPgClient)
+    #   환경변수 PG_TYPE 으로 바꿈 (없으면 fake). 인텔리제이 실행 설정에 PG_TYPE=toss
+    type: ${PG_TYPE:fake}
+    fake:
+      approve-delay-ms: 300        # 가짜 승인에 걸리는 시간 (외부 호출이 느리다는 걸 흉내)
+    toss:
+      # ★ 키는 환경변수로만 (이 파일 · GitHub 에 키를 쓰지 않음). 기본값 빈칸 → fake 일 때는 없어도 됨
+      client-key: ${TOSS_CLIENT_KEY:}   # test_ck_… 브라우저용 (결제 화면에 들어감)
+      secret-key: ${TOSS_SECRET_KEY:}   # test_sk_… 서버 전용 (승인 · 취소 API 인증)
+      base-url: https://api.tosspayments.com
+  weather:
+    # ★ 8단계: 공공데이터포털 "기상청_단기예보 조회서비스" 일반 인증키(Decoding). 없으면 날씨 칸만 빔
+    service-key: ${KMA_SERVICE_KEY:}
+    nx: 98                         # 기상청 격자 좌표 (부산 연제구 · 시청 부근)
+    ny: 76
+    mid-land-reg-id: 11H20000      # (A안) 중기 육상예보 지역: 부산 · 울산 · 경남
+    mid-ta-reg-id: 11H20201        # (A안) 중기 기온 지역: 부산
+  scheduler:
+    enabled: true                  # HOLD 만료 스케줄러 켜기 (JUnit 에서는 false)
+    expire-delay-ms: 60000         # 앞 실행이 끝나고 60초 뒤 다시 (1분마다)
+
+# ---------------------------------------------------------------
+# 로그
+# ---------------------------------------------------------------
+logging:
+  level:
+    root: info
+    com.zaxxer.hikari: info        # "HikariPool-1 - Start completed." 가 보이면 DB 연결 성공
+    # 실행되는 SQL을 보고 싶을 때 info → debug 로 (N+1 확인할 때)
+    org.hibernate.SQL: info

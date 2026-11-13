@@ -1,0 +1,23 @@
+<!--
+  부산한바퀴 로고 아이콘 (원형 경로 + 버스 = "부산 한 바퀴")
+  - 위치: src/main/resources/static/img/logo-icon.svg  → 브라우저 주소: /img/logo-icon.svg
+  - 글자(부산한바퀴)는 SVG에 넣지 않고 HTML 글자로 옆에 둔다
+    (SVG 안 글꼴은 사용자 PC에 그 글꼴이 없으면 다른 글꼴로 바뀌어 모양이 달라지기 때문)
+  - 색 바꾸기: #1E8C93(청록, 원형 경로) / #0B3D5C(남색, 버스)
+  - 탭 아이콘(favicon)으로도 같이 씀
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" width="80" height="80" role="img" aria-label="부산한바퀴">
+  <!-- 원형 경로: 원을 점선처럼 그려(stroke-dasharray) 한쪽을 비우고, 비운 곳에 화살표 머리 -->
+  <circle cx="40" cy="40" r="33" fill="none" stroke="#1E8C93" stroke-width="6"
+          stroke-linecap="round" stroke-dasharray="176 31" transform="rotate(-62 40 40)"/>
+  <polygon points="60,9 73,13 64,23" fill="#1E8C93"/>
+  <!-- 버스 몸통 -->
+  <rect x="20" y="27" width="40" height="24" rx="6" fill="#0B3D5C"/>
+  <!-- 창문 3개 -->
+  <rect x="25" y="31" width="9" height="8" rx="2" fill="#FFFFFF"/>
+  <rect x="36" y="31" width="9" height="8" rx="2" fill="#FFFFFF"/>
+  <rect x="47" y="31" width="8" height="8" rx="2" fill="#FFFFFF"/>
+  <!-- 바퀴 2개 (흰 테두리로 몸통과 구분) -->
+  <circle cx="29" cy="52" r="4.5" fill="#0B3D5C" stroke="#FFFFFF" stroke-width="2"/>
+  <circle cx="51" cy="52" r="4.5" fill="#0B3D5C" stroke="#FFFFFF" stroke-width="2"/>
+</svg>

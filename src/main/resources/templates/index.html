@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<!--
+  =====================================================================
+  index.html : 메인 화면 = 투어 3단 화면 (GET / → HomeController → "index")
+
+  구성
+    1. 첫 화면 (작게) : 제목 + 한 줄 안내 ① → ② → ③
+    2. 투어 3단        : 투어마다 한 칸 (색 다름) = 머리 상자 + 가격 · 소개 + 코스 + 출발 시간
+    3. 예약 모달       : 시간 버튼을 누르면 열림 (static/js/reservation-modal.js)
+
+  ★ 레이아웃 B: 이 파일의 <title>과 <main>을 layout/base 의 layout(title, content)에 넘김
+      ~{::title} → title 자리,  ~{::main} → content 자리
+     (자바로 치면 layout(내 title 태그, 내 main 태그) 를 호출하는 것)
+
+  ★ model 에 담긴 값: tours = List<TourCard>, maxStops = 가장 긴 코스의 정류장 수
+     TourCard: id, name, description, price, durationText, theme, stops, firstDays, moreDays
+  =====================================================================
+-->
+<html th:replace="~{layout/base :: layout(~{::title}, ~{::main})}"
+      xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+  <title>부산한바퀴 - 부산 버스투어 예약</title>
+</head>
+<body>
+<main>
+
+  <!-- ===== 1. 첫 화면 (작게) ===== -->
+  <section class="hero">
+    <div class="container">
+      <h1 class="hero-title">버스로 도는 <span class="text-accent">부산 한 바퀴</span></h1>
+      <!-- 한 줄 안내: ol = 순서 있는 목록, 화살표는 CSS(::after)로 붙임 -->
+      <ol class="steps">
+        <li><span class="step-no">1</span>투어 고르기</li>
+        <li><span class="step-no">2</span>출발 시간 · 인원 선택</li>
+        <li><span class="step-no">3</span>10분 안에 결제</li>
+      </ol>
+      <p class="hero-note">출발 1시간 전까지 예약 · 한 번에 최대 10명 · 출발 3일 전까지 전액 환불</p>
+    </div>
+  </section>
+
+  <!-- ===== (8단계 A안) 부산 날씨 7일 =====
+       weather = 날짜 → DayWeather (WeatherService.getBusanForecast, 캐시 1시간)
+       오늘 ~ 3, 4일 뒤 = 단기예보, 그 뒤 = 중기예보(mid=true → "중기예보" 작은 글씨)
+       비었으면(키 없음 · 기상청 오류) 이 부분 전체를 숨김 -->
+  <section class="container wx-section" th:unless="${#maps.isEmpty(weather)}">
+    <div class="wx-title">
+      <b>부산 날씨</b>
+      <span>오늘~3일 뒤: 기상청 단기예보 · 4일 뒤부터: 중기예보 · 1시간마다 갱신</span>
+    </div>
+    <div class="wx-band">
+      <div class="wx-day" th:each="w : ${weather.values()}">
+        <div class="wx-date" th:text="${#temporals.format(w.date, 'M/d (E)')}">11/12 (목)</div>
+        <!-- 그림: static/img/weather/{icon}.svg (sun · partly · cloud · rain · snow · shower) -->
+        <img class="wx-icon" th:src="@{/img/weather/{i}.svg(i=${w.icon})}" th:alt="${w.sky}" src="" alt="">
+        <div class="wx-sky" th:text="${w.sky}">맑음</div>
+        <div class="wx-temp" th:text="${w.tempText}">9° / 18°</div>
+        <div class="wx-pop" th:text="|강수 ${w.pop}%|">강수 20%</div>
+        <div class="wx-mid" th:if="${w.mid}">중기예보</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 2. 투어 3단 ===== -->
+  <!-- id="tours" : 헤더의 "투어 목록"(/#tours)을 누르면 여기로 스크롤 -->
+  <section id="tours" class="container section">
+    <!-- th:style : 가장 긴 코스의 정류장 수를 CSS 변수로 넘김 → 모든 칸의 코스 높이가 같아짐
+         → 3칸의 "출발 시간"이 같은 줄에서 시작 (common.css 6번 .course 참고) -->
+    <div class="tour-columns" th:style="|--course-rows: ${maxStops}|">
+
+      <!-- 투어 한 칸.
+           th:id               → id="tour-1" (예전 주소 /tours/1 이 /#tour-1 로 와서 여기로 스크롤)
+           th:classappend      → class="tour-col theme-1" (칸 색) -->
+      <article class="tour-col"
+               th:each="t : ${tours}"
+               th:id="|tour-${t.id}|"
+               th:classappend="${t.theme}">
+
+        <!-- 머리 상자: 투어 이름을 크게 (버튼처럼 눈에 띄게, 기능은 없음) -->
+        <div class="tour-head">
+          <h2 class="tour-name" th:text="${t.name}">해운대·광안리 야경 투어</h2>
+        </div>
+
+        <div class="tour-body">
+          <p class="tour-meta">
+            <!-- formatInteger(숫자, 최소 자리수, 'COMMA') : 15000 → 15,000 (최소 자리수는 1) -->
+            <strong th:text="|${#numbers.formatInteger(t.price, 1, 'COMMA')}원|">15,000원</strong>
+            <span class="dot" aria-hidden="true">·</span>
+            <span th:text="${t.durationText}">약 3시간</span>
+          </p>
+          <p class="tour-desc" th:text="${t.description}">투어 소개</p>
+
+          <!-- 코스 -->
+          <h3 class="sub-title">코스</h3>
+          <ol class="course">
+            <li class="course-stop" th:each="s : ${t.stops}">
+              <span class="course-seq" th:text="${s.seq}">1</span>
+              <span class="course-name" th:text="${s.placeName}">부산역 (출발)</span>
+            </li>
+          </ol>
+
+          <!-- 출발 시간 -->
+          <h3 class="sub-title">출발 시간</h3>
+
+          <!-- 처음 7일: 하루 = 한 줄 (날짜 + 시간 버튼들) -->
+          <div class="day" th:each="d : ${t.firstDays}">
+            <!-- LocalDate 도 #temporals.format 으로. E = 요일 (브라우저 언어가 한국어면 "토") -->
+            <span class="day-label" th:text="${#temporals.format(d.date, 'M/d (E)')}">11/7 (토)</span>
+            <div class="day-times">
+              <!--
+                시간 버튼 하나 = 회차 하나
+                ★ th:data-○○ → data-○○="값" 속성이 됨. 자바스크립트가 이 값을 읽어 모달을 채운다.
+                  (서버를 다시 부르지 않음. 모달의 값은 "안내용"이고, 진짜 확인은 서버가 예약할 때 다시 함)
+                ★ th:disabled : bookable 이 false(매진 · 운영 중지)면 disabled → 누를 수 없음
+              -->
+              <button type="button" class="time-btn"
+                      th:each="s : ${d.schedules}"
+                      th:disabled="${!s.bookable}"
+                      th:data-schedule-id="${s.id}"
+                      th:data-tour-name="${t.name}"
+                      th:data-theme="${t.theme}"
+                      th:data-price="${t.price}"
+                      th:data-remaining="${s.remaining}"
+                      th:data-start-text="${#temporals.format(s.startAt, 'M월 d일 (E) HH:mm')}">
+                <span class="time" th:text="${#temporals.format(s.startAt, 'HH:mm')}">10:00</span>
+                <span class="seat" th:text="${s.statusText}">37석</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- 8일째부터: <details> = 누르면 펼쳐지는 HTML 기본 태그 (자바스크립트 필요 없음)
+               ※ 위 "처음 7일"과 같은 모양을 한 번 더 씀 (moreDays 로 바뀐 것만 다름) -->
+          <details class="more-days" th:unless="${#lists.isEmpty(t.moreDays)}">
+            <summary>날짜 더 보기</summary>
+            <div class="day" th:each="d : ${t.moreDays}">
+              <span class="day-label" th:text="${#temporals.format(d.date, 'M/d (E)')}">11/14 (토)</span>
+              <div class="day-times">
+                <button type="button" class="time-btn"
+                        th:each="s : ${d.schedules}"
+                        th:disabled="${!s.bookable}"
+                        th:data-schedule-id="${s.id}"
+                        th:data-tour-name="${t.name}"
+                        th:data-theme="${t.theme}"
+                        th:data-price="${t.price}"
+                        th:data-remaining="${s.remaining}"
+                        th:data-start-text="${#temporals.format(s.startAt, 'M월 d일 (E) HH:mm')}">
+                  <span class="time" th:text="${#temporals.format(s.startAt, 'HH:mm')}">10:00</span>
+                  <span class="seat" th:text="${s.statusText}">40석</span>
+                </button>
+              </div>
+            </div>
+          </details>
+
+          <p class="empty" th:if="${#lists.isEmpty(t.firstDays)}">예약할 수 있는 출발 시간이 없습니다.</p>
+        </div>
+      </article>
+
+    </div>
+
+    <p class="empty" th:if="${#lists.isEmpty(tours)}">지금 예약할 수 있는 투어가 없습니다.</p>
+  </section>
+
+  <!-- ===== 3. 예약 모달 =====
+       <dialog> : HTML 기본 팝업 태그. 자바스크립트에서 showModal() 하면
+                  화면 가운데에 뜨고, 뒤 배경은 어두워지고, Esc 를 누르면 닫힌다 (브라우저가 해 줌)
+       form method="dialog" : 이 폼 안의 버튼(value="cancel")을 누르면 서버로 보내지 않고 모달만 닫힘
+       ★ 모달 안은 두 화면: (1) 입력 화면 m-form-view  (2) 결과 화면 m-done-view (예약 성공 후)
+       th:data-logged-in : 로그인했는지 (true/false) → 자바스크립트가 보고 버튼을 바꿈 -->
+  <dialog id="reserve-modal" class="modal" aria-labelledby="m-title"
+          th:data-logged-in="${loginName != null}">
+    <form method="dialog" class="modal-box">
+      <div class="modal-head">
+        <h2 id="m-title" class="modal-title">예약하기</h2>
+        <button type="submit" value="cancel" class="modal-x" aria-label="닫기">&times;</button>
+      </div>
+
+      <!-- (1) 입력 화면 -->
+      <div id="m-form-view">
+        <div class="modal-body">
+          <p class="modal-tour" id="m-tour">투어 이름</p>
+          <p id="m-time">출발 시각</p>
+          <p class="modal-muted">남은 자리 <span id="m-remaining">0</span>석</p>
+
+          <div class="modal-row">
+            <label for="m-headcount">인원</label>
+            <!-- 선택지(1 ~ 남은 자리, 최대 10)는 자바스크립트가 채움 -->
+            <select id="m-headcount" name="headcount"></select>
+          </div>
+
+          <p class="modal-total">합계 <strong id="m-total">0원</strong></p>
+
+          <!-- 서버에 보낼 값: 회차 번호와 요청 키(모달을 열 때 1번 만듦 = 멱등성 키, 규칙 R6) -->
+          <input type="hidden" id="m-schedule-id" name="scheduleId">
+          <input type="hidden" id="m-request-key" name="requestKey">
+
+          <p class="modal-note">자리는 10분 동안 잡아 둡니다.</p>
+          <!-- 로그인 안 했을 때만 보이는 안내 -->
+          <p class="modal-login-note" id="m-login-note" hidden>예약하려면 로그인이 필요합니다.</p>
+          <!-- 서버가 돌려준 오류 문장 (매진, 이미 예약 있음 …). role="alert" : 화면 낭독기가 바로 읽어 줌 -->
+          <p class="modal-error" id="m-error" role="alert" hidden></p>
+        </div>
+
+        <div class="modal-actions">
+          <button type="submit" value="cancel" class="btn btn-outline">취소</button>
+          <!-- 로그인 함: 예약 버튼 (POST /api/reservations) -->
+          <button type="button" id="m-submit" class="btn btn-primary">예약하고 결제</button>
+          <!-- 로그인 안 함: 로그인 화면으로 (로그인 후 메인으로 돌아옴) -->
+          <a id="m-login" class="btn btn-primary" th:href="@{/login}" hidden>로그인하고 예약</a>
+        </div>
+      </div>
+
+      <!-- (2) 결과 화면: 예약(자리 잡기) 성공 -->
+      <div id="m-done-view" hidden>
+        <div class="modal-body">
+          <p class="modal-done-title">자리를 잡았습니다!</p>
+          <p id="m-done-summary">투어 · 출발 · 인원</p>
+          <p class="modal-total">결제 금액 <strong id="m-done-amount">0원</strong></p>
+          <p class="modal-muted">남은 결제 시간 <strong class="countdown" id="m-done-remain">10:00</strong></p>
+          <p class="modal-note">결제 화면에서 결제를 마치면 예약이 확정됩니다. (지금은 가짜 결제 · 테스트용)</p>
+        </div>
+        <div class="modal-actions">
+          <a class="btn btn-outline" th:href="@{/my/reservations}">내 예약 보기</a>
+          <!-- 7단계: 결제 화면으로. href 의 예약 번호는 예약 성공 후 자바스크립트가 채움 -->
+          <a class="btn btn-primary" id="m-pay-link" href="#">결제하기</a>
+        </div>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- 모달 동작 스크립트: static/js/reservation-modal.js
+       main 맨 끝에 두어서, 위의 버튼 · 모달 태그가 다 만들어진 뒤에 실행됨 -->
+  <script th:src="@{/js/reservation-modal.js}"></script>
+
+</main>
+</body>
+</html>

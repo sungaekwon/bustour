@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<!--
+  fragments/footer.html : 아래쪽(bottom) 조각
+  - 포트폴리오용 데모라는 것을 분명히 적는다 (실제 예약·결제로 오해하지 않게)
+-->
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<body>
+
+<footer class="site-footer" th:fragment="footer">
+  <div class="container footer-inner">
+    <p class="footer-name">부산한바퀴</p>
+    <p>개인 포트폴리오용 데모 서비스입니다. 실제 투어 예약이나 결제는 이루어지지 않습니다.</p>
+    <!-- 올해 연도를 서버에서 계산해서 출력: #temporals.createNow() = 지금 시각, format으로 연도만 -->
+    <p class="footer-copy">&copy; <span th:text="${#temporals.format(#temporals.createNow(), 'yyyy')}">2026</span> 부산한바퀴</p>
+  </div>
+</footer>
+
+</body>
+</html>
