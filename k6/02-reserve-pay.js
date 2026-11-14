@@ -10,10 +10,19 @@
 //     (회차가 10일 뒤라 출발 3일 전 취소 규칙에 걸리지 않음)
 //   보는 것: http_req_duration p95 (reserve / confirm 따로), 초당 처리량, 오류율, dropped_iterations
 // =====================================================================
+import http from 'k6/http';
 import { check } from 'k6';
 import { Counter } from 'k6/metrics';
 import exec from 'k6/execution';
-import { login, postJson, uuid } from './lib.js';
+import { loginBatch, postJson, uuid } from './lib.js';   // [추가]2026.11.14권성애 login → loginBatch
+
+// [추가]2026.11.14권성애 — 보류했던 개선 ③: 409 를 "정상 응답"으로 등록
+//   k6 는 기본으로 400 이상을 전부 실패(http_req_failed)로 센다
+//   그런데 409(SOLD_OUT 매진 · DUPLICATE 중복)는 서버가 규칙대로 정확히 거절한 "정상 업무 응답"
+//   → 409 를 빼야 http_req_failed 에 진짜 실패(503 · 500 · 연결 오류)만 남는다
+//   ※ 02 에서 409(같은 회원 중복)는 여전히 pay_fail 로 따로 센다 → 숫자가 사라지는 게 아니라 "서버 오류"와 분리될 뿐
+//   200 조회 · 201 예약 생성 · 302 로그인 성공(리다이렉트) · 409 업무 거절
+http.setResponseCallback(http.expectedStatuses(200, 201, 302, 409));
 
 const RATE = Number(__ENV.RATE || 50);
 const DURATION = __ENV.DURATION || '30s';
@@ -25,6 +34,10 @@ const fail = new Counter('pay_fail');
 
 export const options = {
   setupTimeout: '300s',
+  // [추가]2026.11.14권성애 — http.batch 를 한 번에 몇 개까지 동시에 보낼지 (기본 batch 20 · 같은 주소 6개)
+  //   loginBatch 가 50명씩 보내므로 50 으로 올림 (lib.js 의 LOGIN_BATCH 와 같게)
+  batch: 50,
+  batchPerHost: 50,
   scenarios: {
     load: {
       executor: 'constant-arrival-rate',         // 응답이 느려져도 초당 RATE 번 "시작" (서버 한계가 보임)
@@ -41,8 +54,10 @@ export const options = {
 };
 
 export function setup() {
-  const users = [];
-  for (let i = 1; i <= USERS; i++) users.push(login(i));
+  // [추가]2026.11.14권성애 — 한 명씩 → 50명씩 묶음 로그인
+  // const users = [];
+  // for (let i = 1; i <= USERS; i++) users.push(login(i));
+  const users = loginBatch(1, USERS);
   return { users };
 }
 

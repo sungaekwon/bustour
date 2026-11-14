@@ -78,7 +78,10 @@ services:
       mysql:
         condition: service_healthy   # MySQL healthcheck 가 통과한 뒤에 앱을 켬 (DB 연결 실패로 앱이 죽는 것 방지)
     environment:
-      SPRING_PROFILES_ACTIVE: prod   # application.yml + application-prod.yml
+      # [추가]2026.11.14권성애 — .env 로 바꿀 수 있게 (평소 prod / 부하테스트 때 prod,k6)
+      #   prod,k6 = prod 를 먼저 읽고 k6 가 덮어씀 → DB bustour_k6 · 가짜 PG · 풀 K6_POOL
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE:-prod}
+
       # DB 주소: 컨테이너끼리는 "서비스 이름"이 곧 호스트 이름 (localhost 아님!)
       DB_HOST: mysql
       DB_PORT: 3306                  # 컨테이너 안 MySQL 기본 포트 (로컬 PC 의 3307 과 다름)
@@ -89,6 +92,9 @@ services:
       TOSS_CLIENT_KEY: ${TOSS_CLIENT_KEY:-}
       TOSS_SECRET_KEY: ${TOSS_SECRET_KEY:-}
       KMA_SERVICE_KEY: ${KMA_SERVICE_KEY:-}
+      # [추가]2026.11.14권성애 — k6 프로필의 커넥션 풀 크기 (application-k6.yml 의 ${K6_POOL:30})
+      #   부하테스트 때 .env 에서 10 · 20 · 30 으로 바꿔 가며 측정, 평소(prod)에는 쓰이지 않음
+      K6_POOL: ${K6_POOL:-20}
       TZ: Asia/Seoul
       # JVM 메모리를 바꾸고 싶으면 아래 주석을 풀기 (Dockerfile 기본값: -Xms256m -Xmx512m)
       # JAVA_OPTS: "-Xms256m -Xmx640m -Duser.timezone=Asia/Seoul"
