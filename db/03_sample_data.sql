@@ -35,6 +35,9 @@ SET SQL_SAFE_UPDATES = 0;
 
 -- ---------------------------------------------------------------------
 -- 1. member : 일반 회원 2명 + 관리자 1명
+-- 1. member : 일반 회원 2명 (체험용 데모 계정)
+-- [추가]2026.11.14권성애 관리자 샘플 계정(01000000000) 삭제 — 비밀번호가 공개 저장소에 적혀 있어 누구나 관리자로 로그인 가능했음
+--   관리자는 관리자 기능을 만들 때 새 비밀번호로 따로 만들기
 --   password_hash 앞의 {bcrypt} = "어떤 방식으로 암호화했는지" 표시
 --   Spring Security의 DelegatingPasswordEncoder(기본 추천)가 이 표시를 보고 BCrypt로 비교한다.
 --   ※ 나중에 BCryptPasswordEncoder 를 직접 쓰기로 바꾸면 {bcrypt} 를 빼야 한다.
@@ -42,9 +45,7 @@ SET SQL_SAFE_UPDATES = 0;
 -- ---------------------------------------------------------------------
 INSERT INTO member (id, name, phone, password_hash, role, created_at) VALUES
   (1, '김부산', '01011112222', '{bcrypt}$2a$10$eFhC77Fx5.7LM.8rb5KNMewjxESZvm.8Vw6udgxIWiZYTJZrEltsW', 'USER',  NOW() - INTERVAL 30 DAY),
-  (2, '이바다', '01033334444', '{bcrypt}$2a$10$eFhC77Fx5.7LM.8rb5KNMewjxESZvm.8Vw6udgxIWiZYTJZrEltsW', 'USER',  NOW() - INTERVAL 10 DAY),
-  (3, '관리자', '01000000000', '{bcrypt}$2a$10$eFhC77Fx5.7LM.8rb5KNMewjxESZvm.8Vw6udgxIWiZYTJZrEltsW', 'ADMIN', NOW() - INTERVAL 60 DAY);
-
+  (2, '이바다', '01033334444', '{bcrypt}$2a$10$eFhC77Fx5.7LM.8rb5KNMewjxESZvm.8Vw6udgxIWiZYTJZrEltsW', 'USER',  NOW() - INTERVAL 10 DAY);
 
 -- ---------------------------------------------------------------------
 -- 2. tour : 판매 중 3개 + 숨김 1개 (숨김은 목록에서 빠지는지 테스트용)
