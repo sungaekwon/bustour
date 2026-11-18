@@ -127,6 +127,7 @@ services:
       #   conf : 발급된 인증서(fullchain.pem, privkey.pem)를 nginx 가 읽음
       - ./certbot/www:/var/www/certbot:ro
       - ./certbot/conf:/etc/letsencrypt:ro
+      - ./portfolio:/usr/share/nginx/portfolio:ro   # [추가]2026.11.17권성애 이력서 메인 페이지 (정적 html)
     logging:
       driver: json-file
       options:

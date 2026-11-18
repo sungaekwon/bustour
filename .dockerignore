@@ -31,3 +31,6 @@ certbot/
 *.log
 *.md
 docker-compose.yml
+
+# 테스트용 이력서에 넣을 첫페이지
+portfolio/
