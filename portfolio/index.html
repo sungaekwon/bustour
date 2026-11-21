@@ -1,3 +1,514 @@
 <!DOCTYPE html>
-<html lang="ko"><head><meta charset="UTF-8"><title>권성애 포트폴리오</title></head>
-<body><h1>준비 중</h1></body></html>
+<!--
+  =====================================================================
+  portfolio.trave2026.kro.kr — 이력서 메인 페이지 (정적 HTML 한 파일)
+  [추가]2026.11.21권성애
+
+  ★ nginx 가 이 파일을 직접 보여 준다 (app 컨테이너와 상관없음)
+    docker-compose.yml : ./portfolio:/usr/share/nginx/portfolio:ro
+    nginx.conf [C]     : root /usr/share/nginx/portfolio;
+    → 고친 뒤 push 하면 서버 git pull 만으로 바로 반영 (폴더 마운트라 nginx 재시작 필요 없음)
+
+  ★ 숫자 고치는 곳 = 맨 아래 <script> 의 "데이터" 부분 (LOCAL, LOCAL_CODE, SERVER)
+    표 · 버튼 · 카드 · 막대가 모두 그 값으로 그려진다. HTML 표를 직접 고칠 필요 없음.
+    맨 위 프로젝트 카드 · 핵심 숫자 3개 · 측정 환경 줄은 HTML 에 바로 적혀 있음.
+
+  ★ 색 바꾸는 곳 = <style> 맨 위 :root 의 변수 (--accent 등)
+  =====================================================================
+-->
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>권성애 포트폴리오 — 백엔드 웹 개발자</title>
+<meta name="description" content="동시 예약 15가지 방식 비교와 실서버 부하테스트 · 놀러가자(서블릿) · 부산한바퀴(Spring Boot)">
+
+<!-- 링크 미리보기 카드 (카톡 · 슬랙 등에 주소를 붙이면 이 값으로 카드를 만든다) -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://portfolio.trave2026.kro.kr/">
+<meta property="og:title" content="권성애 포트폴리오 — 백엔드 웹 개발자">
+<meta property="og:description" content="동시 예약 15가지 방식 비교와 실서버 부하테스트 · 놀러가자(서블릿) · 부산한바퀴(Spring Boot)">
+<meta property="og:image" content="https://portfolio.trave2026.kro.kr/img/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+
+<style>
+/* ---------- 색 (여기만 바꾸면 전체 색이 바뀜) ---------- */
+:root {
+  --accent: #ea580c;        /* 포인트 주황 : 사이트 열기 버튼 · 선택된 버튼 · 강조 */
+  --accent-soft: #fff4ec;   /* 연한 주황 : 체험 계정 칸 · 선택된 표 행 */
+  --ink: #1d2433;           /* 기본 글자 (진한 남색) */
+  --muted: #5b6475;         /* 보조 글자 (회색) */
+  --line: #dfe3ea;          /* 테두리 */
+  --bg: #f6f7f9;            /* 페이지 바탕 */
+  --ok: #15803d;            /* 정합성 OK (초록) */
+  --bad: #c0262d;           /* 깨짐 (빨강) */
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink);
+       font-family: "Pretendard", "Noto Sans KR", "Malgun Gothic", sans-serif; line-height: 1.55; }
+a { color: inherit; }
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 20px; }
+section { margin: 40px 0; }                 /* 영역 사이 간격 */
+h2 { font-size: 21px; margin: 0 0 4px; }
+.sub { color: var(--muted); font-size: 14px; margin: 0 0 10px; }
+.env { color: var(--muted); font-size: 13px; background: #eef0f4; border-radius: 6px; padding: 5px 12px; margin: 6px 0 14px; }
+.box { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px; }
+
+/* ---------- 머리 부분 ---------- */
+.top { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px;
+       padding: 34px 0 14px; border-bottom: 3px solid var(--ink); }
+.top .name { font-size: 30px; font-weight: 800; }
+.top .role { color: var(--muted); font-size: 15px; }
+.top .contact { text-align: right; font-size: 14px; line-height: 1.8; }
+.top .contact a { color: var(--accent); text-decoration: none; }
+
+/* ---------- 프로젝트 카드 ---------- */
+.projects { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.pj .kind { font-size: 12.5px; font-weight: 700; color: var(--muted); }
+.pj h3 { font-size: 23px; margin: 2px 0 0; }
+.pj .desc { font-size: 15px; margin-bottom: 8px; }
+.pj .meta { font-size: 13px; color: var(--muted); margin-bottom: 8px; }
+.chips span { display: inline-block; font-size: 12px; border: 1px solid #c9ced8; border-radius: 10px; padding: 1px 9px; margin: 0 4px 5px 0; }
+.pj ul { margin: 6px 0 12px 18px; padding: 0; font-size: 14px; }
+.go { display: flex; gap: 8px; }
+.go a { flex: 1; text-align: center; font-weight: 700; font-size: 15px; border-radius: 8px; padding: 10px 0; text-decoration: none; }
+.go a.site { background: var(--accent); color: #fff; }
+.go a.gh { border: 1.5px solid var(--ink); }
+.go a:hover { opacity: .85; }
+.url { font-size: 12.5px; color: var(--muted); margin-top: 6px; }
+.demo { margin-top: 8px; font-size: 13px; background: var(--accent-soft); border-radius: 8px; padding: 7px 11px; }
+
+/* ---------- 흰 띠 (위 · 아래 분리) ---------- */
+.band { background: #fff; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 30px 0 26px; margin: 48px 0 0; }
+.band .eyebrow { color: var(--accent); font-weight: 800; font-size: 13px; letter-spacing: 1px; }
+.band h1 { font-size: 28px; margin: 4px 0 6px; line-height: 1.35; }
+
+/* ---------- 숫자 카드 ---------- */
+.kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.kpis.four { grid-template-columns: repeat(4, 1fr); }
+.kpi .l { font-size: 13px; color: var(--muted); }
+.kpi .v { font-size: 26px; font-weight: 800; margin: 2px 0; }
+.kpi .d { font-size: 12.5px; color: var(--muted); }
+.ok { color: var(--ok); } .bad { color: var(--bad); } .acc { color: var(--accent); }
+
+/* ---------- 표 ---------- */
+.scroll { overflow-x: auto; }               /* 휴대폰에서 표가 넓으면 옆으로 밀어 보기 */
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; background: #fff; }
+th { text-align: left; color: var(--muted); font-weight: 700; border-bottom: 2px solid #c9ced8; padding: 7px 8px; white-space: nowrap; }
+td { border-bottom: 1px solid #e8ebf0; padding: 7px 8px; white-space: nowrap; }
+#localTable td:last-child { white-space: normal; min-width: 150px; }   /* 비고는 줄바꿈 허용 */
+tbody tr { cursor: pointer; }
+tbody tr:hover td { background: #fafbfc; }
+tr.sel td { background: var(--accent-soft) !important; }
+tr.dim td { color: #9aa1ad; }
+td.grp { font-weight: 800; background: #fff !important; cursor: default; }
+.b { display: inline-block; font-size: 11px; font-weight: 700; padding: 1px 7px; border-radius: 9px; }
+.b.ok { background: #dcf5e3; color: var(--ok); }
+.b.bad { background: #fde2e2; color: var(--bad); }
+.hint { font-size: 12.5px; color: var(--muted); margin: 6px 0 0; }
+
+/* ---------- 탭 · 버튼 ---------- */
+.tabs { display: flex; gap: 4px; border-bottom: 3px solid var(--ink); margin: 22px 0 10px; }
+.tabs button { border: 0; padding: 9px 20px; border-radius: 8px 8px 0 0; background: #e6e9ee; font: inherit; font-weight: 700; cursor: pointer; }
+.tabs button.on { background: var(--ink); color: #fff; }
+.btns { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 14px; }
+.btns button { border: 1.5px solid #c9ced8; background: #fff; border-radius: 18px; padding: 6px 15px; font: inherit; font-size: 13.5px; font-weight: 700; cursor: pointer; }
+.btns button.on { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+/* ---------- 상세 대시보드 ---------- */
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
+.card h4 { margin: 0 0 10px; font-size: 15px; }
+.bar { display: flex; align-items: center; gap: 8px; font-size: 13px; margin: 6px 0; }
+.bar .n { width: 130px; flex-shrink: 0; }
+.bar .t { flex: 1; background: #edf0f5; border-radius: 6px; height: 16px; overflow: hidden; }
+.bar .f { display: block; height: 16px; background: #c9d3e3; }
+.bar .f.on { background: var(--accent); }
+.bar .f.badf { background: #f3b4b4; }
+.bar .x { width: 92px; text-align: right; flex-shrink: 0; }
+pre { background: var(--ink); color: #e6e9ef; border-radius: 8px; padding: 12px 14px; font-size: 12.5px; margin: 0;
+      white-space: pre-wrap; word-break: break-all; font-family: Consolas, "D2Coding", monospace; }
+.story { font-size: 14.5px; }
+.caps { display: flex; gap: 10px; }
+.caps figure { flex: 1; margin: 0; }
+.caps img { width: 100%; border-radius: 6px; display: block; cursor: zoom-in; }
+.caps figcaption { font-size: 12.5px; color: var(--muted); margin-top: 4px; }
+.mini { width: auto; font-size: 13px; }
+.mini td, .mini th { padding: 4px 10px; text-align: center; }
+
+/* ---------- 캡처 크게 보기 ---------- */
+#zoom { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.8); align-items: center; justify-content: center; padding: 20px; z-index: 10; cursor: zoom-out; }
+#zoom.show { display: flex; }
+#zoom img { max-width: 100%; max-height: 90vh; border-radius: 6px; }
+
+footer { color: var(--muted); font-size: 12.5px; text-align: center; padding: 30px 0 40px; }
+
+/* ---------- 휴대폰 (폭 760px 이하): 나란히 있던 것을 세로로 ---------- */
+@media (max-width: 760px) {
+  .top { flex-direction: column; align-items: flex-start; }
+  .top .contact { text-align: left; }
+  .projects, .grid2, .kpis, .kpis.four { grid-template-columns: 1fr; }
+  .caps { flex-direction: column; }
+  .band h1 { font-size: 22px; }
+}
+</style>
+</head>
+<body>
+
+<!-- =================== 머리 부분 =================== -->
+<div class="wrap">
+  <div class="top">
+    <div>
+      <div class="name">권성애</div>
+      <div class="role">백엔드 웹 개발자 · Java · Spring Boot · 동시성 · 배포</div>
+    </div>
+    <div class="contact">
+      ✉ <a href="mailto:sungaekwon88@gmail.com">sungaekwon88@gmail.com</a><br>
+      GitHub <a href="https://github.com/sungaekwon" target="_blank" rel="noopener">github.com/sungaekwon</a>
+    </div>
+  </div>
+
+  <!-- =================== ① 프로젝트 2개 =================== -->
+  <section>
+    <div class="projects">
+      <div class="box pj">
+        <div class="kind">서블릿 프로젝트 · 팀 4명 (팀장)</div>
+        <h3>놀러가자</h3>
+        <div class="desc">국내여행소개 및 가이드예약결제서비스</div>
+        <div class="meta">2026.09.21 ~ 10.25 · 담당: 숙박 · AI 챗봇 일정표 · 관리자페이지</div>
+        <div class="chips"><span>Java 21</span><span>Servlet/JSP (MVC)</span><span>Tomcat 9</span><span>MySQL 8.0</span><span>Lightsail · Nginx</span><span>OpenRouter AI</span></div>
+        <ul>
+          <li>AI 여행 일정표: 버튼 → 서블릿 → AI API · DB → 결과</li>
+          <li>API 키를 JS에서 서버 설정 파일로 옮겨 노출 차단</li>
+          <li>HTTPS 도메인 배포 (war + Nginx 리버스 프록시)</li>
+        </ul>
+        <div class="go">
+          <a class="site" href="https://trave2026.kro.kr/travel" target="_blank" rel="noopener">사이트 열기 ↗</a>
+          <a class="gh" href="https://github.com/sungaekwon/travel" target="_blank" rel="noopener">GitHub ↗</a>
+        </div>
+        <div class="url">trave2026.kro.kr/travel · github.com/sungaekwon/travel</div>
+      </div>
+
+      <div class="box pj">
+        <div class="kind">부트 프로젝트 · 개인</div>
+        <h3>부산한바퀴</h3>
+        <div class="desc">부산버스투어예약결제서비스</div>
+        <div class="meta">2026.11.06 ~ 진행 중 · 기획 · 개발 · 배포 · 부하테스트 전부</div>
+        <div class="chips"><span>Spring Boot 4</span><span>JPA</span><span>Security</span><span>Thymeleaf</span><span>MySQL 8.0</span><span>Docker</span><span>GitHub Actions</span><span>토스페이먼츠</span><span>기상청 API</span></div>
+        <ul>
+          <li>조건부 UPDATE로 좌석 동시 예약 → 초과 판매 0건</li>
+          <li>토스 결제 · 실패 시 보상(취소) · 10분 미결제 자동 반환</li>
+          <li>Docker · GitHub Actions 자동 배포, 실서버 k6 부하테스트</li>
+        </ul>
+        <div class="go">
+          <a class="site" href="https://bustour.trave2026.kro.kr" target="_blank" rel="noopener">사이트 열기 ↗</a>
+          <a class="gh" href="https://github.com/sungaekwon/bustour" target="_blank" rel="noopener">GitHub ↗</a>
+        </div>
+        <div class="url">bustour.trave2026.kro.kr · github.com/sungaekwon/bustour</div>
+        <div class="demo"><b>체험 계정</b> 휴대폰 01033334444 · 비밀번호 test1234! &nbsp;(테스트 결제라 실제 돈이 나가지 않습니다)</div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- =================== 흰 띠: 여기부터 부하테스트 결과 =================== -->
+<div class="band">
+  <div class="wrap">
+    <div class="eyebrow">부하테스트 결과</div>
+    <h1>같은 문제를 로컬 15가지 방식으로 비교하고, 실제 서버에서 다시 검증했습니다</h1>
+    <p class="sub">좌석 100개 투어에 동시 예약 · 정합성 = 남은 좌석 + 예약 수 = 정원 · JUnit · k6 · AWS Lightsail</p>
+  </div>
+</div>
+
+<div class="wrap">
+  <!-- =================== ② 핵심 숫자 3개 =================== -->
+  <section>
+    <div class="kpis">
+      <div class="box kpi"><div class="l">정합성 (초과 판매)</div><div class="v ok">0건</div><div class="d">로컬 정답 방식 · 실서버 측정 모두</div></div>
+      <div class="box kpi"><div class="l">선택한 방식</div><div class="v acc">atomic</div><div class="d">UPDATE 한 문장으로 확인과 차감 — 정확하고 가장 빠름</div></div>
+      <div class="box kpi"><div class="l">실서버 병목 해결 실험</div><div class="v">+75%</div><div class="d">회차(행) 나누기 · 로컬(+7%)과 결론이 달랐음</div></div>
+    </div>
+  </section>
+
+  <!-- =================== ③ 로컬 15가지 방식 =================== -->
+  <section>
+    <h2>로컬 · 15가지 방식 — 동시성 테스트 프로젝트 (서블릿 · 부트 JDBC · 부트 JPA)</h2>
+    <div class="env">측정 환경: 내 PC 한 대 (앱 · MySQL 8.0) · JDK 21 · 커넥션 풀 10개(대기 3초) · JUnit = 100명 동시 예약 · k6 02 = 동시 100명 · k6 03 = 초당 200건 20초 · ✗ = 기준 미달(p95 500ms 초과 또는 요청 누락)</div>
+    <div class="scroll"><table id="localTable"></table></div>
+    <p class="hint">표의 행이나 아래 버튼을 누르면 상세가 바뀝니다. 시간은 측정 날짜 · PC 상태가 달라 같은 구분 안에서만 비교합니다.</p>
+
+    <div class="tabs" id="localTabs"></div>
+    <div class="btns" id="localBtns"></div>
+    <div class="kpis four" id="localCards"></div>
+    <div class="grid2">
+      <div class="box card"><h4 id="barTitle">JUnit 100명 동시 예약 시간</h4><div id="localBars"></div></div>
+      <div class="box card"><h4>핵심 코드</h4><pre id="localCode"></pre></div>
+    </div>
+    <div class="box card story" style="margin-top:12px" id="localStory"></div>
+
+    <div class="grid2">
+      <div class="box card">
+        <h4>서블릿 atomic 처리량 한계 (k6 03 · 초당 요청을 올리며)</h4>
+        <div class="scroll"><table class="mini">
+          <thead><tr><th>초당 요청</th><th>50</th><th>100</th><th>200</th><th>300</th><th>400</th></tr></thead>
+          <tbody style="cursor:default">
+            <tr><td>실제 TPS</td><td>49.9</td><td>99.7</td><td>199.4</td><td><b>247</b></td><td><b>252</b></td></tr>
+            <tr><td>p95</td><td>9.7ms</td><td>8.0ms</td><td>12.4ms</td><td>1.94s ✗</td><td>2.11s ✗</td></tr>
+            <tr><td>누락</td><td>0</td><td>0</td><td>0</td><td>540</td><td>2414</td></tr>
+          </tbody></table></div>
+        <p class="hint">더 보내도 약 250에서 멈춤 = 모든 요청이 한 행에 몰린 핫스팟의 천장. 에러는 0.</p>
+      </div>
+      <div class="box card">
+        <h4>이 표가 보여 주는 것</h4>
+        <div class="story" style="font-size:14px">
+          ① 락 없는 방식(none · dirty)은 에러 없이 조용히 깨진다.<br>
+          ② 서블릿 sync는 OK인데 JPA sync-tx는 50건 손실 — 커밋이 synchronized 밖에서 일어나기 때문.<br>
+          ③ atomic이 세 구분 모두 정확하고 가장 빠르다.<br>
+          ④ 낙관적 락은 부하가 커질수록 충돌과 누락이 크게 늘어난다.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =================== ④ 실서버 검증 =================== -->
+  <section>
+    <h2>실서버 · 부산한바퀴 (AWS Lightsail 2GB · 앱 + MySQL + nginx 한 대)</h2>
+    <p class="sub">로컬에서 고른 atomic 을 실제 서비스(예약 → 결제 → 취소)에 적용하고, 같은 서버에 k6 로 부하</p>
+    <div class="env">측정 환경: AWS Lightsail 2GB(서울) 1대에 app · MySQL · nginx · 커넥션 풀 20 / 30 · 가짜 PG(토스 서버에 부하를 주지 않음) · k6는 내 PC / 서울 임시 서버</div>
+    <div class="scroll"><table id="serverTable"></table></div>
+    <p class="hint">회색 행(2 · 5)은 참고용입니다. 5는 JVM 예열 전에 잰 값이라 버리고 6에서 다시 측정했습니다.</p>
+
+    <div class="btns" id="serverBtns"></div>
+    <div class="kpis four" id="serverCards"></div>
+    <div class="grid2">
+      <div class="box card">
+        <h4>실제 화면 — docker stats (누르면 크게)</h4>
+        <div class="caps">
+          <figure><img src="img/stats_one_row.png" alt="docker stats 한 행"><figcaption>회차 1개 · app CPU 101% · mysql 39%</figcaption></figure>
+          <figure><img src="img/stats_two_rows.png" alt="docker stats 두 행"><figcaption>회차 2개로 분산 · app 69% · mysql 51% (DB가 일을 더 함)</figcaption></figure>
+        </div>
+      </div>
+      <div class="box card">
+        <h4>로컬 vs 실서버 — 같은 실험, 다른 병목</h4>
+        <div class="bar"><span class="n">행 나누기 · 로컬</span><span class="t"><span class="f" style="width:9%"></span></span><span class="x">+7%</span></div>
+        <div class="bar"><span class="n"><b>행 나누기 · 실서버</b></span><span class="t"><span class="f on" style="width:100%"></span></span><span class="x"><b>+75%</b></span></div>
+        <div class="bar"><span class="n">풀 20→30 · 로컬</span><span class="t"><span class="f" style="width:2%"></span></span><span class="x">+1.6%</span></div>
+        <div class="bar"><span class="n">풀 20→30 · 실서버</span><span class="t"><span class="f" style="width:12%"></span></span><span class="x">+9%</span></div>
+        <p class="hint">로컬 병목 = 커넥션 풀 / 실서버 병목 = 한 행의 락 (커밋이 느린 디스크에서 락을 쥐는 시간이 길어짐)</p>
+      </div>
+    </div>
+    <div class="grid2">
+      <div class="box card"><h4>핵심 코드 · 명령</h4><pre id="serverCode"></pre></div>
+      <div class="box card"><h4>한 줄 설명</h4><div class="story" id="serverStory"></div></div>
+    </div>
+  </section>
+</div>
+
+<footer>권성애 · portfolio.trave2026.kro.kr · 측정 2026.11</footer>
+
+<!-- 캡처 크게 보기 (누르면 닫힘) -->
+<div id="zoom"><img alt=""></div>
+
+<script>
+/* =====================================================================
+   데이터 — 숫자가 바뀌면 여기만 고치면 됨
+   ===================================================================== */
+
+// ③ 로컬 15가지 방식
+//   junit  : JUnit 1차 시간(ms)      ok   : 정합성 (true = OK, false = 깨짐)
+//   loss   : JUnit 손실 · 실패        k02  : k6 02 p95 (동시 100명)
+//   k02loss: k6 02 손실 · 충돌        k03  : k6 03 p95 (초당 200건)
+//   k03loss: k6 03 손실 · 충돌        note : 비고
+const LOCAL = {
+  "서블릿": [
+    { m: "none",        what: "락 없음: SELECT → 계산 → 고정값 UPDATE", junit: 592, ok: false, loss: "손실 89 / 90", k02: "377ms", k02loss: "손실 89", k03: "9.6ms",  k03loss: "손실 666 (17%)", note: "" },
+    { m: "sync",        what: "synchronized로 한 줄 세우기",          junit: 503, ok: true,  loss: "0",           k02: "815ms", k02loss: "0",       k03: "2.73s ✗", k03loss: "0",              note: "TPS 163에서 한계" },
+    { m: "atomic",      what: "UPDATE … SET n = n - 1 WHERE n >= 1",  junit: 290, ok: true,  loss: "0",           k02: "388ms", k02loss: "0",       k03: "10.1ms", k03loss: "0",              note: "천장 ≈ 250 TPS · 150명 요청 시 성공 100 · 매진 50" },
+    { m: "pessimistic", what: "SELECT … FOR UPDATE",                  junit: 376, ok: true,  loss: "0",           k02: "477ms", k02loss: "0",       k03: "15.7ms", k03loss: "0",              note: "" },
+    { m: "optimistic",  what: "version 비교 UPDATE",                   junit: 537, ok: true,  loss: "실패 12 / 9",  k02: "676ms", k02loss: "충돌 21", k03: "324ms",  k03loss: "충돌 292 (7%)",  note: "" }
+  ],
+  "부트 JDBC": [
+    { m: "none",        what: "락 없음 (JdbcTemplate)",                junit: 402, ok: false, loss: "손실 90", k02: "414ms", k02loss: "손실 90", k03: "10.2ms",  k03loss: "손실 1140 (28%)", note: "" },
+    { m: "sync",        what: "synchronized 안에서 커밋까지",          junit: 727, ok: true,  loss: "0",       k02: "724ms", k02loss: "0",       k03: "2.70s ✗", k03loss: "0",               note: "TPS 164에서 한계" },
+    { m: "atomic",      what: "원자적 UPDATE",                         junit: 388, ok: true,  loss: "0",       k02: "392ms", k02loss: "0",       k03: "11.1ms",  k03loss: "0",               note: "" },
+    { m: "pessimistic", what: "SELECT … FOR UPDATE",                   junit: 465, ok: true,  loss: "0",       k02: "478ms", k02loss: "0",       k03: "178ms",   k03loss: "0",               note: "" },
+    { m: "optimistic",  what: "version 비교 UPDATE",                    junit: 648, ok: true,  loss: "실패 15", k02: "542ms", k02loss: "충돌 18", k03: "1.32s ✗", k03loss: "충돌 1010 (25%)", note: "" }
+  ],
+  "부트 JPA": [
+    { m: "dirty",       what: "엔티티 변경 감지 (옛 값으로 덮어씀)",    junit: 962,  ok: false, loss: "손실 90", k02: "610ms", k02loss: "손실 90", k03: "88ms",    k03loss: "손실 1838 (46%)", note: "" },
+    { m: "sync-tx",     what: "@Transactional + synchronized",          junit: 545,  ok: false, loss: "손실 50", k02: "416ms", k02loss: "손실 50", k03: "13ms",    k03loss: "손실 1385 (35%)", note: "커밋이 락 밖 → 손실" },
+    { m: "atomic",      what: "@Modifying JPQL 원자적 UPDATE",          junit: 558,  ok: true,  loss: "0",       k02: "510ms", k02loss: "0",       k03: "38.8ms",  k03loss: "0",               note: "" },
+    { m: "pessimistic", what: "@Lock(PESSIMISTIC_WRITE)",               junit: 682,  ok: true,  loss: "0",       k02: "588ms", k02loss: "0",       k03: "606ms ✗", k03loss: "0",               note: "누락 72" },
+    { m: "optimistic",  what: "@Version",                               junit: 1037, ok: true,  loss: "실패 24", k02: "791ms", k02loss: "충돌 19", k03: "3.83s ✗", k03loss: "충돌 1176 (29%)", note: "누락 596" }
+  ]
+};
+
+// ③ 방식별 핵심 코드와 한 줄 설명 (탭이 달라도 같은 방식이면 같은 설명, JPA 전용은 따로)
+const LOCAL_CODE = {
+  "none": {
+    code: "SELECT remaining FROM tour WHERE id = 1;   -- 둘이 같은 값(10)을 읽음\n-- 자바에서 10 - 1 = 9 계산\nUPDATE tour SET remaining = 9 WHERE id = 1; -- 둘 다 9 를 씀 → 1건 사라짐",
+    story: "읽고 → 계산하고 → 고정값으로 쓰는 사이에 다른 요청이 끼어들어 같은 값을 덮어쓴다(갱신 손실). 에러가 나지 않아 로그만 봐서는 모른다."
+  },
+  "sync": {
+    code: "synchronized (lock) {\n    // 읽기 → 계산 → 쓰기 → 커밋까지 이 안에서\n}\n// 한 JVM 안에서만 한 줄로 세움 → 서버가 2대면 서로 모름",
+    story: "정확하지만 모든 요청이 자바 락 앞에서 한 줄로 기다린다. 부하가 커지면 대기가 쌓여 응답 시간이 초 단위로 늘고, 서버를 늘려도 효과가 없다."
+  },
+  "atomic": {
+    code: "UPDATE tour\n   SET remaining = remaining - 1\n WHERE id = 1\n   AND remaining >= 1;   -- 1행 = 성공, 0행 = 매진\n-- 확인과 차감을 한 문장으로 → 행 락이 짧게 한 줄로 세움",
+    story: "남은 자리 확인과 차감을 DB 한 문장으로 처리해 끼어들 틈이 없다. 세 구분 모두 정확하고 가장 빨라 부산한바퀴에 이 방식을 적용했다."
+  },
+  "pessimistic": {
+    code: "SELECT remaining FROM tour WHERE id = 1 FOR UPDATE;  -- 읽을 때부터 X 락\nUPDATE tour SET remaining = ? WHERE id = 1;\nCOMMIT;   -- 여기서 락이 풀림",
+    story: "읽는 순간부터 커밋까지 행을 잠가 정확하다. 다만 락을 쥐는 시간이 atomic보다 길어 부하가 커질수록 대기가 늘어난다."
+  },
+  "optimistic": {
+    code: "UPDATE tour\n   SET remaining = ?, version = version + 1\n WHERE id = 1 AND version = ?;  -- 0행 = 누가 먼저 바꿈 → 실패/재시도",
+    story: "락 없이 버전으로 충돌을 감지한다. 정합성은 지키지만 같은 행에 몰리는 선착순에서는 충돌 · 재시도가 폭증해 맞지 않는다."
+  },
+  "dirty": {
+    code: "Tour t = tourRepository.findById(1L).get();  // 옛 값을 읽음\nt.decrease();                                // 메모리에서 -1\n// 커밋 때 UPDATE tour SET remaining = 9 … (계산된 고정값)",
+    story: "JPA 변경 감지는 '읽은 값 - 1'을 고정값으로 덮어써서 락 없는 none과 같은 이유로 깨진다. 편리함 뒤에 숨은 갱신 손실."
+  },
+  "sync-tx": {
+    code: "@Transactional\npublic synchronized void reserve() { … }\n// 프록시가 커밋하는 시점 = 메서드(락)가 끝난 '뒤'\n// → 락이 풀리고 커밋 전인 틈에 다음 스레드가 옛 값을 읽음",
+    story: "서블릿 sync는 OK인데 JPA에서는 50건 손실. 커밋이 synchronized 밖에서 일어나는 함정을 실험으로 확인했다."
+  }
+};
+
+// ④ 실서버 측정
+//   p95: 예약 · 결제 · 취소 순서     dim: 참고용 행(회색)
+const SERVER = [
+  { no: 1, name: "01 동시 예약 500명 → 100석", from: "PC", pool: 20, rows: 1, tps: "-", p95: "(전체 4.24s)", fail: "1.5% (503)", ok: true, btn: "01 동시 예약",
+    cards: [["결과", "정확히 100석", "500명 중 100명만 성공"], ["503 응답", "30건", "커넥션 대기 3초 초과"], ["대기 최대", "87", "풀 20개 앞에서 줄 섬"], ["정합성", "OK", "남은 0 + 예약 100 = 100"]],
+    code: "k6 run -e BASE=https://bustour.trave2026.kro.kr k6/01-reserve-spike.js\n# 로그인 500명을 미리 만들어 두고(setup) 한 번에 예약",
+    story: "500명이 동시에 100석을 노려도 정확히 100명만 성공했다. 503 30건은 커넥션을 3초 안에 못 받은 요청으로, 틀린 판매가 아니라 '나중에 다시'에 해당한다." },
+  { no: 2, name: "02 RATE 50", from: "PC", pool: 20, rows: 1, tps: "29.4", p95: "-", fail: "-", ok: true, dim: true, btn: null },
+  { no: 3, name: "02 RATE 100 (예약 → 결제 → 취소)", from: "PC", pool: 20, rows: 1, tps: "37.5", p95: "4.1 · 5.1 · 4.9s", fail: "0.04%", ok: true, btn: "RATE 100",
+    cards: [["처리량", "37.5/s", "초당 100을 보내도 여기서 멈춤"], ["p95 예약 · 결제 · 취소", "4.1 · 5.1 · 4.9s", "대기가 길어짐"], ["정합성", "OK", "남은 + 예약 = 정원"], ["app CPU", "101%", "mysql 39%"]],
+    code: "k6 run -e BASE=https://bustour.trave2026.kro.kr \\\n       -e RATE=100 k6/02-reserve-pay.js\n# 같은 회차(1행)에 예약 · 결제 · 취소를 섞어서",
+    story: "한 회차에 모든 요청을 몰자 초당 37.5건에서 멈췄다. 로컬처럼 커넥션 풀이 병목인지, 다른 원인인지 확인하려고 조건을 하나씩 바꿔 측정을 이어 갔다." },
+  { no: 4, name: "행 나누기 (회차 2개)", from: "PC", pool: 20, rows: 2, tps: "65.7 (+75%)", p95: "2.0 · 2.8 · 2.4s", fail: "0%", ok: true, btn: "행 나누기",
+    cards: [["처리량", "65.7/s", "한 행 37.5/s → +75%"], ["p95 예약 · 결제 · 취소", "2.0 · 2.8 · 2.4s", "한 행 4.1 · 5.1 · 4.9s → 약 절반"], ["정합성", "OK · OK", "회차 2 · 3 모두"], ["병목", "행 락", "락 대기 ≈ 좌석 변경 횟수"]],
+    code: "# 예약을 회차 2 · 3 에 번갈아 → 한 행에 몰리던 락이 두 행으로\nk6 run -e BASE=https://bustour.trave2026.kro.kr \\\n       -e RATE=100 -e SCHEDULES=2,3 k6/02-reserve-pay.js",
+    story: "같은 부하를 회차 두 개로 나누자 처리량이 75% 늘고 응답 시간이 절반이 됐다. 로컬에서는 +7%였던 실험이라, 실서버의 병목이 한 행의 락이라는 증거가 됐다." },
+  { no: 5, name: "풀 30 (예열 전 · 버림)", from: "PC", pool: 30, rows: 1, tps: "21.7", p95: "-", fail: "-", ok: true, dim: true, btn: null },
+  { no: 6, name: "풀 30 (예열 후)", from: "PC", pool: 30, rows: 1, tps: "40.8 (+9%)", p95: "3.7 · 4.5 · 4.3s", fail: "0.01%", ok: true, btn: "풀 30",
+    cards: [["처리량", "40.8/s", "풀 20 → 30 : +9%뿐"], ["행 락 대기", "3,359번", "좌석 변경 3,365번과 거의 같음"], ["락 대기 평균", "약 0.3초", "Innodb_row_lock 통계"], ["정합성", "OK", ""]],
+    code: "-- 측정 전 · 후 차이로 락 대기 확인\nSHOW GLOBAL STATUS LIKE 'Innodb_row_lock%';\n-- waits +3,359 ≈ 좌석 UPDATE 3,365번",
+    story: "커넥션을 늘려도 9%만 올랐다. 락 통계를 보니 거의 모든 좌석 변경이 락을 기다렸다 = 병목은 커넥션이 아니라 한 행 앞의 줄. 예열 전 값(21.7/s)은 버리고 다시 쟀다." },
+  { no: 7, name: "임시 서버에서 부하", from: "k6-temp", pool: 30, rows: 1, tps: "41.6", p95: "3.5 · 4.3 · 4.2s", fail: "0.01%", ok: true, btn: "임시 서버",
+    cards: [["처리량", "41.6/s", "내 PC에서 보낼 때 40.8/s"], ["부하 보낸 곳", "서울 임시 서버", "Lightsail 같은 리전"], ["결론", "PC 원인 ✘", "회선 · PC가 병목 아님"], ["정합성", "OK", ""]],
+    code: "# 같은 리전에 k6 전용 임시 서버를 만들어 같은 명령\nk6 run -e BASE=https://bustour.trave2026.kro.kr \\\n       -e RATE=100 k6/02-reserve-pay.js",
+    story: "부하를 보내는 쪽이 원인일 수 있어 서울 리전 임시 서버에서 다시 쟀다. 결과가 PC와 같아 병목은 네트워크가 아니라 서버 안이라는 것을 확인했다." },
+  { no: 8, name: "03 메인 화면 RATE 200", from: "PC", pool: 30, rows: "-", tps: "199", p95: "78ms", fail: "0%", ok: null, btn: "03 메인",
+    cards: [["처리량", "199/s", "초당 200 요청을 거의 다 처리"], ["p95", "78ms", "조회는 빠름"], ["실패율", "0%", ""], ["날씨", "1시간 캐시", "열 때마다 기상청을 부르지 않음"]],
+    code: "k6 run -e BASE=https://bustour.trave2026.kro.kr \\\n       -e RATE=200 k6/03-main-page.js\n# 투어 목록 + 날씨(@Cacheable) 메인 화면",
+    story: "락이 없는 조회 화면은 초당 200건도 78ms 안에 응답했다. 느린 것은 서버 전체가 아니라 한 행에 몰리는 쓰기라는 점이 다시 확인됐다." }
+];
+
+/* =====================================================================
+   그리기 — 아래는 고칠 일이 거의 없음
+   ===================================================================== */
+const TABS = Object.keys(LOCAL);
+let curTab = "서블릿", curM = "atomic";
+
+function badge(ok) {
+  if (ok === null) return "-";
+  return ok ? '<span class="b ok">OK</span>' : '<span class="b bad">깨짐</span>';
+}
+
+// ③ 전체표
+function drawLocalTable() {
+  let h = "<thead><tr><th>구분</th><th>방식</th><th>구현 한 줄</th><th>JUnit 1차</th><th>손실 · 실패</th><th>k6 02 p95</th><th>k6 03 p95</th><th>k6 03 손실 · 충돌</th><th>비고</th></tr></thead><tbody>";
+  TABS.forEach(tab => {
+    LOCAL[tab].forEach((r, i) => {
+      const sel = (tab === curTab && r.m === curM) ? ' class="sel"' : "";
+      h += `<tr${sel} data-tab="${tab}" data-m="${r.m}">`;
+      if (i === 0) h += `<td class="grp" rowspan="${LOCAL[tab].length}">${tab}</td>`;
+      h += `<td><b>${r.m}</b></td><td>${r.what}</td><td>${r.junit}ms ${badge(r.ok)}</td><td>${r.loss}</td>` +
+           `<td>${r.k02}</td><td>${r.k03}</td><td>${r.k03loss}</td><td>${r.note}</td></tr>`;
+    });
+  });
+  document.getElementById("localTable").innerHTML = h + "</tbody>";
+  document.querySelectorAll("#localTable tbody tr").forEach(tr => {
+    tr.onclick = () => { curTab = tr.dataset.tab; curM = tr.dataset.m; drawLocal(); };
+  });
+}
+
+// ③ 탭 · 버튼 · 카드 · 막대 · 코드
+function drawLocal() {
+  drawLocalTable();
+  document.getElementById("localTabs").innerHTML =
+    TABS.map(t => `<button class="${t === curTab ? "on" : ""}" data-t="${t}">${t}</button>`).join("");
+  document.querySelectorAll("#localTabs button").forEach(b => b.onclick = () => {
+    curTab = b.dataset.t;
+    if (!LOCAL[curTab].some(r => r.m === curM)) curM = "atomic";   // JPA 에는 none · sync 가 없음
+    drawLocal();
+  });
+
+  const rows = LOCAL[curTab];
+  document.getElementById("localBtns").innerHTML =
+    rows.map(r => `<button class="${r.m === curM ? "on" : ""}" data-m="${r.m}">${r.m}</button>`).join("");
+  document.querySelectorAll("#localBtns button").forEach(b => b.onclick = () => { curM = b.dataset.m; drawLocal(); });
+
+  const r = rows.find(x => x.m === curM);
+  document.getElementById("localCards").innerHTML = [
+    ["JUnit 100명 동시", r.junit + "ms", r.ok ? '<span class="ok">정합성 OK</span>' : '<span class="bad">정합성 깨짐</span>'],
+    ["JUnit 손실 · 실패", r.loss, r.what],
+    ["k6 02 p95 (동시 100명)", r.k02, r.k02loss === "0" ? "손실 · 충돌 0" : r.k02loss],
+    ["k6 03 p95 (초당 200건)", r.k03, r.k03loss === "0" ? "손실 · 충돌 0" : r.k03loss]
+  ].map(c => `<div class="box kpi"><div class="l">${c[0]}</div><div class="v">${c[1]}</div><div class="d">${c[2]}</div></div>`).join("");
+
+  const max = Math.max(...rows.map(x => x.junit));
+  document.getElementById("barTitle").textContent = `JUnit 100명 동시 예약 시간 — ${curTab}`;
+  document.getElementById("localBars").innerHTML = rows.map(x => {
+    const cls = x.m === curM ? "f on" : (x.ok ? "f" : "f badf");
+    return `<div class="bar"><span class="n">${x.m === curM ? "<b>" + x.m + "</b>" : x.m}</span>` +
+           `<span class="t"><span class="${cls}" style="width:${(x.junit / max * 100).toFixed(0)}%"></span></span>` +
+           `<span class="x">${x.junit}ms ${x.ok ? "" : "✗"}</span></div>`;
+  }).join("") + '<p class="hint">빨간 막대 = 정합성 깨짐 (빨라도 틀린 답)</p>';
+
+  const c = LOCAL_CODE[curM];
+  document.getElementById("localCode").textContent = c.code;
+  document.getElementById("localStory").innerHTML = `<b>${curTab} · ${curM}</b> — ${c.story}`;
+}
+
+// ④ 실서버
+let curS = 4;
+function drawServer() {
+  let h = "<thead><tr><th>#</th><th>측정</th><th>보낸 곳</th><th>풀</th><th>행</th><th>처리량 /s</th><th>p95 예약 · 결제 · 취소</th><th>실패율</th><th>정합성</th></tr></thead><tbody>";
+  SERVER.forEach(s => {
+    const cls = s.dim ? "dim" : (s.no === curS ? "sel" : "");
+    h += `<tr class="${cls}" data-no="${s.no}"><td>${s.no}</td><td>${s.no === 4 ? "<b>" + s.name + "</b>" : s.name}</td><td>${s.from}</td>` +
+         `<td>${s.pool}</td><td>${s.rows}</td><td>${s.tps}</td><td>${s.p95}</td><td>${s.fail}</td><td>${badge(s.ok)}</td></tr>`;
+  });
+  document.getElementById("serverTable").innerHTML = h + "</tbody>";
+  document.querySelectorAll("#serverTable tbody tr").forEach(tr => {
+    tr.onclick = () => { const s = SERVER.find(x => x.no == tr.dataset.no); if (s.btn) { curS = s.no; drawServer(); } };
+  });
+
+  document.getElementById("serverBtns").innerHTML = SERVER.filter(s => s.btn)
+    .map(s => `<button class="${s.no === curS ? "on" : ""}" data-no="${s.no}">${s.btn}</button>`).join("");
+  document.querySelectorAll("#serverBtns button").forEach(b => b.onclick = () => { curS = +b.dataset.no; drawServer(); });
+
+  const s = SERVER.find(x => x.no === curS);
+  document.getElementById("serverCards").innerHTML = s.cards
+    .map(c => `<div class="box kpi"><div class="l">${c[0]}</div><div class="v">${c[1]}</div><div class="d">${c[2]}</div></div>`).join("");
+  document.getElementById("serverCode").textContent = s.code;
+  document.getElementById("serverStory").textContent = s.story;
+}
+
+// 캡처 크게 보기
+const zoom = document.getElementById("zoom");
+document.querySelectorAll(".caps img").forEach(img => img.onclick = () => {
+  zoom.querySelector("img").src = img.src;
+  zoom.classList.add("show");
+});
+zoom.onclick = () => zoom.classList.remove("show");
+
+drawLocal();
+drawServer();
+</script>
+</body>
+</html>
