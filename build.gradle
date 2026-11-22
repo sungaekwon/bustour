@@ -82,6 +82,10 @@ dependencies {
     //   .with(user(loginUser)) , .with(csrf())
     testImplementation 'org.springframework.security:spring-security-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    // [추가]2026.11.22권성애 Actuator — 커넥션 풀(acquire · usage · pending) 등 앱 내부 수치를 주소로 꺼냄
+    //   버전은 부트가 맞춰 줌. 관리 포트 9282 는 application.yml 의 management 참고
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
 }
 
 tasks.named('test') {

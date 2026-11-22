@@ -25,3 +25,7 @@ backups/
 *.log
 HELP.md
 .DS_Store
+
+
+# [추가]2026.11.22권성애 k6 측정 결과 (json · html · tsv) — 깃허브에 안 올림
+k6/results*/

@@ -37,9 +37,13 @@ public class SecurityConfig {
                                  "/css/**", "/js/**", "/img/**").permitAll()
                 // /error : 오류 화면(404 등). 막으면 "없는 주소"가 404 대신 로그인 화면으로 가 버린다
                 .requestMatchers("/error").permitAll()
+                // [추가]2026.11.22권성애 Actuator 수치 — 관리 포트(9282)에도 시큐리티가 걸려 로그인 화면으로 가는 것 방지
+                //   8282 에는 Actuator 가 없어(404) 밖으로 새는 것 없음
+                .requestMatchers("/actuator/health", "/actuator/metrics/**").permitAll()
                 // 관리자만
                 .requestMatchers("/admin/**").hasRole("ADMIN")     // = 권한 "ROLE_ADMIN"
                 // 나머지 전부: 로그인 필요 (예: /my/reservations, 6단계의 /api/reservations)
+
                 .anyRequest().authenticated()
             )
 
