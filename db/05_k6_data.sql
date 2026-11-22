@@ -36,6 +36,16 @@ INSERT INTO tour_schedule (id, tour_id, start_at, capacity, remaining, status) V
   (1, 1, TIMESTAMP(CURDATE() + INTERVAL 10 DAY, '10:00:00'), 100, 100, 'OPEN'),
   (2, 1, TIMESTAMP(CURDATE() + INTERVAL 10 DAY, '14:00:00'), 5000, 5000, 'OPEN');
 
+-- 3. 투어 1개 + 회차 3개
+--   회차 1: 정원 100석 (동시 예약 → 정원 초과 0건 확인용)
+--   회차 2: 정원 5000석 (예약 + 결제 흐름 측정용, 자리가 모자라지 않게)
+--   회차 3: 정원 5000석 (행 나누기 실험 SCHEDULES=2,3 용) [추가]2026.11.22권성애 — 초기화마다 자동으로 생기게
+INSERT INTO tour (id, name, description, price, duration_min, status)
+VALUES (1, 'k6 측정 투어', '부하테스트용', 10000, 180, 'ON_SALE');
+INSERT INTO tour_schedule (id, tour_id, start_at, capacity, remaining, status) VALUES
+(1, 1, TIMESTAMP(CURDATE() + INTERVAL 10 DAY, '10:00:00'), 100, 100, 'OPEN'),
+(2, 1, TIMESTAMP(CURDATE() + INTERVAL 10 DAY, '14:00:00'), 5000, 5000, 'OPEN'),
+(3, 1, TIMESTAMP(CURDATE() + INTERVAL 10 DAY, '19:00:00'), 5000, 5000, 'OPEN');
 -- 4. 회원 500명 (재귀 CTE 로 1~500)
 -- [추가]2026.11.14권성애 — 보류했던 개선 ①: 비밀번호 해시를 cost 10 → 4
 --   $2a$10$… 의 10 = 해시를 2의 10제곱(1024)번 반복 → 로그인 1번에 수십 ms 의 CPU
