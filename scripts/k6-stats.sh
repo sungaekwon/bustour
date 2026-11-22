@@ -79,12 +79,15 @@ guard() {
 # ---------------------------------------------------------------------
 case "$CMD" in
 
-  reset)
-    guard
-    # 05 의 1번(CREATE · GRANT)은 주석이라 실행 안 됨 → 2번(DELETE) 부터 = 초기화
-    docker compose exec -T mysql sh -c 'mysql -uroot -p"$MYSQL_ROOT_PASSWORD" bustour_k6' < db/05_k6_data.sql 2>/dev/null
-    echo "[reset] bustour_k6 초기화 완료: 회원 $(sql 'SELECT COUNT(*) FROM member' bustour_k6)명"
-    ;;
+   reset)
+      guard
+      # 05 의 1번(CREATE · GRANT)은 주석이라 실행 안 됨 → 2번(DELETE) 부터 = 초기화
+      # [추가]2026.11.22권성애 오류는 보이게, "비밀번호 경고" 한 줄만 숨김
+      #   (예전 2>/dev/null 은 경고와 함께 ERROR 1062 같은 진짜 오류까지 버려서 원인을 못 봤음)
+      docker compose exec -T mysql sh -c 'mysql -uroot -p"$MYSQL_ROOT_PASSWORD" bustour_k6' < db/05_k6_data.sql \
+        2> >(grep -v "Using a password" >&2)
+      echo "[reset] bustour_k6 초기화 완료: 회원 $(sql 'SELECT COUNT(*) FROM member' bustour_k6)명"
+      ;;
 
   before)
     guard

@@ -30,11 +30,11 @@ SET SQL_SAFE_UPDATES = 1;
 -- 3. 투어 1개 + 회차 2개
 --   회차 1: 정원 100석 (동시 예약 → 정원 초과 0건 확인용)
 --   회차 2: 정원 5000석 (예약 + 결제 흐름 측정용, 자리가 모자라지 않게)
-INSERT INTO tour (id, name, description, price, duration_min, status)
-VALUES (1, 'k6 측정 투어', '부하테스트용', 10000, 180, 'ON_SALE');
-INSERT INTO tour_schedule (id, tour_id, start_at, capacity, remaining, status) VALUES
-  (1, 1, TIMESTAMP(CURDATE() + INTERVAL 10 DAY, '10:00:00'), 100, 100, 'OPEN'),
-  (2, 1, TIMESTAMP(CURDATE() + INTERVAL 10 DAY, '14:00:00'), 5000, 5000, 'OPEN');
+-- INSERT INTO tour (id, name, description, price, duration_min, status)
+-- VALUES (1, 'k6 측정 투어', '부하테스트용', 10000, 180, 'ON_SALE');
+-- INSERT INTO tour_schedule (id, tour_id, start_at, capacity, remaining, status) VALUES
+--  (1, 1, TIMESTAMP(CURDATE() + INTERVAL 10 DAY, '10:00:00'), 100, 100, 'OPEN'),
+--  (2, 1, TIMESTAMP(CURDATE() + INTERVAL 10 DAY, '14:00:00'), 5000, 5000, 'OPEN');
 
 -- 3. 투어 1개 + 회차 3개
 --   회차 1: 정원 100석 (동시 예약 → 정원 초과 0건 확인용)
