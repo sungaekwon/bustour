@@ -93,7 +93,12 @@ h2 { font-size: 21px; margin: 0 0 4px; }
 .go a.gh { border: 1.5px solid var(--ink); }
 .go a:hover { opacity: .85; }
 .go a small { display: block; font-size: 12px; font-weight: 500; opacity: .85; margin-top: 1px; }   /* [추가]2026.11.24권성애 버튼 안 주소 */
-.demo { margin-top: 8px; font-size: 13px; background: var(--accent-soft); border-radius: 8px; padding: 7px 11px; }
+.demo { margin-top: 8px; font-size: 13px; background: var(--accent-soft); border-radius: 8px; padding: 8px 12px; }   /* [추가]2026.11.28권성애 체험 계정: 칸 맞춘 작은 표 */
+.demo .dt { font-weight: 800; font-size: 12.5px; color: var(--accent); margin-bottom: 3px; }   /* '체험 계정' 제목 */
+.demo .tbl { display: grid; grid-template-columns: auto auto auto; justify-content: start; column-gap: 14px; line-height: 1.7; }   /* 구분 | 아이디 | 비밀번호 — 비밀번호는 아이디 바로 옆, 줄마다 칸 맞춤 */
+.demo .tbl .k { color: var(--muted); }                       /* 회원 · 관리자 */
+.demo .tbl .pw { font-family: Consolas, monospace; }         /* 비밀번호 */
+.demo .note { font-size: 12px; color: var(--muted); margin-top: 2px; }   /* 테스트 결제 안내 */
 
 /* ---------- 흰 띠 (위 · 아래 분리) ---------- */
 .band { background: #fff; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 30px 0 26px; margin: 48px 0 0; }
@@ -110,6 +115,15 @@ h2 { font-size: 21px; margin: 0 0 4px; }
 .secband + .wrap section { margin-top: 0; }
 
 /* ---------- 숫자 카드 ---------- */
+.result { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; background: #fff; border: 1px solid var(--line);
+          border-left: 6px solid var(--bad); border-radius: 0; margin: 18px 0 14px; position: relative; }   /* [추가]2026.11.28권성애 실서버 결론 카드 (붉은 포인트) */
+.result > div { padding: 14px 18px; border-right: 1px solid var(--line); }
+.result > div:last-child { border-right: none; }
+.result .lb { font-size: 12.5px; color: var(--bad); font-weight: 800; }   /* 작은 제목 (빨강) */
+.result .big { font-size: 26px; font-weight: 800; margin: 2px 0; }          /* 큰 숫자 */
+.result .big .up { color: var(--bad); background: #fde2e2; border-radius: 6px; padding: 0 6px; }   /* 핵심 숫자: 빨강 글자 + 연한 빨강 바탕 */
+.result .tag { position: absolute; top: -11px; left: 14px; background: var(--bad); color: #fff; font-size: 12px; font-weight: 800; padding: 2px 10px; border-radius: 10px; }   /* '결론' 꼬리표 */
+.result .ds { font-size: 13px; color: var(--muted); }                       /* 뜻 */
 .kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
 .kpis.four { grid-template-columns: repeat(4, 1fr); }
 .kpi .l { font-size: 13px; color: var(--muted); }
@@ -149,9 +163,10 @@ td.grp { font-weight: 800; background: #fff !important; cursor: default; }
 .bar .t { flex: 1; background: #edf0f5; border-radius: 6px; height: 16px; overflow: hidden; }
 .bar .f { display: block; height: 16px; background: #c9d3e3; }
 .bar .f.on { background: var(--accent); }
-.bar .f.badf { background: #f3b4b4; }
+.bar .f.badf { background: #e5484d; }   /* [추가]2026.11.28권성애 깨짐 막대 분명한 빨강 (#f3b4b4에서 변경) */
 .bar .x { width: 92px; text-align: right; flex-shrink: 0; }
-pre { background: var(--ink); color: #e6e9ef; border-radius: 8px; padding: 12px 14px; font-size: 12.5px; margin: 0;
+pre { background: #fff; color: var(--ink);   /* [추가]2026.11.28권성애 흰 바탕 · 테두리 없음 */
+      border-radius: 8px; padding: 12px 14px; font-size: 12.5px; margin: 0;
       white-space: pre-wrap; word-break: break-all; font-family: Consolas, "D2Coding", monospace; }
 .story { font-size: 14.5px; }
 .caps { display: flex; gap: 10px; }
@@ -174,7 +189,8 @@ footer { color: var(--muted); font-size: 12.5px; text-align: center; padding: 30
   .top .contact { text-align: left; }
   .top .right { flex-direction: column; align-items: flex-start; }   /* [추가]2026.11.26권성애 휴대폰: 버튼을 연락처 위로 */
   .docs { flex-direction: row; }
-  .projects, .grid2, .kpis, .kpis.four { grid-template-columns: 1fr; }
+  .projects, .grid2, .kpis, .kpis.four, .result { grid-template-columns: 1fr; }
+  .result > div { border-right: none; border-bottom: 1px solid var(--line); }
   .caps { flex-direction: column; }
   .band h1 { font-size: 22px; }
   .secband h2 { font-size: 19px; }
@@ -231,10 +247,16 @@ footer { color: var(--muted); font-size: 12.5px; text-align: center; padding: 30
         <div class="go">
           <a class="site" href="https://trave2026.kro.kr/travel" target="_blank" rel="noopener">사이트 열기 ↗<small>trave2026.kro.kr/travel</small></a>
           <!-- [추가]2026.11.28권성애 놀러가자 깃허브 주소 travel.git 으로 -->
-          <a class="gh" href="https://github.com/sungaekwon/travel.git" target="_blank" rel="noopener">GitHub ↗<small>github.com/sungaekwon/travel.git</small></a>
+          <a class="gh" href="https://github.com/sungaekwon/travel" target="_blank" rel="noopener">GitHub ↗<small>github.com/sungaekwon/travel</small></a>
         </div>
         <!-- [추가]2026.11.26권성애 놀러가자 체험 계정 (회원 · 관리자) -->
-        <div class="demo"><b>체험 계정</b> 회원 choi04@example.com · 1234<br><b style="visibility:hidden">체험 계정</b> 관리자 admin@example.com · 1234</div>
+        <!-- [추가]2026.11.28권성애 체험 계정: 구분 | 아이디 | 비밀번호 작은 표 -->
+        <div class="demo"><div class="dt">체험 계정</div>
+          <div class="tbl">
+            <span class="k">회원</span><span>choi04@example.com</span><span class="pw">test1234</span>
+            <span class="k">관리자</span><span>admin@example.com</span><span class="pw">test1234</span>
+          </div>
+          </div>
       </div>
 
       <div class="box pj">
@@ -253,7 +275,12 @@ footer { color: var(--muted); font-size: 12.5px; text-align: center; padding: 30
           <a class="gh" href="https://github.com/sungaekwon/bustour" target="_blank" rel="noopener">GitHub ↗<small>github.com/sungaekwon/bustour</small></a>
         </div>
         <!-- [추가]2026.11.26권성애 '비밀번호' 글자 빼고 안내 문장은 다음 줄로 -->
-        <div class="demo"><b>체험 계정</b> 휴대폰 01033334444 · test1234!<br>(테스트 결제라 실제 돈이 나가지 않습니다)</div>
+        <!-- [추가]2026.11.28권성애 체험 계정: 구분 | 아이디 | 비밀번호 작은 표 -->
+        <div class="demo"><div class="dt">체험 계정</div>
+          <div class="tbl">
+            <span class="k">회원</span><span>01033334444</span><span class="pw">test1234!</span>
+          </div>
+          <div class="note">테스트 결제라 실제 돈이 나가지 않습니다</div></div>
       </div>
     </div>
   </section>
@@ -291,6 +318,12 @@ footer { color: var(--muted); font-size: 12.5px; text-align: center; padding: 30
 
 <div class="wrap">
   <section>
+    <!-- [추가]2026.11.28권성애 결론 카드: 표를 읽기 전에 핵심 3가지 -->
+    <div class="result"><span class="tag">결론</span>
+      <div><div class="lb">행 나누기</div><div class="big">38.4 → 55.0<small style="font-size:15px">/s</small> <span class="up">+43%</span></div><div class="ds">같은 부하를 회차 2개로 나누자 처리량 증가</div></div>
+      <div><div class="lb">병목</div><div class="big">락 줄 <span class="up">19</span> = 풀 − 1</div><div class="ds">커넥션 전부가 회차 한 행의 락 앞에서 대기</div></div>
+      <div><div class="lb">정확성</div><div class="big">초과 판매 <span class="up">0건</span></div><div class="ds">모든 측정에서 남은 자리 = 정원 − 예약 인원</div></div>
+    </div>
     <div class="env">측정 환경: 내 PC 한 대 (앱 · MySQL 8.0) · JDK 21 · 커넥션 풀 10개(대기 3초) · JUnit = 100명 동시 예약 · k6 02 = 동시 100명 · k6 03 = 초당 200건 20초 · ✗ = 기준 미달(p95 500ms 초과 또는 요청 누락)</div>
     <div class="scroll"><table id="localTable"></table></div>
     <p class="hint">표의 행이나 아래 버튼을 누르면 상세가 바뀝니다. 시간은 측정 날짜 · PC 상태가 달라 같은 구분 안에서만 비교합니다.</p>
@@ -319,10 +352,10 @@ footer { color: var(--muted); font-size: 12.5px; text-align: center; padding: 30
       <div class="box card">
         <h4>이 표가 보여 주는 것</h4>
         <div class="story" style="font-size:14px">
-          ① 락 없는 방식(none · dirty)은 에러 없이 조용히 깨진다.<br>
+          ① 락 없는 방식(none · dirty)은 에러 없이 조용히 깨짐.<br>
           ② 서블릿 sync는 OK인데 JPA sync-tx는 50건 손실 — 커밋이 synchronized 밖에서 일어나기 때문.<br>
-          ③ atomic이 세 구분 모두 정확하고 가장 빠르다.<br>
-          ④ 낙관적 락은 부하가 커질수록 충돌과 누락이 크게 늘어난다.
+          ③ atomic이 세 구분 모두 정확하고 가장 빠름.<br>
+          ④ 낙관적 락은 부하가 커질수록 충돌과 누락이 크게 증가.
         </div>
       </div>
     </div>
@@ -341,6 +374,12 @@ footer { color: var(--muted); font-size: 12.5px; text-align: center; padding: 30
 
 <div class="wrap">
   <section>
+    <!-- [추가]2026.11.28권성애 결론 카드: 표를 읽기 전에 핵심 3가지 -->
+    <div class="result"><span class="tag">결론</span>
+      <div><div class="lb">행 나누기</div><div class="big">38.4 → 55.0<small style="font-size:15px">/s</small> <span class="up">+43%</span></div><div class="ds">같은 부하를 회차 2개로 나누자 처리량 증가</div></div>
+      <div><div class="lb">병목</div><div class="big">락 줄 <span class="up">19</span> = 풀 − 1</div><div class="ds">커넥션 전부가 회차 한 행의 락 앞에서 대기</div></div>
+      <div><div class="lb">정확성</div><div class="big">초과 판매 <span class="up">0건</span></div><div class="ds">모든 측정에서 남은 자리 = 정원 − 예약 인원</div></div>
+    </div>
     <div class="env">측정 환경: AWS Lightsail 2GB(서울) 1대에 app · MySQL · nginx · 커넥션 풀 20 / 30 · 가짜 PG(토스 서버에 부하를 주지 않음) · k6는 내 PC · 측정마다 커넥션 풀(Actuator) · MySQL 락 통계 자동 기록 · 2026.11.22 재측정, 각 3회</div>
     <div class="scroll"><table id="serverTable"></table></div>
     <p class="hint">값은 3회 평균(회차 2개는 안정된 4 · 5회차 평균). 회색 행은 참고용 — 2: 요청량이 낮은 측정, 6: 11-14 첫 측정 때 서울 임시 서버에서 보낸 값. 락 줄 = 한순간 행 락을 기다린 최대 수, 받기 / 쥐기 = 커넥션을 받을 때까지 / 쥐고 있던 평균 시간.</p>
@@ -413,31 +452,31 @@ const LOCAL = {
 const LOCAL_CODE = {
   "none": {
     code: "SELECT remaining FROM tour WHERE id = 1;   -- 둘이 같은 값(10)을 읽음\n-- 자바에서 10 - 1 = 9 계산\nUPDATE tour SET remaining = 9 WHERE id = 1; -- 둘 다 9 를 씀 → 1건 사라짐",
-    story: "읽고 → 계산하고 → 고정값으로 쓰는 사이에 다른 요청이 끼어들어 같은 값을 덮어쓴다(갱신 손실). 에러가 나지 않아 로그만 봐서는 모른다."
+    story: "읽고 → 계산하고 → 고정값으로 쓰는 사이에 다른 요청이 끼어들어 같은 값을 덮어씀(갱신 손실). 에러가 나지 않아 로그만으로는 알 수 없음."
   },
   "sync": {
     code: "synchronized (lock) {\n    // 읽기 → 계산 → 쓰기 → 커밋까지 이 안에서\n}\n// 한 JVM 안에서만 한 줄로 세움 → 서버가 2대면 서로 모름",
-    story: "정확하지만 모든 요청이 자바 락 앞에서 한 줄로 기다린다. 부하가 커지면 대기가 쌓여 응답 시간이 초 단위로 늘고, 서버를 늘려도 효과가 없다."
+    story: "정확하지만 모든 요청이 자바 락 앞에서 한 줄로 대기. 부하가 커지면 대기가 쌓여 응답 시간이 초 단위로 증가, 서버를 늘려도 효과 없음."
   },
   "atomic": {
     code: "UPDATE tour\n   SET remaining = remaining - 1\n WHERE id = 1\n   AND remaining >= 1;   -- 1행 = 성공, 0행 = 매진\n-- 확인과 차감을 한 문장으로 → 행 락이 짧게 한 줄로 세움",
-    story: "남은 자리 확인과 차감을 DB 한 문장으로 처리해 끼어들 틈이 없다. 세 구분 모두 정확하고 가장 빨라 부산한바퀴에 이 방식을 적용했다."
+    story: "남은 자리 확인과 차감을 DB 한 문장으로 처리해 끼어들 틈이 없음. 세 구분 모두 정확하고 가장 빨라 부산한바퀴에 적용."
   },
   "pessimistic": {
     code: "SELECT remaining FROM tour WHERE id = 1 FOR UPDATE;  -- 읽을 때부터 X 락\nUPDATE tour SET remaining = ? WHERE id = 1;\nCOMMIT;   -- 여기서 락이 풀림",
-    story: "읽는 순간부터 커밋까지 행을 잠가 정확하다. 다만 락을 쥐는 시간이 atomic보다 길어 부하가 커질수록 대기가 늘어난다."
+    story: "읽는 순간부터 커밋까지 행을 잠가 정확함. 다만 락을 쥐는 시간이 atomic보다 길어 부하가 커질수록 대기 증가."
   },
   "optimistic": {
     code: "UPDATE tour\n   SET remaining = ?, version = version + 1\n WHERE id = 1 AND version = ?;  -- 0행 = 누가 먼저 바꿈 → 실패/재시도",
-    story: "락 없이 버전으로 충돌을 감지한다. 정합성은 지키지만 같은 행에 몰리는 선착순에서는 충돌 · 재시도가 폭증해 맞지 않는다."
+    story: "락 없이 버전으로 충돌을 감지. 정합성은 지키지만 같은 행에 몰리는 선착순에서는 충돌 · 재시도가 폭증해 부적합."
   },
   "dirty": {
     code: "Tour t = tourRepository.findById(1L).get();  // 옛 값을 읽음\nt.decrease();                                // 메모리에서 -1\n// 커밋 때 UPDATE tour SET remaining = 9 … (계산된 고정값)",
-    story: "JPA 변경 감지는 '읽은 값 - 1'을 고정값으로 덮어써서 락 없는 none과 같은 이유로 깨진다. 편리함 뒤에 숨은 갱신 손실."
+    story: "JPA 변경 감지는 '읽은 값 - 1'을 고정값으로 덮어써서 락 없는 none과 같은 이유로 깨짐. 편리함 뒤에 숨은 갱신 손실."
   },
   "sync-tx": {
     code: "@Transactional\npublic synchronized void reserve() { … }\n// 프록시가 커밋하는 시점 = 메서드(락)가 끝난 '뒤'\n// → 락이 풀리고 커밋 전인 틈에 다음 스레드가 옛 값을 읽음",
-    story: "서블릿 sync는 OK인데 JPA에서는 50건 손실. 커밋이 synchronized 밖에서 일어나는 함정을 실험으로 확인했다."
+    story: "서블릿 sync는 OK인데 JPA에서는 50건 손실. 커밋이 synchronized 밖에서 일어나는 함정을 실험으로 확인."
   }
 };
 
@@ -447,28 +486,28 @@ const SERVER = [   // [추가]2026.11.24권성애 2026.11.22 재측정 값 (lock
   { no: 1, name: "01 동시 예약 500명 → 100석", from: "PC", pool: 20, rows: 1, tps: "-", p95: "(예약 1.3~1.6s)", lockq: "17~18", acq: "240 / 60", fail: "0%", ok: true, btn: "01 동시 예약",
     cards: [["결과", "정확히 100석", "3회 모두 500명 중 100명만 성공"], ["503 응답", "0건", "11-14 첫 측정 30건 → 예열 뒤 0"], ["풀 앞 줄 최대", "179", "길어도 모두 3초 안에 커넥션 받음"], ["정합성", "OK", "남은 0 + 예약 100 = 100"]],
     code: "k6 run -e BASE=https://bustour.trave2026.kro.kr k6/01-reserve-spike.js\n# 로그인 500명을 미리 만들어 두고(setup) 한 번에 예약",
-    story: "500명이 동시에 100석을 노려도 3번 모두 정확히 100명만 성공했다. 풀 앞에 179명까지 줄을 섰지만 3초 안에 모두 차례가 와 503 도 없었다." },
+    story: "500명이 동시에 100석을 노려도 3번 모두 정확히 100명만 성공. 풀 앞에 179명까지 줄을 섰지만 3초 안에 모두 차례가 와 503 없음." },
   { no: 2, name: "02 RATE 50", from: "PC", pool: 20, rows: 1, tps: "35.0", p95: "0.9~2.0 · 1.6~3.1 · 1.3~2.8s", lockq: "19", acq: "345 / 85", fail: "0%", ok: true, dim: true, btn: null },
   { no: 3, name: "02 RATE 100 (예약 → 결제 → 취소)", from: "PC", pool: 20, rows: 1, tps: "38.4", p95: "4.0 · 5.2 · 4.7s", lockq: "19", acq: "620 / 84", fail: "0.06%", ok: true, btn: "RATE 100",
     cards: [["처리량", "38.4/s", "3회 38.6 · 38.6 · 38.1 — 초당 100을 보내도 여기서 멈춤"], ["락 줄 최대", "19", "= 풀 20 − 1 : 커넥션 전부가 한 행 앞에"], ["받기 / 쥐기", "620 / 84ms", "쥐는 동안 락을 기다려 풀 앞에 줄 (약 175)"], ["정합성", "OK", "503 5~7건은 3초 초과 = 다시 누르면 됨"]],
     code: "k6 run -e BASE=https://bustour.trave2026.kro.kr \\\n       -e RATE=100 k6/02-reserve-pay.js\n# 같은 회차(1행)에 예약 · 결제 · 취소\n# 측정 전후: Actuator(hikaricp.connections.*) + SHOW GLOBAL STATUS LIKE 'Innodb_row_lock%'",
-    story: "한 회차에 모든 요청을 몰자 초당 38건에서 멈췄다. 행 락을 기다리는 트랜잭션이 늘 19개(= 풀 20 − 1)였다 — 커넥션 전부가 회차 한 행 앞에 묶여 있었다." },
+    story: "한 회차에 모든 요청을 몰자 초당 38건에서 정체. 행 락을 기다리는 트랜잭션이 늘 19개(= 풀 20 − 1) — 커넥션 전부가 회차 한 행 앞에 묶여 있음." },
   { no: 4, name: "행 나누기 (회차 2개)", from: "PC", pool: 20, rows: 2, tps: "55.0 (+43%)", p95: "2.7 · 3.5 · 3.1s", lockq: "17~18", acq: "411 / 59", fail: "0%", ok: true, btn: "행 나누기",
     cards: [["처리량", "55.0/s", "한 행 38.4/s → +43%"], ["락 평균 대기", "120ms", "한 행 205ms → 줄이 두 행으로 갈라짐"], ["p95 예약 · 결제 · 취소", "2.7 · 3.5 · 3.1s", "한 행 4.0 · 5.2 · 4.7s"], ["정합성", "OK · OK", "회차 2 · 3 모두"]],
     code: "# 예약을 회차 2 · 3 에 번갈아 → 한 행에 몰리던 락이 두 행으로\nk6 run -e BASE=https://bustour.trave2026.kro.kr \\\n       -e RATE=100 -e SCHEDULES=2,3 k6/02-reserve-pay.js",
-    story: "같은 부하를 회차 두 개로 나누자 처리량이 43% 늘었다. 커넥션을 늘린 실험과 달리 행을 나눈 실험만 효과가 있어, 병목이 한 행의 락이라는 것을 확인했다. (앱 CPU 가 100% 근처 → 그다음 병목은 CPU)" },
+    story: "같은 부하를 회차 두 개로 나누자 처리량이 43% 증가. 커넥션을 늘린 실험과 달리 행을 나눈 실험만 효과가 있어, 병목이 한 행의 락이라는 것을 확인. (앱 CPU 가 100% 근처 → 그다음 병목은 CPU)" },
   { no: 5, name: "풀 30", from: "PC", pool: 30, rows: 1, tps: "37.8 (−2%)", p95: "3.9 · 5.0 · 4.7s", lockq: "29", acq: "584 / 125", fail: "0.02%", ok: true, btn: "풀 30",
     cards: [["처리량", "37.8/s", "풀 20 의 38.4/s 와 같음 (−2%)"], ["락 줄 최대", "29", "= 풀 30 − 1 : 늘린 커넥션만큼 줄도 길어짐"], ["락 평균 대기", "320ms", "풀 20 일 때 205ms"], ["쥐기", "125ms", "풀 20 일 때 84ms"]],
     code: "-- 측정 중 1초마다: 지금 행 락을 기다리는 수\nSHOW GLOBAL STATUS LIKE 'Innodb_row_lock_current_waits';\n-- 풀 20 → 최대 19, 풀 30 → 최대 29",
-    story: "커넥션을 30개로 늘려도 처리량은 그대로였고, 한 행 앞에서 기다리는 줄만 19에서 29로 길어졌다. 풀 대기는 원인이 아니라 결과여서 운영 설정은 20 으로 두었다. (재시작 직후 1회차 32.0 은 예열 전이라 제외)" },
+    story: "커넥션을 30개로 늘려도 처리량은 그대로, 한 행 앞에서 기다리는 줄만 19에서 29로 증가. 풀 대기는 원인이 아니라 결과라서 운영 설정은 20 유지. (재시작 직후 1회차 32.0 은 예열 전이라 제외)" },
   { no: 6, name: "임시 서버에서 부하 (11-14)", from: "k6-temp", pool: 30, rows: 1, tps: "41.6", p95: "3.5 · 4.3 · 4.2s", lockq: "-", acq: "-", fail: "0.01%", ok: true, dim: true, btn: "임시 서버",
     cards: [["처리량", "41.6/s", "같은 날 내 PC에서 보낼 때 40.8/s"], ["부하 보낸 곳", "서울 임시 서버", "Lightsail 같은 리전"], ["결론", "PC 원인 ✘", "회선 · PC가 병목 아님"], ["측정일", "11-14", "재측정 전 첫 측정"]],
     code: "# 같은 리전에 k6 전용 임시 서버를 만들어 같은 명령\nk6 run -e BASE=https://bustour.trave2026.kro.kr \\\n       -e RATE=100 k6/02-reserve-pay.js",
-    story: "부하를 보내는 쪽이 원인일 수 있어 11-14 첫 측정 때 서울 리전 임시 서버에서 다시 쟀다. 결과가 PC와 같아 병목은 네트워크가 아니라 서버 안이었다." },
+    story: "부하를 보내는 쪽이 원인일 수 있어 11-14 첫 측정 때 서울 리전 임시 서버에서 다시 측정. 결과가 PC와 같아 병목은 네트워크가 아니라 서버 안." },
   { no: 7, name: "03 메인 화면 RATE 200", from: "PC", pool: 30, rows: "-", tps: "199.6", p95: "89~94ms", lockq: "0", acq: "0.1 / 9", fail: "0%", ok: null, btn: "03 메인",
     cards: [["처리량", "199.6/s", "초당 200 요청을 거의 다 처리"], ["p95", "89~94ms", "1회차 153ms (예열 중)"], ["락 · 커넥션 대기", "0 · 0.1ms", "조회는 줄이 없음"], ["날씨", "1시간 캐시", "열 때마다 기상청을 부르지 않음"]],
     code: "k6 run -e BASE=https://bustour.trave2026.kro.kr \\\n       -e RATE=200 k6/03-main-page.js\n# 투어 목록 + 날씨(@Cacheable) 메인 화면",
-    story: "락이 없는 조회 화면은 초당 200건도 0.1초 안에 응답했다. 느린 것은 서버 전체가 아니라 한 행에 몰리는 쓰기라는 점이 다시 확인됐다." }
+    story: "락이 없는 조회 화면은 초당 200건도 0.1초 안에 응답. 느린 것은 서버 전체가 아니라 한 행에 몰리는 쓰기라는 점을 다시 확인." }
 ];
 
 /* =====================================================================
