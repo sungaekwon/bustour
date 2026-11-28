@@ -18,215 +18,220 @@
 -->
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>권성애 포트폴리오 — 백엔드 웹 개발자</title>
-<meta name="description" content="동시 예약 15가지 방식 비교와 실서버 부하테스트 · 놀러가자(서블릿) · 부산한바퀴(Spring Boot)">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>권성애 포트폴리오 — 백엔드 웹 개발자</title>
+  <meta name="description" content="동시 예약 15가지 방식 비교와 실서버 부하테스트 · 놀러가자(서블릿) · 부산한바퀴(Spring Boot)">
 
-<!-- 링크 미리보기 카드 (카톡 · 슬랙 등에 주소를 붙이면 이 값으로 카드를 만든다) -->
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://portfolio.trave2026.kro.kr/">
-<meta property="og:title" content="권성애 포트폴리오 — 백엔드 웹 개발자">
-<!-- [추가]2026.11.26권성애 검색 결과에 나오지 않게 (구글·네이버 등) -->
-<meta name="robots" content="noindex, nofollow">
-<meta property="og:description" content="동시 예약 15가지 방식 비교와 실서버 부하테스트 · 놀러가자(서블릿) · 부산한바퀴(Spring Boot)">
-<meta property="og:image" content="https://portfolio.trave2026.kro.kr/img/og.png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
+  <!-- 링크 미리보기 카드 (카톡 · 슬랙 등에 주소를 붙이면 이 값으로 카드를 만든다) -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://portfolio.trave2026.kro.kr/">
+  <meta property="og:title" content="권성애 포트폴리오 — 백엔드 웹 개발자">
+  <!-- [추가]2026.11.26권성애 검색 결과에 나오지 않게 (구글·네이버 등) -->
+  <meta name="robots" content="noindex, nofollow">
+  <meta property="og:description" content="동시 예약 15가지 방식 비교와 실서버 부하테스트 · 놀러가자(서블릿) · 부산한바퀴(Spring Boot)">
+  <meta property="og:image" content="https://portfolio.trave2026.kro.kr/img/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
 
-<style>
-/* ---------- 색 (여기만 바꾸면 전체 색이 바뀜) ---------- */
-:root {
-  --accent: #0f766e;        /* [추가]2026.11.26권성애 포인트 녹청(주황 #ea580c에서 변경) : 사이트 열기 버튼 · 선택된 버튼 · 강조 */
-  --accent-soft: #e8f5f3;   /* [추가]2026.11.26권성애 연한 녹청(#fff4ec에서 변경) : 체험 계정 칸 · 선택된 표 행 */
-  --ink: #1d2433;           /* 기본 글자 (진한 남색) */
-  --muted: #5b6475;         /* 보조 글자 (회색) */
-  --line: #dfe3ea;          /* 테두리 */
-  --bg: #f6f7f9;            /* 페이지 바탕 */
-  --ok: #15803d;            /* 정합성 OK (초록) */
-  --bad: #c0262d;           /* 깨짐 (빨강) */
-}
+  <style>
+    /* ---------- 색 (여기만 바꾸면 전체 색이 바뀜) ---------- */
+    :root {
+      --accent: #0f766e;        /* [추가]2026.11.26권성애 포인트 녹청(주황 #ea580c에서 변경) : 사이트 열기 버튼 · 선택된 버튼 · 강조 */
+      --accent-soft: #e8f5f3;   /* [추가]2026.11.26권성애 연한 녹청(#fff4ec에서 변경) : 체험 계정 칸 · 선택된 표 행 */
+      --ink: #1d2433;           /* 기본 글자 (진한 남색) */
+      --muted: #5b6475;         /* 보조 글자 (회색) */
+      --line: #dfe3ea;          /* 테두리 */
+      --bg: #f6f7f9;            /* 페이지 바탕 */
+      --ok: #15803d;            /* 정합성 OK (초록) */
+      --bad: #c0262d;           /* 깨짐 (빨강) */
+    }
 
-* { box-sizing: border-box; }
-body { margin: 0; background: var(--bg); color: var(--ink);
-       font-family: "Pretendard", "Noto Sans KR", "Malgun Gothic", sans-serif; line-height: 1.55; }
-a { color: inherit; }
-.wrap { max-width: 1120px; margin: 0 auto; padding: 0 20px; }
-section { margin: 40px 0; }                 /* 영역 사이 간격 */
-h2 { font-size: 21px; margin: 0 0 4px; }
-.sub { color: var(--muted); font-size: 14px; margin: 0 0 10px; }
-.env { color: var(--muted); font-size: 13px; background: #eef0f4; border-radius: 6px; padding: 5px 12px; margin: 6px 0 14px; }
-.box { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--ink);
+      font-family: "Pretendard", "Noto Sans KR", "Malgun Gothic", sans-serif; line-height: 1.55; }
+    a { color: inherit; }
+    .wrap { max-width: 1120px; margin: 0 auto; padding: 0 20px; }
+    section { margin: 40px 0; }                 /* 영역 사이 간격 */
+    h2 { font-size: 21px; margin: 0 0 4px; }
+    .sub { color: var(--muted); font-size: 14px; margin: 0 0 10px; }
+    .env { color: var(--muted); font-size: 13px; background: #eef0f4; border-radius: 6px; padding: 5px 12px; margin: 6px 0 14px; }
+    .box { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px; }
 
-/* ---------- 머리 부분 ---------- */
-/* [추가]2026.11.26권성애 흰 띠 : 바깥 배경 흰색 + 위아래 얇은 선 (아래 .band 와 같은 모양) */
-.hero { background: #fff; border-bottom: 1px solid var(--line); }
-.top { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px;
-       padding: 28px 0 24px; }
-.me { display: flex; align-items: stretch; gap: 18px; }   /* [추가]2026.11.26권성애 사진 높이에 글자를 위·아래로 맞춤 */
-.me .txt { display: flex; flex-direction: column; justify-content: space-between; padding: 2px 0; }   /* 이름은 위, 한 줄 소개는 아래 */
-.me .intro { font-size: 14px; color: var(--ink); }   /* 한 줄 소개 */
-.photo { width: 84px; height: 112px; border-radius: 8px; border: 1px solid var(--line); background: #eef0f4;
-         object-fit: cover; flex-shrink: 0; }   /* [추가]2026.11.26권성애 사진 (img/photo.jpg, 3:4) */
-.top .name { font-size: 30px; font-weight: 800; }
-.top .role { color: var(--muted); font-size: 15px; }
-.top .contact { text-align: right; font-size: 14px; line-height: 1.8; }
-.top .contact a { color: var(--accent); text-decoration: none; }
-/* [추가]2026.11.26권성애 머리 오른쪽 : 이력서 · 포트폴리오 PDF 버튼 (새 탭에서 열림) */
-.top .right { display: flex; align-items: flex-end; gap: 18px; }
-.docs { display: flex; flex-direction: column; gap: 6px; }
-.docs a { display: block; min-width: 150px; text-align: center; font-size: 14px; font-weight: 700; text-decoration: none;
-          border: 1.5px solid var(--ink); border-radius: 8px; padding: 6px 12px; background: #fff; }
-.docs a:hover { background: var(--accent-soft); }
+    /* ---------- 머리 부분 ---------- */
+    /* [추가]2026.11.26권성애 흰 띠 : 바깥 배경 흰색 + 위아래 얇은 선 (아래 .band 와 같은 모양) */
+    .hero { background: #fff; border-bottom: 1px solid var(--line); }
+    .top { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px;
+      padding: 28px 0 24px; }
+    .me { display: flex; align-items: stretch; gap: 18px; }   /* [추가]2026.11.26권성애 사진 높이에 글자를 위·아래로 맞춤 */
+    .me .txt { display: flex; flex-direction: column; justify-content: space-between; padding: 2px 0; }   /* 이름은 위, 한 줄 소개는 아래 */
+    .me .intro { font-size: 14px; color: var(--ink); }   /* 한 줄 소개 */
+    .photo { width: 84px; height: 112px; border-radius: 8px; border: 1px solid var(--line); background: #eef0f4;
+      object-fit: cover; flex-shrink: 0; }   /* [추가]2026.11.26권성애 사진 (img/photo.jpg, 3:4) */
+    .top .name { font-size: 30px; font-weight: 800; }
+    .top .role { color: var(--muted); font-size: 15px; }
+    .top .contact { text-align: right; font-size: 14px; line-height: 1.8; }
+    .top .contact a { color: var(--accent); text-decoration: none; }
+    /* [추가]2026.11.26권성애 머리 오른쪽 : 이력서 · 포트폴리오 PDF 버튼 (새 탭에서 열림) */
+    .top .right { display: flex; align-items: flex-end; gap: 18px; }
+    .docs { display: flex; flex-direction: column; gap: 6px; }
+    .docs a { display: block; min-width: 150px; text-align: center; font-size: 14px; font-weight: 700; text-decoration: none;
+      border: 1.5px solid var(--ink); border-radius: 8px; padding: 6px 12px; background: #fff; }
+    .docs a:hover { background: var(--accent-soft); }
 
-/* ---------- 프로젝트 카드 ---------- */
-.projects { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.pj .kind { font-size: 12.5px; font-weight: 700; color: var(--muted); }
-.pj h3 { font-size: 23px; margin: 2px 0 0; }
-.pj .desc { font-size: 15px; margin-bottom: 8px; }
-.pj .meta { font-size: 13px; color: var(--muted); margin-bottom: 8px; }
-.chips span { display: inline-block; font-size: 12px; border: 1px solid #c9ced8; border-radius: 10px; padding: 1px 9px; margin: 0 4px 5px 0; }
-.pj ul { margin: 6px 0 12px 18px; padding: 0; font-size: 14px; }
-.go { display: flex; gap: 8px; }
-.go a { flex: 1; text-align: center; font-weight: 700; font-size: 15px; border-radius: 8px; padding: 10px 0; text-decoration: none; }
-.go a.site { background: var(--accent); color: #fff; }
-.go a.gh { border: 1.5px solid var(--ink); }
-.go a:hover { opacity: .85; }
-.go a small { display: block; font-size: 12px; font-weight: 500; opacity: .85; margin-top: 1px; }   /* [추가]2026.11.24권성애 버튼 안 주소 */
-.demo { margin-top: 8px; font-size: 13px; background: var(--accent-soft); border-radius: 8px; padding: 8px 12px; }   /* [추가]2026.11.28권성애 체험 계정: 칸 맞춘 작은 표 */
-.demo .dt { font-weight: 800; font-size: 12.5px; color: var(--accent); margin-bottom: 3px; }   /* '체험 계정' 제목 */
-.demo .tbl { display: grid; grid-template-columns: auto auto auto; justify-content: start; column-gap: 14px; line-height: 1.7; }   /* 구분 | 아이디 | 비밀번호 — 비밀번호는 아이디 바로 옆, 줄마다 칸 맞춤 */
-.demo .tbl .k { color: var(--muted); }                       /* 회원 · 관리자 */
-.demo .tbl .pw { font-family: Consolas, monospace; }         /* 비밀번호 */
-.demo .note { font-size: 12px; color: var(--muted); margin-top: 2px; }   /* 테스트 결제 안내 */
+    /* ---------- 프로젝트 카드 ---------- */
+    .projects { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .pj .kind { font-size: 12.5px; font-weight: 700; color: var(--muted); }
+    .pj h3 { font-size: 23px; margin: 2px 0 0; }
+    .pj .desc { font-size: 15px; margin-bottom: 8px; }
+    .pj .meta { font-size: 13px; color: var(--muted); margin-bottom: 8px; }
+    .chips span { display: inline-block; font-size: 12px; border: 1px solid #c9ced8; border-radius: 10px; padding: 1px 9px; margin: 0 4px 5px 0; }
+    .pj ul { margin: 6px 0 12px 18px; padding: 0; font-size: 14px; }
+    .go { display: flex; gap: 8px; }
+    .go a { flex: 1; text-align: center; font-weight: 700; font-size: 15px; border-radius: 8px; padding: 10px 0; text-decoration: none; }
+    .go a.site { background: var(--accent); color: #fff; }
+    .go a.gh { border: 1.5px solid var(--ink); }
+    .go a:hover { opacity: .85; }
+    .go a small { display: block; font-size: 12px; font-weight: 500; opacity: .85; margin-top: 1px; }   /* [추가]2026.11.24권성애 버튼 안 주소 */
+    .demo { margin-top: 8px; font-size: 13px; background: var(--accent-soft); border-radius: 8px; padding: 8px 12px; }   /* [추가]2026.11.28권성애 체험 계정: 칸 맞춘 작은 표 */
+    .demo .dt { font-weight: 800; font-size: 12.5px; color: var(--accent); margin-bottom: 3px; }   /* '체험 계정' 제목 */
+    .demo .tbl { display: grid; grid-template-columns: auto auto auto; justify-content: start; column-gap: 14px; line-height: 1.7; }   /* 구분 | 아이디 | 비밀번호 — 비밀번호는 아이디 바로 옆, 줄마다 칸 맞춤 */
+    .demo .tbl .k { color: var(--muted); }                       /* 회원 · 관리자 */
+    .demo .tbl .pw { font-family: Consolas, monospace; }         /* 비밀번호 */
+    .demo .note { font-size: 12px; color: var(--muted); margin-top: 2px; }   /* 테스트 결제 안내 */
 
-/* ---------- 흰 띠 (위 · 아래 분리) ---------- */
-.band { background: #fff; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 30px 0 26px; margin: 48px 0 0; }
-.band .eyebrow { color: var(--accent); font-weight: 800; font-size: 13px; letter-spacing: 1px; }
-.band h1 { font-size: 28px; margin: 4px 0 6px; line-height: 1.35; }
+    /* ---------- 흰 띠 (위 · 아래 분리) ---------- */
+    .band { background: #fff; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 30px 0 26px; margin: 48px 0 0; }
+    .band .eyebrow { color: var(--accent); font-weight: 800; font-size: 13px; letter-spacing: 1px; }
+    .band h1 { font-size: 28px; margin: 4px 0 6px; line-height: 1.35; }
 
-/* [추가]2026.11.24권성애 섹션 띠: 로컬 · 실서버 제목을 흰 띠로 (전체 가로) */
-.secband { background: #fff; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
-           border-left: 6px solid var(--accent); padding: 18px 0 14px; margin: 44px 0 18px; }
-.secband .step { display: inline-block; background: var(--accent); color: #fff; font-size: 12.5px; font-weight: 800;
-                 border-radius: 12px; padding: 1px 11px; letter-spacing: .5px; }
-.secband h2 { font-size: 24px; margin: 6px 0 4px; }
-.secband .sub { margin: 0; }
-.secband + .wrap section { margin-top: 0; }
+    /* [추가]2026.11.24권성애 섹션 띠: 로컬 · 실서버 제목을 흰 띠로 (전체 가로) */
+    .secband { background: #fff; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+      border-left: 6px solid var(--accent); padding: 18px 0 14px; margin: 44px 0 18px; }
+    .secband .step { display: inline-block; background: var(--accent); color: #fff; font-size: 12.5px; font-weight: 800;
+      border-radius: 12px; padding: 1px 11px; letter-spacing: .5px; }
+    .secband h2 { font-size: 24px; margin: 6px 0 4px; }
+    .secband .sub { margin: 0; }
+    .secband + .wrap section { margin-top: 0; }
 
-/* ---------- 숫자 카드 ---------- */
-.result { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; background: #fff; border: 1px solid var(--line);
-          border-left: 6px solid var(--bad); border-radius: 0; margin: 18px 0 14px; position: relative; }   /* [추가]2026.11.28권성애 실서버 결론 카드 (붉은 포인트) */
-.result > div { padding: 14px 18px; border-right: 1px solid var(--line); }
-.result > div:last-child { border-right: none; }
-.result .lb { font-size: 12.5px; color: var(--bad); font-weight: 800; }   /* 작은 제목 (빨강) */
-.result .big { font-size: 26px; font-weight: 800; margin: 2px 0; }          /* 큰 숫자 */
-.result .big .up { color: var(--bad); background: #fde2e2; border-radius: 6px; padding: 0 6px; }   /* 핵심 숫자: 빨강 글자 + 연한 빨강 바탕 */
-.result .tag { position: absolute; top: -11px; left: 14px; background: var(--bad); color: #fff; font-size: 12px; font-weight: 800; padding: 2px 10px; border-radius: 10px; }   /* '결론' 꼬리표 */
-.result .ds { font-size: 13px; color: var(--muted); }                       /* 뜻 */
-.kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-.kpis.four { grid-template-columns: repeat(4, 1fr); }
-.kpi .l { font-size: 13px; color: var(--muted); }
-.kpi .v { font-size: 26px; font-weight: 800; margin: 2px 0; }
-.kpi .d { font-size: 12.5px; color: var(--muted); }
-.ok { color: var(--ok); } .bad { color: var(--bad); } .acc { color: var(--accent); }
+    /* ---------- 숫자 카드 ---------- */
+    .result { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; background: #fff; border: 1px solid var(--line);
+      border-left: 6px solid var(--bad); border-radius: 0; margin: 18px 0 14px; position: relative; }   /* [추가]2026.11.28권성애 실서버 결론 카드 (붉은 포인트) */
+    .result > div { padding: 14px 18px; border-right: 1px solid var(--line); }
+    .result > div:last-child { border-right: none; }
+    .result .lb { font-size: 12.5px; color: var(--bad); font-weight: 800; }   /* 작은 제목 (빨강) */
+    .result .big { font-size: 26px; font-weight: 800; margin: 2px 0; }          /* 큰 숫자 */
+    .result .big .up { color: var(--bad); background: #fde2e2; border-radius: 6px; padding: 0 6px; }   /* 핵심 숫자: 빨강 글자 + 연한 빨강 바탕 */
+    .result .tag { position: absolute; top: -11px; left: 14px; background: var(--bad); color: #fff; font-size: 12px; font-weight: 800; padding: 2px 10px; border-radius: 10px; }   /* '결론' 꼬리표 */
+    .result .ds { font-size: 13px; color: var(--muted); }                       /* 뜻 */
+    .kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .kpis.four { grid-template-columns: repeat(4, 1fr); }
+    .kpi .l { font-size: 13px; color: var(--muted); }
+    .kpi .v { font-size: 26px; font-weight: 800; margin: 2px 0; }
+    .kpi .d { font-size: 12.5px; color: var(--muted); }
+    .ok { color: var(--ok); } .bad { color: var(--bad); } .acc { color: var(--accent); }
 
-/* ---------- 표 ---------- */
-.scroll { overflow-x: auto; }               /* 휴대폰에서 표가 넓으면 옆으로 밀어 보기 */
-table { width: 100%; border-collapse: collapse; font-size: 13.5px; background: #fff; }
-th { text-align: left; color: var(--muted); font-weight: 700; border-bottom: 2px solid #c9ced8; padding: 7px 8px; white-space: nowrap; }
-td { border-bottom: 1px solid #e8ebf0; padding: 7px 8px; white-space: nowrap; }
-#localTable td:last-child { white-space: normal; min-width: 150px; }   /* 비고는 줄바꿈 허용 */
-tbody tr { cursor: pointer; }
-tbody tr:hover td { background: #fafbfc; }
-tr.sel td { background: var(--accent-soft) !important; }
-tr.dim td { color: #9aa1ad; }
-td.grp { font-weight: 800; background: #fff !important; cursor: default; }
-.b { display: inline-block; font-size: 11px; font-weight: 700; padding: 1px 7px; border-radius: 9px; }
-.b.ok { background: #dcf5e3; color: var(--ok); }
-.b.bad { background: #fde2e2; color: var(--bad); }
-.hint { font-size: 12.5px; color: var(--muted); margin: 6px 0 0; }
+    /* ---------- 표 ---------- */
+    .scroll { overflow-x: auto; }               /* 휴대폰에서 표가 넓으면 옆으로 밀어 보기 */
+    table { width: 100%; border-collapse: collapse; font-size: 13.5px; background: #fff; }
+    th { text-align: left; color: var(--muted); font-weight: 700; border-bottom: 2px solid #c9ced8; padding: 7px 8px; white-space: nowrap; }
+    td { border-bottom: 1px solid #e8ebf0; padding: 7px 8px; white-space: nowrap; }
+    #localTable td:last-child { white-space: normal; min-width: 150px; }   /* 비고는 줄바꿈 허용 */
+    tbody tr { cursor: pointer; }
+    tbody tr:hover td { background: #fafbfc; }
+    tr.sel td { background: var(--accent-soft) !important; }
+    tr.dim td { color: #9aa1ad; }
+    td.grp { font-weight: 800; background: #fff !important; cursor: default; }
+    .b { display: inline-block; font-size: 11px; font-weight: 700; padding: 1px 7px; border-radius: 9px; }
+    .b.ok { background: #dcf5e3; color: var(--ok); }
+    .b.bad { background: #fde2e2; color: var(--bad); }
+    .hint { font-size: 12.5px; color: var(--muted); margin: 6px 0 0; }
 
-/* ---------- 탭 · 버튼 ---------- */
-.tabs { display: flex; gap: 4px; border-bottom: 3px solid var(--ink); margin: 22px 0 10px; }
-.tabs button { border: 0; padding: 9px 20px; border-radius: 8px 8px 0 0; background: #e6e9ee; font: inherit; font-weight: 700; cursor: pointer; }
-.tabs button.on { background: var(--ink); color: #fff; }
-.btns { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 14px; }
-.btns button { border: 1.5px solid #c9ced8; background: #fff; border-radius: 18px; padding: 6px 15px; font: inherit; font-size: 13.5px; font-weight: 700; cursor: pointer; }
-.btns button.on { background: var(--accent); border-color: var(--accent); color: #fff; }
+    /* ---------- 탭 · 버튼 ---------- */
+    .tabs { display: flex; gap: 4px; border-bottom: 3px solid var(--ink); margin: 22px 0 10px; }
+    .tabs button { border: 0; padding: 9px 20px; border-radius: 8px 8px 0 0; background: #e6e9ee; font: inherit; font-weight: 700; cursor: pointer; }
+    .tabs button.on { background: var(--ink); color: #fff; }
+    .btns { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 14px; }
+    .btns button { border: 1.5px solid #c9ced8; background: #fff; border-radius: 18px; padding: 6px 15px; font: inherit; font-size: 13.5px; font-weight: 700; cursor: pointer; }
+    .btns button.on { background: var(--accent); border-color: var(--accent); color: #fff; }
 
-/* ---------- 상세 대시보드 ---------- */
-.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
-.card h4 { margin: 0 0 10px; font-size: 15px; }
-.bar { display: flex; align-items: center; gap: 8px; font-size: 13px; margin: 6px 0; }
-.bar .n { width: 130px; flex-shrink: 0; }
-.bar .t { flex: 1; background: #edf0f5; border-radius: 6px; height: 16px; overflow: hidden; }
-.bar .f { display: block; height: 16px; background: #c9d3e3; }
-.bar .f.on { background: var(--accent); }
-.bar .f.badf { background: #e5484d; }   /* [추가]2026.11.28권성애 깨짐 막대 분명한 빨강 (#f3b4b4에서 변경) */
-.bar .x { width: 92px; text-align: right; flex-shrink: 0; }
-pre { background: #fff; color: var(--ink);   /* [추가]2026.11.28권성애 흰 바탕 · 테두리 없음 */
+    /* ---------- 상세 대시보드 ---------- */
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
+    .card h4 { margin: 0 0 10px; font-size: 15px; }
+    .bar { display: flex; align-items: center; gap: 8px; font-size: 13px; margin: 6px 0; }
+    .bar .n { width: 130px; flex-shrink: 0; }
+    .bar .t { flex: 1; background: #edf0f5; border-radius: 6px; height: 16px; overflow: hidden; }
+    .bar .f { display: block; height: 16px; background: #c9d3e3; color: #fff; font-size: 11px; font-weight: 800; line-height: 16px; padding-left: 7px; white-space: nowrap; overflow: hidden; }   /* [추가]2026.11.28권성애 막대 안 글자 (선택 · 깨짐) */
+    .bar .f.on { background: var(--accent); }
+    .bar .f.badf { background: #e5484d; }   /* [추가]2026.11.28권성애 깨짐 막대 분명한 빨강 (#f3b4b4에서 변경) */
+    .bar .x { width: 92px; text-align: right; flex-shrink: 0; }
+    pre { background: #fff; color: var(--ink);   /* [추가]2026.11.28권성애 흰 바탕 · 테두리 없음 */
       border-radius: 8px; padding: 12px 14px; font-size: 12.5px; margin: 0;
       white-space: pre-wrap; word-break: break-all; font-family: Consolas, "D2Coding", monospace; }
-.story { font-size: 14.5px; }
-.caps { display: flex; gap: 10px; }
-.caps figure { flex: 1; margin: 0; }
-.caps img { width: 100%; border-radius: 6px; display: block; cursor: zoom-in; }
-.caps figcaption { font-size: 12.5px; color: var(--muted); margin-top: 4px; }
-.mini { width: auto; font-size: 13px; }
-.mini td, .mini th { padding: 4px 10px; text-align: center; }
+    .story { font-size: 14.5px; }
+    .caps { display: flex; gap: 10px; }
+    .caps figure { flex: 1; margin: 0; }
+    .caps img { width: 100%; border-radius: 6px; display: block; cursor: zoom-in; }
+    .caps figcaption { font-size: 12.5px; color: var(--muted); margin-top: 4px; }
+    .mini { width: auto; font-size: 13px; }
+    .mini td, .mini th { padding: 4px 10px; text-align: center; }
 
-/* ---------- 캡처 크게 보기 ---------- */
-#zoom { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.8); align-items: center; justify-content: center; padding: 20px; z-index: 10; cursor: zoom-out; }
-#zoom.show { display: flex; }
-#zoom img { max-width: 100%; max-height: 90vh; border-radius: 6px; }
+    /* ---------- 캡처 크게 보기 ---------- */
+    #zoom { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.8); align-items: center; justify-content: center; padding: 20px; z-index: 10; cursor: zoom-out; }
+    #zoom.show { display: flex; }
+    #zoom img { max-width: 100%; max-height: 90vh; border-radius: 6px; }
 
-footer { color: var(--muted); font-size: 12.5px; text-align: center; padding: 30px 0 40px; }
+    footer { color: var(--muted); font-size: 12.5px; text-align: center; padding: 30px 0 40px; }
 
-/* ---------- 휴대폰 (폭 760px 이하): 나란히 있던 것을 세로로 ---------- */
-@media (max-width: 760px) {
-  .top { flex-direction: column; align-items: flex-start; }
-  .top .contact { text-align: left; }
-  .top .right { flex-direction: column; align-items: flex-start; }   /* [추가]2026.11.26권성애 휴대폰: 버튼을 연락처 위로 */
-  .docs { flex-direction: row; }
-  .projects, .grid2, .kpis, .kpis.four, .result { grid-template-columns: 1fr; }
-  .result > div { border-right: none; border-bottom: 1px solid var(--line); }
-  .caps { flex-direction: column; }
-  .band h1 { font-size: 22px; }
-  .secband h2 { font-size: 19px; }
-}
-</style>
+    /* ---------- 휴대폰 (폭 760px 이하): 나란히 있던 것을 세로로 ---------- */
+    @media (max-width: 760px) {
+      .top { flex-direction: column; align-items: flex-start; }
+      .top .contact { text-align: left; }
+      .top .right { flex-direction: column; align-items: flex-start; }   /* [추가]2026.11.26권성애 휴대폰: 버튼을 연락처 위로 */
+      .docs { flex-direction: row; }
+      .projects, .grid2, .kpis, .kpis.four, .result { grid-template-columns: 1fr; }
+      .result > div { border-right: none; border-bottom: 1px solid var(--line); }
+      .caps { flex-direction: column; }
+      .band h1 { font-size: 22px; }
+      .secband h2 { font-size: 19px; }
+    }
+    .bar .f .lbl { font-style: normal; }
+    /* ---- [추가]2026.11.28권성애 PDF(흑백) 전용 : 모든 막대 = 흰 바탕 + 검정 테두리, 글자만 (빗금 · 회색 없음) ---- */
+    body.pdf .bar .t { background: none; border-radius: 0; overflow: visible; }
+    body.pdf .bar .f, body.pdf .bar .f.on, body.pdf .bar .f.badf { background: #fff; border: 1.2px solid #222; box-sizing: border-box; color: #000; border-radius: 3px; }
+    body.pdf .bar .f .lbl { background: none; border: none; padding: 0; color: #000; }
+  </style>
 </head>
 <body>
 
 <!-- =================== 머리 부분 =================== -->
 <!-- [추가]2026.11.26권성애 머리 부분을 전체 가로 흰 띠(.hero)로 감쌈 : 아래 '부하테스트 결과' 띠와 같은 모양 -->
 <div class="hero">
-<div class="wrap">
-  <div class="top">
-    <div class="me">
-      <!-- [추가]2026.11.26권성애 사진 : img/photo.jpg 를 넣으면 보임 (3:4 증명사진 비율) -->
-      <img class="photo" src="img/photo.jpg" alt="권성애 사진">
-      <div class="txt">
-        <div><div class="name">권성애</div>
-        <div class="role">백엔드 웹 개발자 · Java · Spring Boot · 동시성 · 배포</div></div>
-        <!-- [추가]2026.11.26권성애 한 줄 소개 (사진 아래선에 맞춤) -->
-        <div class="intro">측정하고, 근거로 판단하는 개발자입니다.</div>
+  <div class="wrap">
+    <div class="top">
+      <div class="me">
+        <!-- [추가]2026.11.26권성애 사진 : img/photo.jpg 를 넣으면 보임 (3:4 증명사진 비율) -->
+        <img class="photo" src="img/photo.jpg" alt="권성애 사진">
+        <div class="txt">
+          <div><div class="name">권성애</div>
+            <div class="role">백엔드 웹 개발자 · Java · Spring Boot · 동시성 · 배포</div></div>
+          <!-- [추가]2026.11.26권성애 한 줄 소개 (사진 아래선에 맞춤) -->
+          <div class="intro">측정하고, 근거로 판단하는 개발자입니다.</div>
+        </div>
       </div>
-    </div>
-    <div class="right">
-      <!-- [추가]2026.11.26권성애 PDF는 같은 폴더(portfolio/)에 넣고 새 탭으로 열기 : 서브도메인 추가 필요 없음 -->
-      <div class="docs">
-        <a href="resume.pdf" target="_blank" rel="noopener">📄 이력서 PDF ↗</a>
-        <a href="portfolio.pdf" target="_blank" rel="noopener">📁 포트폴리오 PDF ↗</a>
-      </div>
-      <div class="contact">
-        ✉ <a href="mailto:rnjstjddo88@naver.com">rnjstjddo88@naver.com</a><br>   <!-- [추가]2026.11.26권성애 이력서와 같은 naver 메일로 통일 -->
-        GitHub <a href="https://github.com/sungaekwon" target="_blank" rel="noopener">github.com/sungaekwon</a>
+      <div class="right">
+        <!-- [추가]2026.11.26권성애 PDF는 같은 폴더(portfolio/)에 넣고 새 탭으로 열기 : 서브도메인 추가 필요 없음 -->
+        <div class="docs">
+          <a href="resume.pdf" target="_blank" rel="noopener">📄 이력서 PDF ↗</a>
+          <a href="portfolio.pdf" target="_blank" rel="noopener">📁 포트폴리오 PDF ↗</a>
+        </div>
+        <div class="contact">
+          ✉ <a href="mailto:rnjstjddo88@naver.com">rnjstjddo88@naver.com</a><br>   <!-- [추가]2026.11.26권성애 이력서와 같은 naver 메일로 통일 -->
+          GitHub <a href="https://github.com/sungaekwon" target="_blank" rel="noopener">github.com/sungaekwon</a>
+        </div>
       </div>
     </div>
   </div>
-</div>
 </div>
 <div class="wrap">
 
@@ -256,7 +261,7 @@ footer { color: var(--muted); font-size: 12.5px; text-align: center; padding: 30
             <span class="k">회원</span><span>choi04@example.com</span><span class="pw">test1234</span>
             <span class="k">관리자</span><span>admin@example.com</span><span class="pw">test1234</span>
           </div>
-          </div>
+        </div>
       </div>
 
       <div class="box pj">
@@ -318,11 +323,11 @@ footer { color: var(--muted); font-size: 12.5px; text-align: center; padding: 30
 
 <div class="wrap">
   <section>
-    <!-- [추가]2026.11.28권성애 결론 카드: 표를 읽기 전에 핵심 3가지 -->
+    <!-- [추가]2026.11.28권성애 로컬 결론 카드: 15가지 방식 비교에서 고른 것 · 함정 · 깨짐 -->
     <div class="result"><span class="tag">결론</span>
-      <div><div class="lb">행 나누기</div><div class="big">38.4 → 55.0<small style="font-size:15px">/s</small> <span class="up">+43%</span></div><div class="ds">같은 부하를 회차 2개로 나누자 처리량 증가</div></div>
-      <div><div class="lb">병목</div><div class="big">락 줄 <span class="up">19</span> = 풀 − 1</div><div class="ds">커넥션 전부가 회차 한 행의 락 앞에서 대기</div></div>
-      <div><div class="lb">정확성</div><div class="big">초과 판매 <span class="up">0건</span></div><div class="ds">모든 측정에서 남은 자리 = 정원 − 예약 인원</div></div>
+      <div><div class="lb">선택</div><div class="big"><span class="up">atomic</span></div><div class="ds">세 구분 모두 정확 · 가장 빠름 (서블릿 290ms)</div></div>
+      <div><div class="lb">함정</div><div class="big">sync-tx 손실 <span class="up">50</span></div><div class="ds">커밋이 synchronized 밖에서 일어남</div></div>
+      <div><div class="lb">깨짐</div><div class="big">dirty 손실 <span class="up">90</span></div><div class="ds">에러 없이 조용히 깨짐 (none 도 같음)</div></div>
     </div>
     <div class="env">측정 환경: 내 PC 한 대 (앱 · MySQL 8.0) · JDK 21 · 커넥션 풀 10개(대기 3초) · JUnit = 100명 동시 예약 · k6 02 = 동시 100명 · k6 03 = 초당 200건 20초 · ✗ = 기준 미달(p95 500ms 초과 또는 요청 누락)</div>
     <div class="scroll"><table id="localTable"></table></div>
@@ -343,9 +348,9 @@ footer { color: var(--muted); font-size: 12.5px; text-align: center; padding: 30
         <div class="scroll"><table class="mini">
           <thead><tr><th>초당 요청</th><th>50</th><th>100</th><th>200</th><th>300</th><th>400</th></tr></thead>
           <tbody style="cursor:default">
-            <tr><td>실제 TPS</td><td>49.9</td><td>99.7</td><td>199.4</td><td><b>247</b></td><td><b>252</b></td></tr>
-            <tr><td>p95</td><td>9.7ms</td><td>8.0ms</td><td>12.4ms</td><td>1.94s ✗</td><td>2.11s ✗</td></tr>
-            <tr><td>누락</td><td>0</td><td>0</td><td>0</td><td>540</td><td>2414</td></tr>
+          <tr><td>실제 TPS</td><td>49.9</td><td>99.7</td><td>199.4</td><td><b>247</b></td><td><b>252</b></td></tr>
+          <tr><td>p95</td><td>9.7ms</td><td>8.0ms</td><td>12.4ms</td><td>1.94s ✗</td><td>2.11s ✗</td></tr>
+          <tr><td>누락</td><td>0</td><td>0</td><td>0</td><td>540</td><td>2414</td></tr>
           </tbody></table></div>
         <p class="hint">더 보내도 약 250에서 멈춤 = 모든 요청이 한 행에 몰린 핫스팟의 천장. 에러는 0.</p>
       </div>
@@ -394,9 +399,9 @@ footer { color: var(--muted); font-size: 12.5px; text-align: center; padding: 30
         </div>
       </div>
       <div class="box card">
-        <h4>로컬 vs 실서버 — 같은 실험, 다른 병목</h4>
+        <h4>로컬 vs 실서버 — 같은 실험, 다른 병목</h4>   <!-- [추가]2026.11.28권성애 녹청 막대 안 글자 -->
         <div class="bar"><span class="n">행 나누기 · 로컬</span><span class="t"><span class="f" style="width:1%"></span></span><span class="x">+0.2%</span></div>
-        <div class="bar"><span class="n"><b>행 나누기 · 실서버</b></span><span class="t"><span class="f on" style="width:100%"></span></span><span class="x"><b>+43%</b></span></div>
+        <div class="bar"><span class="n"><b>행 나누기 · 실서버</b></span><span class="t"><span class="f on" style="width:100%"><i class="lbl">효과 있음 · 병목 = 한 행의 락</i></span></span><span class="x"><b>+43%</b></span></div>
         <div class="bar"><span class="n">풀 20→30 · 로컬</span><span class="t"><span class="f" style="width:1%"></span></span><span class="x">−0.5%</span></div>
         <div class="bar"><span class="n">풀 20→30 · 실서버</span><span class="t"><span class="f" style="width:1%"></span></span><span class="x">−2%</span></div>
         <p class="hint">로컬은 초당 100을 93~94 로 거의 다 처리 = 아직 병목 전 / 실서버 병목 = 한 행의 락 (락 줄 = 풀 − 1, 받기 620ms ≫ 쥐기 84ms)</p>
@@ -415,203 +420,205 @@ footer { color: var(--muted); font-size: 12.5px; text-align: center; padding: 30
 <div id="zoom"><img alt=""></div>
 
 <script>
-/* =====================================================================
-   데이터 — 숫자가 바뀌면 여기만 고치면 됨
-   ===================================================================== */
+  /* =====================================================================
+     데이터 — 숫자가 바뀌면 여기만 고치면 됨
+     ===================================================================== */
 
-// ③ 로컬 15가지 방식
-//   junit  : JUnit 1차 시간(ms)      ok   : 정합성 (true = OK, false = 깨짐)
-//   loss   : JUnit 손실 · 실패        k02  : k6 02 p95 (동시 100명)
-//   k02loss: k6 02 손실 · 충돌        k03  : k6 03 p95 (초당 200건)
-//   k03loss: k6 03 손실 · 충돌        note : 비고
-const LOCAL = {
-  "서블릿": [
-    { m: "none",        what: "락 없음: SELECT → 계산 → 고정값 UPDATE", junit: 592, ok: false, loss: "손실 89 / 90", k02: "377ms", k02loss: "손실 89", k03: "9.6ms",  k03loss: "손실 666 (17%)", note: "" },
-    { m: "sync",        what: "synchronized로 한 줄 세우기",          junit: 503, ok: true,  loss: "0",           k02: "815ms", k02loss: "0",       k03: "2.73s ✗", k03loss: "0",              note: "TPS 163에서 한계" },
-    { m: "atomic",      what: "UPDATE … SET n = n - 1 WHERE n >= 1",  junit: 290, ok: true,  loss: "0",           k02: "388ms", k02loss: "0",       k03: "10.1ms", k03loss: "0",              note: "천장 ≈ 250 TPS · 150명 요청 시 성공 100 · 매진 50" },
-    { m: "pessimistic", what: "SELECT … FOR UPDATE",                  junit: 376, ok: true,  loss: "0",           k02: "477ms", k02loss: "0",       k03: "15.7ms", k03loss: "0",              note: "" },
-    { m: "optimistic",  what: "version 비교 UPDATE",                   junit: 537, ok: true,  loss: "실패 12 / 9",  k02: "676ms", k02loss: "충돌 21", k03: "324ms",  k03loss: "충돌 292 (7%)",  note: "" }
-  ],
-  "부트 JDBC": [
-    { m: "none",        what: "락 없음 (JdbcTemplate)",                junit: 402, ok: false, loss: "손실 90", k02: "414ms", k02loss: "손실 90", k03: "10.2ms",  k03loss: "손실 1140 (28%)", note: "" },
-    { m: "sync",        what: "synchronized 안에서 커밋까지",          junit: 727, ok: true,  loss: "0",       k02: "724ms", k02loss: "0",       k03: "2.70s ✗", k03loss: "0",               note: "TPS 164에서 한계" },
-    { m: "atomic",      what: "원자적 UPDATE",                         junit: 388, ok: true,  loss: "0",       k02: "392ms", k02loss: "0",       k03: "11.1ms",  k03loss: "0",               note: "" },
-    { m: "pessimistic", what: "SELECT … FOR UPDATE",                   junit: 465, ok: true,  loss: "0",       k02: "478ms", k02loss: "0",       k03: "178ms",   k03loss: "0",               note: "" },
-    { m: "optimistic",  what: "version 비교 UPDATE",                    junit: 648, ok: true,  loss: "실패 15", k02: "542ms", k02loss: "충돌 18", k03: "1.32s ✗", k03loss: "충돌 1010 (25%)", note: "" }
-  ],
-  "부트 JPA": [
-    { m: "dirty",       what: "엔티티 변경 감지 (옛 값으로 덮어씀)",    junit: 962,  ok: false, loss: "손실 90", k02: "610ms", k02loss: "손실 90", k03: "88ms",    k03loss: "손실 1838 (46%)", note: "" },
-    { m: "sync-tx",     what: "@Transactional + synchronized",          junit: 545,  ok: false, loss: "손실 50", k02: "416ms", k02loss: "손실 50", k03: "13ms",    k03loss: "손실 1385 (35%)", note: "커밋이 락 밖 → 손실" },
-    { m: "atomic",      what: "@Modifying JPQL 원자적 UPDATE",          junit: 558,  ok: true,  loss: "0",       k02: "510ms", k02loss: "0",       k03: "38.8ms",  k03loss: "0",               note: "" },
-    { m: "pessimistic", what: "@Lock(PESSIMISTIC_WRITE)",               junit: 682,  ok: true,  loss: "0",       k02: "588ms", k02loss: "0",       k03: "606ms ✗", k03loss: "0",               note: "누락 72" },
-    { m: "optimistic",  what: "@Version",                               junit: 1037, ok: true,  loss: "실패 24", k02: "791ms", k02loss: "충돌 19", k03: "3.83s ✗", k03loss: "충돌 1176 (29%)", note: "누락 596" }
-  ]
-};
+  // ③ 로컬 15가지 방식
+  //   junit  : JUnit 1차 시간(ms)      ok   : 정합성 (true = OK, false = 깨짐)
+  //   loss   : JUnit 손실 · 실패        k02  : k6 02 p95 (동시 100명)
+  //   k02loss: k6 02 손실 · 충돌        k03  : k6 03 p95 (초당 200건)
+  //   k03loss: k6 03 손실 · 충돌        note : 비고
+  const LOCAL = {
+    "서블릿": [
+      { m: "none",        what: "락 없음: SELECT → 계산 → 고정값 UPDATE", junit: 592, ok: false, loss: "손실 89 / 90", k02: "377ms", k02loss: "손실 89", k03: "9.6ms",  k03loss: "손실 666 (17%)", note: "" },
+      { m: "sync",        what: "synchronized로 한 줄 세우기",          junit: 503, ok: true,  loss: "0",           k02: "815ms", k02loss: "0",       k03: "2.73s ✗", k03loss: "0",              note: "TPS 163에서 한계" },
+      { m: "atomic",      what: "UPDATE … SET n = n - 1 WHERE n >= 1",  junit: 290, ok: true,  loss: "0",           k02: "388ms", k02loss: "0",       k03: "10.1ms", k03loss: "0",              note: "천장 ≈ 250 TPS · 150명 요청 시 성공 100 · 매진 50" },
+      { m: "pessimistic", what: "SELECT … FOR UPDATE",                  junit: 376, ok: true,  loss: "0",           k02: "477ms", k02loss: "0",       k03: "15.7ms", k03loss: "0",              note: "" },
+      { m: "optimistic",  what: "version 비교 UPDATE",                   junit: 537, ok: true,  loss: "실패 12 / 9",  k02: "676ms", k02loss: "충돌 21", k03: "324ms",  k03loss: "충돌 292 (7%)",  note: "" }
+    ],
+    "부트 JDBC": [
+      { m: "none",        what: "락 없음 (JdbcTemplate)",                junit: 402, ok: false, loss: "손실 90", k02: "414ms", k02loss: "손실 90", k03: "10.2ms",  k03loss: "손실 1140 (28%)", note: "" },
+      { m: "sync",        what: "synchronized 안에서 커밋까지",          junit: 727, ok: true,  loss: "0",       k02: "724ms", k02loss: "0",       k03: "2.70s ✗", k03loss: "0",               note: "TPS 164에서 한계" },
+      { m: "atomic",      what: "원자적 UPDATE",                         junit: 388, ok: true,  loss: "0",       k02: "392ms", k02loss: "0",       k03: "11.1ms",  k03loss: "0",               note: "" },
+      { m: "pessimistic", what: "SELECT … FOR UPDATE",                   junit: 465, ok: true,  loss: "0",       k02: "478ms", k02loss: "0",       k03: "178ms",   k03loss: "0",               note: "" },
+      { m: "optimistic",  what: "version 비교 UPDATE",                    junit: 648, ok: true,  loss: "실패 15", k02: "542ms", k02loss: "충돌 18", k03: "1.32s ✗", k03loss: "충돌 1010 (25%)", note: "" }
+    ],
+    "부트 JPA": [
+      { m: "dirty",       what: "엔티티 변경 감지 (옛 값으로 덮어씀)",    junit: 962,  ok: false, loss: "손실 90", k02: "610ms", k02loss: "손실 90", k03: "88ms",    k03loss: "손실 1838 (46%)", note: "" },
+      { m: "sync-tx",     what: "@Transactional + synchronized",          junit: 545,  ok: false, loss: "손실 50", k02: "416ms", k02loss: "손실 50", k03: "13ms",    k03loss: "손실 1385 (35%)", note: "커밋이 락 밖 → 손실" },
+      { m: "atomic",      what: "@Modifying JPQL 원자적 UPDATE",          junit: 558,  ok: true,  loss: "0",       k02: "510ms", k02loss: "0",       k03: "38.8ms",  k03loss: "0",               note: "" },
+      { m: "pessimistic", what: "@Lock(PESSIMISTIC_WRITE)",               junit: 682,  ok: true,  loss: "0",       k02: "588ms", k02loss: "0",       k03: "606ms ✗", k03loss: "0",               note: "누락 72" },
+      { m: "optimistic",  what: "@Version",                               junit: 1037, ok: true,  loss: "실패 24", k02: "791ms", k02loss: "충돌 19", k03: "3.83s ✗", k03loss: "충돌 1176 (29%)", note: "누락 596" }
+    ]
+  };
 
-// ③ 방식별 핵심 코드와 한 줄 설명 (탭이 달라도 같은 방식이면 같은 설명, JPA 전용은 따로)
-const LOCAL_CODE = {
-  "none": {
-    code: "SELECT remaining FROM tour WHERE id = 1;   -- 둘이 같은 값(10)을 읽음\n-- 자바에서 10 - 1 = 9 계산\nUPDATE tour SET remaining = 9 WHERE id = 1; -- 둘 다 9 를 씀 → 1건 사라짐",
-    story: "읽고 → 계산하고 → 고정값으로 쓰는 사이에 다른 요청이 끼어들어 같은 값을 덮어씀(갱신 손실). 에러가 나지 않아 로그만으로는 알 수 없음."
-  },
-  "sync": {
-    code: "synchronized (lock) {\n    // 읽기 → 계산 → 쓰기 → 커밋까지 이 안에서\n}\n// 한 JVM 안에서만 한 줄로 세움 → 서버가 2대면 서로 모름",
-    story: "정확하지만 모든 요청이 자바 락 앞에서 한 줄로 대기. 부하가 커지면 대기가 쌓여 응답 시간이 초 단위로 증가, 서버를 늘려도 효과 없음."
-  },
-  "atomic": {
-    code: "UPDATE tour\n   SET remaining = remaining - 1\n WHERE id = 1\n   AND remaining >= 1;   -- 1행 = 성공, 0행 = 매진\n-- 확인과 차감을 한 문장으로 → 행 락이 짧게 한 줄로 세움",
-    story: "남은 자리 확인과 차감을 DB 한 문장으로 처리해 끼어들 틈이 없음. 세 구분 모두 정확하고 가장 빨라 부산한바퀴에 적용."
-  },
-  "pessimistic": {
-    code: "SELECT remaining FROM tour WHERE id = 1 FOR UPDATE;  -- 읽을 때부터 X 락\nUPDATE tour SET remaining = ? WHERE id = 1;\nCOMMIT;   -- 여기서 락이 풀림",
-    story: "읽는 순간부터 커밋까지 행을 잠가 정확함. 다만 락을 쥐는 시간이 atomic보다 길어 부하가 커질수록 대기 증가."
-  },
-  "optimistic": {
-    code: "UPDATE tour\n   SET remaining = ?, version = version + 1\n WHERE id = 1 AND version = ?;  -- 0행 = 누가 먼저 바꿈 → 실패/재시도",
-    story: "락 없이 버전으로 충돌을 감지. 정합성은 지키지만 같은 행에 몰리는 선착순에서는 충돌 · 재시도가 폭증해 부적합."
-  },
-  "dirty": {
-    code: "Tour t = tourRepository.findById(1L).get();  // 옛 값을 읽음\nt.decrease();                                // 메모리에서 -1\n// 커밋 때 UPDATE tour SET remaining = 9 … (계산된 고정값)",
-    story: "JPA 변경 감지는 '읽은 값 - 1'을 고정값으로 덮어써서 락 없는 none과 같은 이유로 깨짐. 편리함 뒤에 숨은 갱신 손실."
-  },
-  "sync-tx": {
-    code: "@Transactional\npublic synchronized void reserve() { … }\n// 프록시가 커밋하는 시점 = 메서드(락)가 끝난 '뒤'\n// → 락이 풀리고 커밋 전인 틈에 다음 스레드가 옛 값을 읽음",
-    story: "서블릿 sync는 OK인데 JPA에서는 50건 손실. 커밋이 synchronized 밖에서 일어나는 함정을 실험으로 확인."
+  // ③ 방식별 핵심 코드와 한 줄 설명 (탭이 달라도 같은 방식이면 같은 설명, JPA 전용은 따로)
+  const LOCAL_CODE = {
+    "none": {
+      code: "SELECT remaining FROM tour WHERE id = 1;   -- 둘이 같은 값(10)을 읽음\n-- 자바에서 10 - 1 = 9 계산\nUPDATE tour SET remaining = 9 WHERE id = 1; -- 둘 다 9 를 씀 → 1건 사라짐",
+      story: "읽고 → 계산하고 → 고정값으로 쓰는 사이에 다른 요청이 끼어들어 같은 값을 덮어씀(갱신 손실). 에러가 나지 않아 로그만으로는 알 수 없음."
+    },
+    "sync": {
+      code: "synchronized (lock) {\n    // 읽기 → 계산 → 쓰기 → 커밋까지 이 안에서\n}\n// 한 JVM 안에서만 한 줄로 세움 → 서버가 2대면 서로 모름",
+      story: "정확하지만 모든 요청이 자바 락 앞에서 한 줄로 대기. 부하가 커지면 대기가 쌓여 응답 시간이 초 단위로 증가, 서버를 늘려도 효과 없음."
+    },
+    "atomic": {
+      code: "UPDATE tour\n   SET remaining = remaining - 1\n WHERE id = 1\n   AND remaining >= 1;   -- 1행 = 성공, 0행 = 매진\n-- 확인과 차감을 한 문장으로 → 행 락이 짧게 한 줄로 세움",
+      story: "남은 자리 확인과 차감을 DB 한 문장으로 처리해 끼어들 틈이 없음. 세 구분 모두 정확하고 가장 빨라 부산한바퀴에 적용."
+    },
+    "pessimistic": {
+      code: "SELECT remaining FROM tour WHERE id = 1 FOR UPDATE;  -- 읽을 때부터 X 락\nUPDATE tour SET remaining = ? WHERE id = 1;\nCOMMIT;   -- 여기서 락이 풀림",
+      story: "읽는 순간부터 커밋까지 행을 잠가 정확함. 다만 락을 쥐는 시간이 atomic보다 길어 부하가 커질수록 대기 증가."
+    },
+    "optimistic": {
+      code: "UPDATE tour\n   SET remaining = ?, version = version + 1\n WHERE id = 1 AND version = ?;  -- 0행 = 누가 먼저 바꿈 → 실패/재시도",
+      story: "락 없이 버전으로 충돌을 감지. 정합성은 지키지만 같은 행에 몰리는 선착순에서는 충돌 · 재시도가 폭증해 부적합."
+    },
+    "dirty": {
+      code: "Tour t = tourRepository.findById(1L).get();  // 옛 값을 읽음\nt.decrease();                                // 메모리에서 -1\n// 커밋 때 UPDATE tour SET remaining = 9 … (계산된 고정값)",
+      story: "JPA 변경 감지는 '읽은 값 - 1'을 고정값으로 덮어써서 락 없는 none과 같은 이유로 깨짐. 편리함 뒤에 숨은 갱신 손실."
+    },
+    "sync-tx": {
+      code: "@Transactional\npublic synchronized void reserve() { … }\n// 프록시가 커밋하는 시점 = 메서드(락)가 끝난 '뒤'\n// → 락이 풀리고 커밋 전인 틈에 다음 스레드가 옛 값을 읽음",
+      story: "서블릿 sync는 OK인데 JPA에서는 50건 손실. 커밋이 synchronized 밖에서 일어나는 함정을 실험으로 확인."
+    }
+  };
+
+  // ④ 실서버 측정
+  //   p95: 예약 · 결제 · 취소 순서     dim: 참고용 행(회색)
+  const SERVER = [   // [추가]2026.11.24권성애 2026.11.22 재측정 값 (lockq = 락 줄 최대, acq = 커넥션 받기 / 쥐기 ms)
+    { no: 1, name: "01 동시 예약 500명 → 100석", from: "PC", pool: 20, rows: 1, tps: "-", p95: "(예약 1.3~1.6s)", lockq: "17~18", acq: "240 / 60", fail: "0%", ok: true, btn: "01 동시 예약",
+      cards: [["결과", "정확히 100석", "3회 모두 500명 중 100명만 성공"], ["503 응답", "0건", "11-14 첫 측정 30건 → 예열 뒤 0"], ["풀 앞 줄 최대", "179", "길어도 모두 3초 안에 커넥션 받음"], ["정합성", "OK", "남은 0 + 예약 100 = 100"]],
+      code: "k6 run -e BASE=https://bustour.trave2026.kro.kr k6/01-reserve-spike.js\n# 로그인 500명을 미리 만들어 두고(setup) 한 번에 예약",
+      story: "500명이 동시에 100석을 노려도 3번 모두 정확히 100명만 성공. 풀 앞에 179명까지 줄을 섰지만 3초 안에 모두 차례가 와 503 없음." },
+    { no: 2, name: "02 RATE 50", from: "PC", pool: 20, rows: 1, tps: "35.0", p95: "0.9~2.0 · 1.6~3.1 · 1.3~2.8s", lockq: "19", acq: "345 / 85", fail: "0%", ok: true, dim: true, btn: null },
+    { no: 3, name: "02 RATE 100 (예약 → 결제 → 취소)", from: "PC", pool: 20, rows: 1, tps: "38.4", p95: "4.0 · 5.2 · 4.7s", lockq: "19", acq: "620 / 84", fail: "0.06%", ok: true, btn: "RATE 100",
+      cards: [["처리량", "38.4/s", "3회 38.6 · 38.6 · 38.1 — 초당 100을 보내도 여기서 멈춤"], ["락 줄 최대", "19", "= 풀 20 − 1 : 커넥션 전부가 한 행 앞에"], ["받기 / 쥐기", "620 / 84ms", "쥐는 동안 락을 기다려 풀 앞에 줄 (약 175)"], ["정합성", "OK", "503 5~7건은 3초 초과 = 다시 누르면 됨"]],
+      code: "k6 run -e BASE=https://bustour.trave2026.kro.kr \\\n       -e RATE=100 k6/02-reserve-pay.js\n# 같은 회차(1행)에 예약 · 결제 · 취소\n# 측정 전후: Actuator(hikaricp.connections.*) + SHOW GLOBAL STATUS LIKE 'Innodb_row_lock%'",
+      story: "한 회차에 모든 요청을 몰자 초당 38건에서 정체. 행 락을 기다리는 트랜잭션이 늘 19개(= 풀 20 − 1) — 커넥션 전부가 회차 한 행 앞에 묶여 있음." },
+    { no: 4, name: "행 나누기 (회차 2개)", from: "PC", pool: 20, rows: 2, tps: "55.0 (+43%)", p95: "2.7 · 3.5 · 3.1s", lockq: "17~18", acq: "411 / 59", fail: "0%", ok: true, btn: "행 나누기",
+      cards: [["처리량", "55.0/s", "한 행 38.4/s → +43%"], ["락 평균 대기", "120ms", "한 행 205ms → 줄이 두 행으로 갈라짐"], ["p95 예약 · 결제 · 취소", "2.7 · 3.5 · 3.1s", "한 행 4.0 · 5.2 · 4.7s"], ["정합성", "OK · OK", "회차 2 · 3 모두"]],
+      code: "# 예약을 회차 2 · 3 에 번갈아 → 한 행에 몰리던 락이 두 행으로\nk6 run -e BASE=https://bustour.trave2026.kro.kr \\\n       -e RATE=100 -e SCHEDULES=2,3 k6/02-reserve-pay.js",
+      story: "같은 부하를 회차 두 개로 나누자 처리량이 43% 증가. 커넥션을 늘린 실험과 달리 행을 나눈 실험만 효과가 있어, 병목이 한 행의 락이라는 것을 확인. (앱 CPU 가 100% 근처 → 그다음 병목은 CPU)" },
+    { no: 5, name: "풀 30", from: "PC", pool: 30, rows: 1, tps: "37.8 (−2%)", p95: "3.9 · 5.0 · 4.7s", lockq: "29", acq: "584 / 125", fail: "0.02%", ok: true, btn: "풀 30",
+      cards: [["처리량", "37.8/s", "풀 20 의 38.4/s 와 같음 (−2%)"], ["락 줄 최대", "29", "= 풀 30 − 1 : 늘린 커넥션만큼 줄도 길어짐"], ["락 평균 대기", "320ms", "풀 20 일 때 205ms"], ["쥐기", "125ms", "풀 20 일 때 84ms"]],
+      code: "-- 측정 중 1초마다: 지금 행 락을 기다리는 수\nSHOW GLOBAL STATUS LIKE 'Innodb_row_lock_current_waits';\n-- 풀 20 → 최대 19, 풀 30 → 최대 29",
+      story: "커넥션을 30개로 늘려도 처리량은 그대로, 한 행 앞에서 기다리는 줄만 19에서 29로 증가. 풀 대기는 원인이 아니라 결과라서 운영 설정은 20 유지. (재시작 직후 1회차 32.0 은 예열 전이라 제외)" },
+    { no: 6, name: "임시 서버에서 부하 (11-14)", from: "k6-temp", pool: 30, rows: 1, tps: "41.6", p95: "3.5 · 4.3 · 4.2s", lockq: "-", acq: "-", fail: "0.01%", ok: true, dim: true, btn: "임시 서버",
+      cards: [["처리량", "41.6/s", "같은 날 내 PC에서 보낼 때 40.8/s"], ["부하 보낸 곳", "서울 임시 서버", "Lightsail 같은 리전"], ["결론", "PC 원인 ✘", "회선 · PC가 병목 아님"], ["측정일", "11-14", "재측정 전 첫 측정"]],
+      code: "# 같은 리전에 k6 전용 임시 서버를 만들어 같은 명령\nk6 run -e BASE=https://bustour.trave2026.kro.kr \\\n       -e RATE=100 k6/02-reserve-pay.js",
+      story: "부하를 보내는 쪽이 원인일 수 있어 11-14 첫 측정 때 서울 리전 임시 서버에서 다시 측정. 결과가 PC와 같아 병목은 네트워크가 아니라 서버 안." },
+    { no: 7, name: "03 메인 화면 RATE 200", from: "PC", pool: 30, rows: "-", tps: "199.6", p95: "89~94ms", lockq: "0", acq: "0.1 / 9", fail: "0%", ok: null, btn: "03 메인",
+      cards: [["처리량", "199.6/s", "초당 200 요청을 거의 다 처리"], ["p95", "89~94ms", "1회차 153ms (예열 중)"], ["락 · 커넥션 대기", "0 · 0.1ms", "조회는 줄이 없음"], ["날씨", "1시간 캐시", "열 때마다 기상청을 부르지 않음"]],
+      code: "k6 run -e BASE=https://bustour.trave2026.kro.kr \\\n       -e RATE=200 k6/03-main-page.js\n# 투어 목록 + 날씨(@Cacheable) 메인 화면",
+      story: "락이 없는 조회 화면은 초당 200건도 0.1초 안에 응답. 느린 것은 서버 전체가 아니라 한 행에 몰리는 쓰기라는 점을 다시 확인." }
+  ];
+
+  /* =====================================================================
+     그리기 — 아래는 고칠 일이 거의 없음
+     ===================================================================== */
+  const TABS = Object.keys(LOCAL);
+  let curTab = "서블릿", curM = "atomic";
+
+  function badge(ok) {
+    if (ok === null) return "-";
+    return ok ? '<span class="b ok">OK</span>' : '<span class="b bad">깨짐</span>';
   }
-};
 
-// ④ 실서버 측정
-//   p95: 예약 · 결제 · 취소 순서     dim: 참고용 행(회색)
-const SERVER = [   // [추가]2026.11.24권성애 2026.11.22 재측정 값 (lockq = 락 줄 최대, acq = 커넥션 받기 / 쥐기 ms)
-  { no: 1, name: "01 동시 예약 500명 → 100석", from: "PC", pool: 20, rows: 1, tps: "-", p95: "(예약 1.3~1.6s)", lockq: "17~18", acq: "240 / 60", fail: "0%", ok: true, btn: "01 동시 예약",
-    cards: [["결과", "정확히 100석", "3회 모두 500명 중 100명만 성공"], ["503 응답", "0건", "11-14 첫 측정 30건 → 예열 뒤 0"], ["풀 앞 줄 최대", "179", "길어도 모두 3초 안에 커넥션 받음"], ["정합성", "OK", "남은 0 + 예약 100 = 100"]],
-    code: "k6 run -e BASE=https://bustour.trave2026.kro.kr k6/01-reserve-spike.js\n# 로그인 500명을 미리 만들어 두고(setup) 한 번에 예약",
-    story: "500명이 동시에 100석을 노려도 3번 모두 정확히 100명만 성공. 풀 앞에 179명까지 줄을 섰지만 3초 안에 모두 차례가 와 503 없음." },
-  { no: 2, name: "02 RATE 50", from: "PC", pool: 20, rows: 1, tps: "35.0", p95: "0.9~2.0 · 1.6~3.1 · 1.3~2.8s", lockq: "19", acq: "345 / 85", fail: "0%", ok: true, dim: true, btn: null },
-  { no: 3, name: "02 RATE 100 (예약 → 결제 → 취소)", from: "PC", pool: 20, rows: 1, tps: "38.4", p95: "4.0 · 5.2 · 4.7s", lockq: "19", acq: "620 / 84", fail: "0.06%", ok: true, btn: "RATE 100",
-    cards: [["처리량", "38.4/s", "3회 38.6 · 38.6 · 38.1 — 초당 100을 보내도 여기서 멈춤"], ["락 줄 최대", "19", "= 풀 20 − 1 : 커넥션 전부가 한 행 앞에"], ["받기 / 쥐기", "620 / 84ms", "쥐는 동안 락을 기다려 풀 앞에 줄 (약 175)"], ["정합성", "OK", "503 5~7건은 3초 초과 = 다시 누르면 됨"]],
-    code: "k6 run -e BASE=https://bustour.trave2026.kro.kr \\\n       -e RATE=100 k6/02-reserve-pay.js\n# 같은 회차(1행)에 예약 · 결제 · 취소\n# 측정 전후: Actuator(hikaricp.connections.*) + SHOW GLOBAL STATUS LIKE 'Innodb_row_lock%'",
-    story: "한 회차에 모든 요청을 몰자 초당 38건에서 정체. 행 락을 기다리는 트랜잭션이 늘 19개(= 풀 20 − 1) — 커넥션 전부가 회차 한 행 앞에 묶여 있음." },
-  { no: 4, name: "행 나누기 (회차 2개)", from: "PC", pool: 20, rows: 2, tps: "55.0 (+43%)", p95: "2.7 · 3.5 · 3.1s", lockq: "17~18", acq: "411 / 59", fail: "0%", ok: true, btn: "행 나누기",
-    cards: [["처리량", "55.0/s", "한 행 38.4/s → +43%"], ["락 평균 대기", "120ms", "한 행 205ms → 줄이 두 행으로 갈라짐"], ["p95 예약 · 결제 · 취소", "2.7 · 3.5 · 3.1s", "한 행 4.0 · 5.2 · 4.7s"], ["정합성", "OK · OK", "회차 2 · 3 모두"]],
-    code: "# 예약을 회차 2 · 3 에 번갈아 → 한 행에 몰리던 락이 두 행으로\nk6 run -e BASE=https://bustour.trave2026.kro.kr \\\n       -e RATE=100 -e SCHEDULES=2,3 k6/02-reserve-pay.js",
-    story: "같은 부하를 회차 두 개로 나누자 처리량이 43% 증가. 커넥션을 늘린 실험과 달리 행을 나눈 실험만 효과가 있어, 병목이 한 행의 락이라는 것을 확인. (앱 CPU 가 100% 근처 → 그다음 병목은 CPU)" },
-  { no: 5, name: "풀 30", from: "PC", pool: 30, rows: 1, tps: "37.8 (−2%)", p95: "3.9 · 5.0 · 4.7s", lockq: "29", acq: "584 / 125", fail: "0.02%", ok: true, btn: "풀 30",
-    cards: [["처리량", "37.8/s", "풀 20 의 38.4/s 와 같음 (−2%)"], ["락 줄 최대", "29", "= 풀 30 − 1 : 늘린 커넥션만큼 줄도 길어짐"], ["락 평균 대기", "320ms", "풀 20 일 때 205ms"], ["쥐기", "125ms", "풀 20 일 때 84ms"]],
-    code: "-- 측정 중 1초마다: 지금 행 락을 기다리는 수\nSHOW GLOBAL STATUS LIKE 'Innodb_row_lock_current_waits';\n-- 풀 20 → 최대 19, 풀 30 → 최대 29",
-    story: "커넥션을 30개로 늘려도 처리량은 그대로, 한 행 앞에서 기다리는 줄만 19에서 29로 증가. 풀 대기는 원인이 아니라 결과라서 운영 설정은 20 유지. (재시작 직후 1회차 32.0 은 예열 전이라 제외)" },
-  { no: 6, name: "임시 서버에서 부하 (11-14)", from: "k6-temp", pool: 30, rows: 1, tps: "41.6", p95: "3.5 · 4.3 · 4.2s", lockq: "-", acq: "-", fail: "0.01%", ok: true, dim: true, btn: "임시 서버",
-    cards: [["처리량", "41.6/s", "같은 날 내 PC에서 보낼 때 40.8/s"], ["부하 보낸 곳", "서울 임시 서버", "Lightsail 같은 리전"], ["결론", "PC 원인 ✘", "회선 · PC가 병목 아님"], ["측정일", "11-14", "재측정 전 첫 측정"]],
-    code: "# 같은 리전에 k6 전용 임시 서버를 만들어 같은 명령\nk6 run -e BASE=https://bustour.trave2026.kro.kr \\\n       -e RATE=100 k6/02-reserve-pay.js",
-    story: "부하를 보내는 쪽이 원인일 수 있어 11-14 첫 측정 때 서울 리전 임시 서버에서 다시 측정. 결과가 PC와 같아 병목은 네트워크가 아니라 서버 안." },
-  { no: 7, name: "03 메인 화면 RATE 200", from: "PC", pool: 30, rows: "-", tps: "199.6", p95: "89~94ms", lockq: "0", acq: "0.1 / 9", fail: "0%", ok: null, btn: "03 메인",
-    cards: [["처리량", "199.6/s", "초당 200 요청을 거의 다 처리"], ["p95", "89~94ms", "1회차 153ms (예열 중)"], ["락 · 커넥션 대기", "0 · 0.1ms", "조회는 줄이 없음"], ["날씨", "1시간 캐시", "열 때마다 기상청을 부르지 않음"]],
-    code: "k6 run -e BASE=https://bustour.trave2026.kro.kr \\\n       -e RATE=200 k6/03-main-page.js\n# 투어 목록 + 날씨(@Cacheable) 메인 화면",
-    story: "락이 없는 조회 화면은 초당 200건도 0.1초 안에 응답. 느린 것은 서버 전체가 아니라 한 행에 몰리는 쓰기라는 점을 다시 확인." }
-];
-
-/* =====================================================================
-   그리기 — 아래는 고칠 일이 거의 없음
-   ===================================================================== */
-const TABS = Object.keys(LOCAL);
-let curTab = "서블릿", curM = "atomic";
-
-function badge(ok) {
-  if (ok === null) return "-";
-  return ok ? '<span class="b ok">OK</span>' : '<span class="b bad">깨짐</span>';
-}
-
-// ③ 전체표
-function drawLocalTable() {
-  let h = "<thead><tr><th>구분</th><th>방식</th><th>구현 한 줄</th><th>JUnit 1차</th><th>손실 · 실패</th><th>k6 02 p95</th><th>k6 03 p95</th><th>k6 03 손실 · 충돌</th><th>비고</th></tr></thead><tbody>";
-  TABS.forEach(tab => {
-    LOCAL[tab].forEach((r, i) => {
-      const sel = (tab === curTab && r.m === curM) ? ' class="sel"' : "";
-      h += `<tr${sel} data-tab="${tab}" data-m="${r.m}">`;
-      if (i === 0) h += `<td class="grp" rowspan="${LOCAL[tab].length}">${tab}</td>`;
-      h += `<td><b>${r.m}</b></td><td>${r.what}</td><td>${r.junit}ms ${badge(r.ok)}</td><td>${r.loss}</td>` +
-           `<td>${r.k02}</td><td>${r.k03}</td><td>${r.k03loss}</td><td>${r.note}</td></tr>`;
+  // ③ 전체표
+  function drawLocalTable() {
+    let h = "<thead><tr><th>구분</th><th>방식</th><th>구현 한 줄</th><th>JUnit 1차</th><th>손실 · 실패</th><th>k6 02 p95</th><th>k6 03 p95</th><th>k6 03 손실 · 충돌</th><th>비고</th></tr></thead><tbody>";
+    TABS.forEach(tab => {
+      LOCAL[tab].forEach((r, i) => {
+        const sel = (tab === curTab && r.m === curM) ? ' class="sel"' : "";
+        h += `<tr${sel} data-tab="${tab}" data-m="${r.m}">`;
+        if (i === 0) h += `<td class="grp" rowspan="${LOCAL[tab].length}">${tab}</td>`;
+        h += `<td><b>${r.m}</b></td><td>${r.what}</td><td>${r.junit}ms ${badge(r.ok)}</td><td>${r.loss}</td>` +
+                `<td>${r.k02}</td><td>${r.k03}</td><td>${r.k03loss}</td><td>${r.note}</td></tr>`;
+      });
     });
+    document.getElementById("localTable").innerHTML = h + "</tbody>";
+    document.querySelectorAll("#localTable tbody tr").forEach(tr => {
+      tr.onclick = () => { curTab = tr.dataset.tab; curM = tr.dataset.m; drawLocal(); };
+    });
+  }
+
+  // ③ 탭 · 버튼 · 카드 · 막대 · 코드
+  function drawLocal() {
+    drawLocalTable();
+    document.getElementById("localTabs").innerHTML =
+            TABS.map(t => `<button class="${t === curTab ? "on" : ""}" data-t="${t}">${t}</button>`).join("");
+    document.querySelectorAll("#localTabs button").forEach(b => b.onclick = () => {
+      curTab = b.dataset.t;
+      if (!LOCAL[curTab].some(r => r.m === curM)) curM = "atomic";   // JPA 에는 none · sync 가 없음
+      drawLocal();
+    });
+
+    const rows = LOCAL[curTab];
+    document.getElementById("localBtns").innerHTML =
+            rows.map(r => `<button class="${r.m === curM ? "on" : ""}" data-m="${r.m}">${r.m}</button>`).join("");
+    document.querySelectorAll("#localBtns button").forEach(b => b.onclick = () => { curM = b.dataset.m; drawLocal(); });
+
+    const r = rows.find(x => x.m === curM);
+    document.getElementById("localCards").innerHTML = [
+      ["JUnit 100명 동시", r.junit + "ms", r.ok ? '<span class="ok">정합성 OK</span>' : '<span class="bad">정합성 깨짐</span>'],
+      ["JUnit 손실 · 실패", r.loss, r.what],
+      ["k6 02 p95 (동시 100명)", r.k02, r.k02loss === "0" ? "손실 · 충돌 0" : r.k02loss],
+      ["k6 03 p95 (초당 200건)", r.k03, r.k03loss === "0" ? "손실 · 충돌 0" : r.k03loss]
+    ].map(c => `<div class="box kpi"><div class="l">${c[0]}</div><div class="v">${c[1]}</div><div class="d">${c[2]}</div></div>`).join("");
+
+    const max = Math.max(...rows.map(x => x.junit));
+    document.getElementById("barTitle").textContent = `JUnit 100명 동시 예약 시간 — ${curTab}`;
+    document.getElementById("localBars").innerHTML = rows.map(x => {
+      // [추가]2026.11.28권성애 막대 안 글자 : 흑백 인쇄에서도 색 없이 구분
+      const barLabel = x => (x.m === curM ? "선택" : "") + (x.m === curM && !x.ok ? " · " : "") + (x.ok ? "" : "깨짐");
+      const cls = x.m === curM ? "f on" : (x.ok ? "f" : "f badf");
+      return `<div class="bar"><span class="n">${x.m === curM ? "<b>" + x.m + "</b>" : x.m}</span>` +
+              `<span class="t"><span class="${cls}" style="width:${(x.junit / max * 100).toFixed(0)}%">${barLabel(x) ? '<i class="lbl">' + barLabel(x) + '</i>' : ""}</span></span>` +   // [추가]2026.11.28권성애 막대 안 글자
+              `<span class="x">${x.junit}ms ${x.ok ? "" : "✗"}</span></div>`;
+    }).join("") + '<p class="hint">빨간 막대 = 정합성 깨짐 (빨라도 틀린 답)</p>';
+
+    const c = LOCAL_CODE[curM];
+    document.getElementById("localCode").textContent = c.code;
+    document.getElementById("localStory").innerHTML = `<b>${curTab} · ${curM}</b> — ${c.story}`;
+  }
+
+  // ④ 실서버
+  let curS = 4;
+  function drawServer() {
+    let h = "<thead><tr><th>#</th><th>측정</th><th>보낸 곳</th><th>풀</th><th>행</th><th>처리량 /s</th><th>p95 예약 · 결제 · 취소</th><th>락 줄</th><th>받기 / 쥐기 ms</th><th>실패율</th><th>정합성</th></tr></thead><tbody>";
+    SERVER.forEach(s => {
+      const cls = s.dim ? "dim" : (s.no === curS ? "sel" : "");
+      h += `<tr class="${cls}" data-no="${s.no}"><td>${s.no}</td><td>${s.no === 4 ? "<b>" + s.name + "</b>" : s.name}</td><td>${s.from}</td>` +
+              `<td>${s.pool}</td><td>${s.rows}</td><td>${s.tps}</td><td>${s.p95}</td><td>${s.lockq}</td><td>${s.acq}</td><td>${s.fail}</td><td>${badge(s.ok)}</td></tr>`;
+    });
+    document.getElementById("serverTable").innerHTML = h + "</tbody>";
+    document.querySelectorAll("#serverTable tbody tr").forEach(tr => {
+      tr.onclick = () => { const s = SERVER.find(x => x.no == tr.dataset.no); if (s.btn) { curS = s.no; drawServer(); } };
+    });
+
+    document.getElementById("serverBtns").innerHTML = SERVER.filter(s => s.btn)
+            .map(s => `<button class="${s.no === curS ? "on" : ""}" data-no="${s.no}">${s.btn}</button>`).join("");
+    document.querySelectorAll("#serverBtns button").forEach(b => b.onclick = () => { curS = +b.dataset.no; drawServer(); });
+
+    const s = SERVER.find(x => x.no === curS);
+    document.getElementById("serverCards").innerHTML = s.cards
+            .map(c => `<div class="box kpi"><div class="l">${c[0]}</div><div class="v">${c[1]}</div><div class="d">${c[2]}</div></div>`).join("");
+    document.getElementById("serverCode").textContent = s.code;
+    document.getElementById("serverStory").textContent = s.story;
+  }
+
+  // 캡처 크게 보기
+  const zoom = document.getElementById("zoom");
+  document.querySelectorAll(".caps img").forEach(img => img.onclick = () => {
+    zoom.querySelector("img").src = img.src;
+    zoom.classList.add("show");
   });
-  document.getElementById("localTable").innerHTML = h + "</tbody>";
-  document.querySelectorAll("#localTable tbody tr").forEach(tr => {
-    tr.onclick = () => { curTab = tr.dataset.tab; curM = tr.dataset.m; drawLocal(); };
-  });
-}
+  zoom.onclick = () => zoom.classList.remove("show");
 
-// ③ 탭 · 버튼 · 카드 · 막대 · 코드
-function drawLocal() {
-  drawLocalTable();
-  document.getElementById("localTabs").innerHTML =
-    TABS.map(t => `<button class="${t === curTab ? "on" : ""}" data-t="${t}">${t}</button>`).join("");
-  document.querySelectorAll("#localTabs button").forEach(b => b.onclick = () => {
-    curTab = b.dataset.t;
-    if (!LOCAL[curTab].some(r => r.m === curM)) curM = "atomic";   // JPA 에는 none · sync 가 없음
-    drawLocal();
-  });
-
-  const rows = LOCAL[curTab];
-  document.getElementById("localBtns").innerHTML =
-    rows.map(r => `<button class="${r.m === curM ? "on" : ""}" data-m="${r.m}">${r.m}</button>`).join("");
-  document.querySelectorAll("#localBtns button").forEach(b => b.onclick = () => { curM = b.dataset.m; drawLocal(); });
-
-  const r = rows.find(x => x.m === curM);
-  document.getElementById("localCards").innerHTML = [
-    ["JUnit 100명 동시", r.junit + "ms", r.ok ? '<span class="ok">정합성 OK</span>' : '<span class="bad">정합성 깨짐</span>'],
-    ["JUnit 손실 · 실패", r.loss, r.what],
-    ["k6 02 p95 (동시 100명)", r.k02, r.k02loss === "0" ? "손실 · 충돌 0" : r.k02loss],
-    ["k6 03 p95 (초당 200건)", r.k03, r.k03loss === "0" ? "손실 · 충돌 0" : r.k03loss]
-  ].map(c => `<div class="box kpi"><div class="l">${c[0]}</div><div class="v">${c[1]}</div><div class="d">${c[2]}</div></div>`).join("");
-
-  const max = Math.max(...rows.map(x => x.junit));
-  document.getElementById("barTitle").textContent = `JUnit 100명 동시 예약 시간 — ${curTab}`;
-  document.getElementById("localBars").innerHTML = rows.map(x => {
-    const cls = x.m === curM ? "f on" : (x.ok ? "f" : "f badf");
-    return `<div class="bar"><span class="n">${x.m === curM ? "<b>" + x.m + "</b>" : x.m}</span>` +
-           `<span class="t"><span class="${cls}" style="width:${(x.junit / max * 100).toFixed(0)}%"></span></span>` +
-           `<span class="x">${x.junit}ms ${x.ok ? "" : "✗"}</span></div>`;
-  }).join("") + '<p class="hint">빨간 막대 = 정합성 깨짐 (빨라도 틀린 답)</p>';
-
-  const c = LOCAL_CODE[curM];
-  document.getElementById("localCode").textContent = c.code;
-  document.getElementById("localStory").innerHTML = `<b>${curTab} · ${curM}</b> — ${c.story}`;
-}
-
-// ④ 실서버
-let curS = 4;
-function drawServer() {
-  let h = "<thead><tr><th>#</th><th>측정</th><th>보낸 곳</th><th>풀</th><th>행</th><th>처리량 /s</th><th>p95 예약 · 결제 · 취소</th><th>락 줄</th><th>받기 / 쥐기 ms</th><th>실패율</th><th>정합성</th></tr></thead><tbody>";
-  SERVER.forEach(s => {
-    const cls = s.dim ? "dim" : (s.no === curS ? "sel" : "");
-    h += `<tr class="${cls}" data-no="${s.no}"><td>${s.no}</td><td>${s.no === 4 ? "<b>" + s.name + "</b>" : s.name}</td><td>${s.from}</td>` +
-         `<td>${s.pool}</td><td>${s.rows}</td><td>${s.tps}</td><td>${s.p95}</td><td>${s.lockq}</td><td>${s.acq}</td><td>${s.fail}</td><td>${badge(s.ok)}</td></tr>`;
-  });
-  document.getElementById("serverTable").innerHTML = h + "</tbody>";
-  document.querySelectorAll("#serverTable tbody tr").forEach(tr => {
-    tr.onclick = () => { const s = SERVER.find(x => x.no == tr.dataset.no); if (s.btn) { curS = s.no; drawServer(); } };
-  });
-
-  document.getElementById("serverBtns").innerHTML = SERVER.filter(s => s.btn)
-    .map(s => `<button class="${s.no === curS ? "on" : ""}" data-no="${s.no}">${s.btn}</button>`).join("");
-  document.querySelectorAll("#serverBtns button").forEach(b => b.onclick = () => { curS = +b.dataset.no; drawServer(); });
-
-  const s = SERVER.find(x => x.no === curS);
-  document.getElementById("serverCards").innerHTML = s.cards
-    .map(c => `<div class="box kpi"><div class="l">${c[0]}</div><div class="v">${c[1]}</div><div class="d">${c[2]}</div></div>`).join("");
-  document.getElementById("serverCode").textContent = s.code;
-  document.getElementById("serverStory").textContent = s.story;
-}
-
-// 캡처 크게 보기
-const zoom = document.getElementById("zoom");
-document.querySelectorAll(".caps img").forEach(img => img.onclick = () => {
-  zoom.querySelector("img").src = img.src;
-  zoom.classList.add("show");
-});
-zoom.onclick = () => zoom.classList.remove("show");
-
-drawLocal();
-drawServer();
+  drawLocal();
+  drawServer();
 </script>
 </body>
 </html>
