@@ -56,7 +56,8 @@ $p = "$dir\$name"                                             # 결과 파일 �
 
 # ---- 도우미 ----
 function Sql([string]$q, [string]$db = "") {                  # MySQL 한 문장 → 탭 구분 줄들
-    $a = @("-u", "root", "-h", "127.0.0.1", "-P", $DbPort, "-N", "-B")
+    # [수정]2026.11.22권성애 --default-character-set=utf8mb4 : 빠지면 05 의 한글('k6 측정 투어')이 깨져 INSERT 가 실패했음
+    $a = @("-u", "root", "-h", "127.0.0.1", "-P", $DbPort, "--default-character-set=utf8mb4", "-N", "-B")
     if ($db -ne "") { $a += $db }
     & $MySql @a -e $q
 }
@@ -89,8 +90,11 @@ if ($ping -notmatch "bustour_k6") { throw "[중지] 앱이 bustour_k6 가 아닙
 if (-not $NoReset) {
     $sqlFile = ("$root\db\05_k6_data.sql" -replace "\\", "/")
     Sql "source $sqlFile" "bustour_k6" | Out-Null
-    Write-Host "[reset] 회원 $(Sql 'SELECT COUNT(*) FROM member' 'bustour_k6')명"
-}
+    # [수정]2026.11.22권성애 초기화가 정말 됐는지 확인 → 아니면 전체 멈춤 (1차 실행 때 실패를 모르고 18번을 돌았음)
+    $members = [int](Sql "SELECT COUNT(*) FROM member" "bustour_k6")
+    $schedules = [int](Sql "SELECT COUNT(*) FROM tour_schedule" "bustour_k6")
+    if ($members -ne 500 -or $schedules -ne 3) { throw "[중지] 초기화 실패: 회원 ${members}명 · 회차 ${schedules}개 (기대 500 · 3)" }
+    Write-Host "[reset] 회원 ${members}명 · 회차 ${schedules}개"}
 
 # ③ 측정 전 값 + 1초 기록 (따로 도는 작업 Start-Job)
 $before = Snap
@@ -119,6 +123,9 @@ $k6args += "$here\$Script"
 
 try {
     & k6 @k6args
+    # [수정]2026.11.22권성애 k6 종료 코드 107 = 스크립트 오류(준비 단계 로그인 실패 등) → 측정이 안 된 것이므로 멈춤
+    #   (99 = 합격 기준 미달 → 측정은 된 것이라 계속)
+    if ($LASTEXITCODE -eq 107) { throw "[중지] k6 준비 단계 실패 (로그인 등) — 위 k6 오류 줄 확인" }
 }
 finally {
     # ⑤ 기록 멈춤 + 차이 → stats.json (서버판과 같은 이름의 항목 → 나란히 비교 가능)

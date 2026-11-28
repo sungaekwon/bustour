@@ -27,6 +27,8 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://portfolio.trave2026.kro.kr/">
 <meta property="og:title" content="권성애 포트폴리오 — 백엔드 웹 개발자">
+<!-- [추가]2026.11.26권성애 검색 결과에 나오지 않게 (구글·네이버 등) -->
+<meta name="robots" content="noindex, nofollow">
 <meta property="og:description" content="동시 예약 15가지 방식 비교와 실서버 부하테스트 · 놀러가자(서블릿) · 부산한바퀴(Spring Boot)">
 <meta property="og:image" content="https://portfolio.trave2026.kro.kr/img/og.png">
 <meta property="og:image:width" content="1200">
@@ -35,8 +37,8 @@
 <style>
 /* ---------- 색 (여기만 바꾸면 전체 색이 바뀜) ---------- */
 :root {
-  --accent: #ea580c;        /* 포인트 주황 : 사이트 열기 버튼 · 선택된 버튼 · 강조 */
-  --accent-soft: #fff4ec;   /* 연한 주황 : 체험 계정 칸 · 선택된 표 행 */
+  --accent: #0f766e;        /* [추가]2026.11.26권성애 포인트 녹청(주황 #ea580c에서 변경) : 사이트 열기 버튼 · 선택된 버튼 · 강조 */
+  --accent-soft: #e8f5f3;   /* [추가]2026.11.26권성애 연한 녹청(#fff4ec에서 변경) : 체험 계정 칸 · 선택된 표 행 */
   --ink: #1d2433;           /* 기본 글자 (진한 남색) */
   --muted: #5b6475;         /* 보조 글자 (회색) */
   --line: #dfe3ea;          /* 테두리 */
@@ -57,12 +59,25 @@ h2 { font-size: 21px; margin: 0 0 4px; }
 .box { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px; }
 
 /* ---------- 머리 부분 ---------- */
+/* [추가]2026.11.26권성애 흰 띠 : 바깥 배경 흰색 + 위아래 얇은 선 (아래 .band 와 같은 모양) */
+.hero { background: #fff; border-bottom: 1px solid var(--line); }
 .top { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px;
-       padding: 34px 0 14px; border-bottom: 3px solid var(--ink); }
+       padding: 28px 0 24px; }
+.me { display: flex; align-items: stretch; gap: 18px; }   /* [추가]2026.11.26권성애 사진 높이에 글자를 위·아래로 맞춤 */
+.me .txt { display: flex; flex-direction: column; justify-content: space-between; padding: 2px 0; }   /* 이름은 위, 한 줄 소개는 아래 */
+.me .intro { font-size: 14px; color: var(--ink); }   /* 한 줄 소개 */
+.photo { width: 84px; height: 112px; border-radius: 8px; border: 1px solid var(--line); background: #eef0f4;
+         object-fit: cover; flex-shrink: 0; }   /* [추가]2026.11.26권성애 사진 (img/photo.jpg, 3:4) */
 .top .name { font-size: 30px; font-weight: 800; }
 .top .role { color: var(--muted); font-size: 15px; }
 .top .contact { text-align: right; font-size: 14px; line-height: 1.8; }
 .top .contact a { color: var(--accent); text-decoration: none; }
+/* [추가]2026.11.26권성애 머리 오른쪽 : 이력서 · 포트폴리오 PDF 버튼 (새 탭에서 열림) */
+.top .right { display: flex; align-items: flex-end; gap: 18px; }
+.docs { display: flex; flex-direction: column; gap: 6px; }
+.docs a { display: block; min-width: 150px; text-align: center; font-size: 14px; font-weight: 700; text-decoration: none;
+          border: 1.5px solid var(--ink); border-radius: 8px; padding: 6px 12px; background: #fff; }
+.docs a:hover { background: var(--accent-soft); }
 
 /* ---------- 프로젝트 카드 ---------- */
 .projects { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
@@ -77,13 +92,22 @@ h2 { font-size: 21px; margin: 0 0 4px; }
 .go a.site { background: var(--accent); color: #fff; }
 .go a.gh { border: 1.5px solid var(--ink); }
 .go a:hover { opacity: .85; }
-.url { font-size: 12.5px; color: var(--muted); margin-top: 6px; }
+.go a small { display: block; font-size: 12px; font-weight: 500; opacity: .85; margin-top: 1px; }   /* [추가]2026.11.24권성애 버튼 안 주소 */
 .demo { margin-top: 8px; font-size: 13px; background: var(--accent-soft); border-radius: 8px; padding: 7px 11px; }
 
 /* ---------- 흰 띠 (위 · 아래 분리) ---------- */
 .band { background: #fff; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 30px 0 26px; margin: 48px 0 0; }
 .band .eyebrow { color: var(--accent); font-weight: 800; font-size: 13px; letter-spacing: 1px; }
 .band h1 { font-size: 28px; margin: 4px 0 6px; line-height: 1.35; }
+
+/* [추가]2026.11.24권성애 섹션 띠: 로컬 · 실서버 제목을 흰 띠로 (전체 가로) */
+.secband { background: #fff; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+           border-left: 6px solid var(--accent); padding: 18px 0 14px; margin: 44px 0 18px; }
+.secband .step { display: inline-block; background: var(--accent); color: #fff; font-size: 12.5px; font-weight: 800;
+                 border-radius: 12px; padding: 1px 11px; letter-spacing: .5px; }
+.secband h2 { font-size: 24px; margin: 6px 0 4px; }
+.secband .sub { margin: 0; }
+.secband + .wrap section { margin-top: 0; }
 
 /* ---------- 숫자 카드 ---------- */
 .kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
@@ -148,26 +172,47 @@ footer { color: var(--muted); font-size: 12.5px; text-align: center; padding: 30
 @media (max-width: 760px) {
   .top { flex-direction: column; align-items: flex-start; }
   .top .contact { text-align: left; }
+  .top .right { flex-direction: column; align-items: flex-start; }   /* [추가]2026.11.26권성애 휴대폰: 버튼을 연락처 위로 */
+  .docs { flex-direction: row; }
   .projects, .grid2, .kpis, .kpis.four { grid-template-columns: 1fr; }
   .caps { flex-direction: column; }
   .band h1 { font-size: 22px; }
+  .secband h2 { font-size: 19px; }
 }
 </style>
 </head>
 <body>
 
 <!-- =================== 머리 부분 =================== -->
+<!-- [추가]2026.11.26권성애 머리 부분을 전체 가로 흰 띠(.hero)로 감쌈 : 아래 '부하테스트 결과' 띠와 같은 모양 -->
+<div class="hero">
 <div class="wrap">
   <div class="top">
-    <div>
-      <div class="name">권성애</div>
-      <div class="role">백엔드 웹 개발자 · Java · Spring Boot · 동시성 · 배포</div>
+    <div class="me">
+      <!-- [추가]2026.11.26권성애 사진 : img/photo.jpg 를 넣으면 보임 (3:4 증명사진 비율) -->
+      <img class="photo" src="img/photo.jpg" alt="권성애 사진">
+      <div class="txt">
+        <div><div class="name">권성애</div>
+        <div class="role">백엔드 웹 개발자 · Java · Spring Boot · 동시성 · 배포</div></div>
+        <!-- [추가]2026.11.26권성애 한 줄 소개 (사진 아래선에 맞춤) -->
+        <div class="intro">측정하고, 근거로 판단하는 개발자입니다.</div>
+      </div>
     </div>
-    <div class="contact">
-      ✉ <a href="mailto:sungaekwon88@gmail.com">sungaekwon88@gmail.com</a><br>
-      GitHub <a href="https://github.com/sungaekwon" target="_blank" rel="noopener">github.com/sungaekwon</a>
+    <div class="right">
+      <!-- [추가]2026.11.26권성애 PDF는 같은 폴더(portfolio/)에 넣고 새 탭으로 열기 : 서브도메인 추가 필요 없음 -->
+      <div class="docs">
+        <a href="resume.pdf" target="_blank" rel="noopener">📄 이력서 PDF ↗</a>
+        <a href="portfolio.pdf" target="_blank" rel="noopener">📁 포트폴리오 PDF ↗</a>
+      </div>
+      <div class="contact">
+        ✉ <a href="mailto:rnjstjddo88@naver.com">rnjstjddo88@naver.com</a><br>   <!-- [추가]2026.11.26권성애 이력서와 같은 naver 메일로 통일 -->
+        GitHub <a href="https://github.com/sungaekwon" target="_blank" rel="noopener">github.com/sungaekwon</a>
+      </div>
     </div>
   </div>
+</div>
+</div>
+<div class="wrap">
 
   <!-- =================== ① 프로젝트 2개 =================== -->
   <section>
@@ -184,17 +229,19 @@ footer { color: var(--muted); font-size: 12.5px; text-align: center; padding: 30
           <li>HTTPS 도메인 배포 (war + Nginx 리버스 프록시)</li>
         </ul>
         <div class="go">
-          <a class="site" href="https://trave2026.kro.kr/travel" target="_blank" rel="noopener">사이트 열기 ↗</a>
-          <a class="gh" href="https://github.com/sungaekwon/travel" target="_blank" rel="noopener">GitHub ↗</a>
+          <a class="site" href="https://trave2026.kro.kr/travel" target="_blank" rel="noopener">사이트 열기 ↗<small>trave2026.kro.kr/travel</small></a>
+          <!-- [추가]2026.11.28권성애 놀러가자 깃허브 주소 travel.git 으로 -->
+          <a class="gh" href="https://github.com/sungaekwon/travel.git" target="_blank" rel="noopener">GitHub ↗<small>github.com/sungaekwon/travel.git</small></a>
         </div>
-        <div class="url">trave2026.kro.kr/travel · github.com/sungaekwon/travel</div>
+        <!-- [추가]2026.11.26권성애 놀러가자 체험 계정 (회원 · 관리자) -->
+        <div class="demo"><b>체험 계정</b> 회원 choi04@example.com · 1234<br><b style="visibility:hidden">체험 계정</b> 관리자 admin@example.com · 1234</div>
       </div>
 
       <div class="box pj">
         <div class="kind">부트 프로젝트 · 개인</div>
         <h3>부산한바퀴</h3>
         <div class="desc">부산버스투어예약결제서비스</div>
-        <div class="meta">2026.11.06 ~ 진행 중 · 기획 · 개발 · 배포 · 부하테스트 전부</div>
+        <div class="meta">2026.11.06 ~ 2026.11.24 · 기획 · 개발 · 배포 · 부하테스트 전부</div>   <!-- [추가]2026.11.28권성애 프로젝트 종료일 -->
         <div class="chips"><span>Spring Boot 4</span><span>JPA</span><span>Security</span><span>Thymeleaf</span><span>MySQL 8.0</span><span>Docker</span><span>GitHub Actions</span><span>토스페이먼츠</span><span>기상청 API</span></div>
         <ul>
           <li>조건부 UPDATE로 좌석 동시 예약 → 초과 판매 0건</li>
@@ -202,11 +249,11 @@ footer { color: var(--muted); font-size: 12.5px; text-align: center; padding: 30
           <li>Docker · GitHub Actions 자동 배포, 실서버 k6 부하테스트</li>
         </ul>
         <div class="go">
-          <a class="site" href="https://bustour.trave2026.kro.kr" target="_blank" rel="noopener">사이트 열기 ↗</a>
-          <a class="gh" href="https://github.com/sungaekwon/bustour" target="_blank" rel="noopener">GitHub ↗</a>
+          <a class="site" href="https://bustour.trave2026.kro.kr" target="_blank" rel="noopener">사이트 열기 ↗<small>bustour.trave2026.kro.kr</small></a>
+          <a class="gh" href="https://github.com/sungaekwon/bustour" target="_blank" rel="noopener">GitHub ↗<small>github.com/sungaekwon/bustour</small></a>
         </div>
-        <div class="url">bustour.trave2026.kro.kr · github.com/sungaekwon/bustour</div>
-        <div class="demo"><b>체험 계정</b> 휴대폰 01033334444 · 비밀번호 test1234! &nbsp;(테스트 결제라 실제 돈이 나가지 않습니다)</div>
+        <!-- [추가]2026.11.26권성애 '비밀번호' 글자 빼고 안내 문장은 다음 줄로 -->
+        <div class="demo"><b>체험 계정</b> 휴대폰 01033334444 · test1234!<br>(테스트 결제라 실제 돈이 나가지 않습니다)</div>
       </div>
     </div>
   </section>
@@ -227,13 +274,23 @@ footer { color: var(--muted); font-size: 12.5px; text-align: center; padding: 30
     <div class="kpis">
       <div class="box kpi"><div class="l">정합성 (초과 판매)</div><div class="v ok">0건</div><div class="d">로컬 정답 방식 · 실서버 측정 모두</div></div>
       <div class="box kpi"><div class="l">선택한 방식</div><div class="v acc">atomic</div><div class="d">UPDATE 한 문장으로 확인과 차감 — 정확하고 가장 빠름</div></div>
-      <div class="box kpi"><div class="l">실서버 병목 해결 실험</div><div class="v">+75%</div><div class="d">회차(행) 나누기 · 로컬(+7%)과 결론이 달랐음</div></div>
+      <div class="box kpi"><div class="l">실서버 병목 확인 실험</div><div class="v">+43%</div><div class="d">회차(행) 나누기 · 커넥션 풀 20→30 은 −2% (3회 측정)</div></div>
     </div>
   </section>
 
-  <!-- =================== ③ 로컬 15가지 방식 =================== -->
+</div>
+
+<!-- =================== ③ 로컬 15가지 방식 — 제목 띠 [추가]2026.11.24권성애 =================== -->
+<div class="secband">
+  <div class="wrap">
+    <span class="step">STEP 1 · 로컬</span>
+    <h2>15가지 방식 비교 — 동시성 테스트 프로젝트 (서블릿 · 부트 JDBC · 부트 JPA)</h2>
+    <p class="sub">같은 예약을 15가지로 만들어 어느 방식이 정확하고 빠른지 비교</p>
+  </div>
+</div>
+
+<div class="wrap">
   <section>
-    <h2>로컬 · 15가지 방식 — 동시성 테스트 프로젝트 (서블릿 · 부트 JDBC · 부트 JPA)</h2>
     <div class="env">측정 환경: 내 PC 한 대 (앱 · MySQL 8.0) · JDK 21 · 커넥션 풀 10개(대기 3초) · JUnit = 100명 동시 예약 · k6 02 = 동시 100명 · k6 03 = 초당 200건 20초 · ✗ = 기준 미달(p95 500ms 초과 또는 요청 누락)</div>
     <div class="scroll"><table id="localTable"></table></div>
     <p class="hint">표의 행이나 아래 버튼을 누르면 상세가 바뀝니다. 시간은 측정 날짜 · PC 상태가 달라 같은 구분 안에서만 비교합니다.</p>
@@ -271,31 +328,39 @@ footer { color: var(--muted); font-size: 12.5px; text-align: center; padding: 30
     </div>
   </section>
 
-  <!-- =================== ④ 실서버 검증 =================== -->
-  <section>
-    <h2>실서버 · 부산한바퀴 (AWS Lightsail 2GB · 앱 + MySQL + nginx 한 대)</h2>
+</div>
+
+<!-- =================== ④ 실서버 검증 — 제목 띠 [추가]2026.11.24권성애 =================== -->
+<div class="secband">
+  <div class="wrap">
+    <span class="step">STEP 2 · 실서버</span>
+    <h2>부산한바퀴 — AWS Lightsail 2GB (앱 + MySQL + nginx 한 대)</h2>
     <p class="sub">로컬에서 고른 atomic 을 실제 서비스(예약 → 결제 → 취소)에 적용하고, 같은 서버에 k6 로 부하</p>
-    <div class="env">측정 환경: AWS Lightsail 2GB(서울) 1대에 app · MySQL · nginx · 커넥션 풀 20 / 30 · 가짜 PG(토스 서버에 부하를 주지 않음) · k6는 내 PC / 서울 임시 서버</div>
+  </div>
+</div>
+
+<div class="wrap">
+  <section>
+    <div class="env">측정 환경: AWS Lightsail 2GB(서울) 1대에 app · MySQL · nginx · 커넥션 풀 20 / 30 · 가짜 PG(토스 서버에 부하를 주지 않음) · k6는 내 PC · 측정마다 커넥션 풀(Actuator) · MySQL 락 통계 자동 기록 · 2026.11.22 재측정, 각 3회</div>
     <div class="scroll"><table id="serverTable"></table></div>
-    <p class="hint">회색 행(2 · 5)은 참고용입니다. 5는 JVM 예열 전에 잰 값이라 버리고 6에서 다시 측정했습니다.</p>
+    <p class="hint">값은 3회 평균(회차 2개는 안정된 4 · 5회차 평균). 회색 행은 참고용 — 2: 요청량이 낮은 측정, 6: 11-14 첫 측정 때 서울 임시 서버에서 보낸 값. 락 줄 = 한순간 행 락을 기다린 최대 수, 받기 / 쥐기 = 커넥션을 받을 때까지 / 쥐고 있던 평균 시간.</p>
 
     <div class="btns" id="serverBtns"></div>
     <div class="kpis four" id="serverCards"></div>
     <div class="grid2">
       <div class="box card">
-        <h4>실제 화면 — docker stats (누르면 크게)</h4>
+        <h4>측정 중 1초마다 기록 — 커넥션 · 행 락 (누르면 크게)</h4>
         <div class="caps">
-          <figure><img src="img/stats_one_row.png" alt="docker stats 한 행"><figcaption>회차 1개 · app CPU 101% · mysql 39%</figcaption></figure>
-          <figure><img src="img/stats_two_rows.png" alt="docker stats 두 행"><figcaption>회차 2개로 분산 · app 69% · mysql 51% (DB가 일을 더 함)</figcaption></figure>
+          <figure><img src="img/watch_compare.png" alt="실서버 · 로컬 커넥션과 락 기록"><figcaption>RATE 100 · 풀 20 — 실서버: 행 락 대기가 19(= 풀 20 − 1)에 붙어 있고 풀 앞 대기 약 175 / 로컬: 둘 다 거의 0</figcaption></figure>
         </div>
       </div>
       <div class="box card">
         <h4>로컬 vs 실서버 — 같은 실험, 다른 병목</h4>
-        <div class="bar"><span class="n">행 나누기 · 로컬</span><span class="t"><span class="f" style="width:9%"></span></span><span class="x">+7%</span></div>
-        <div class="bar"><span class="n"><b>행 나누기 · 실서버</b></span><span class="t"><span class="f on" style="width:100%"></span></span><span class="x"><b>+75%</b></span></div>
-        <div class="bar"><span class="n">풀 20→30 · 로컬</span><span class="t"><span class="f" style="width:2%"></span></span><span class="x">+1.6%</span></div>
-        <div class="bar"><span class="n">풀 20→30 · 실서버</span><span class="t"><span class="f" style="width:12%"></span></span><span class="x">+9%</span></div>
-        <p class="hint">로컬 병목 = 커넥션 풀 / 실서버 병목 = 한 행의 락 (커밋이 느린 디스크에서 락을 쥐는 시간이 길어짐)</p>
+        <div class="bar"><span class="n">행 나누기 · 로컬</span><span class="t"><span class="f" style="width:1%"></span></span><span class="x">+0.2%</span></div>
+        <div class="bar"><span class="n"><b>행 나누기 · 실서버</b></span><span class="t"><span class="f on" style="width:100%"></span></span><span class="x"><b>+43%</b></span></div>
+        <div class="bar"><span class="n">풀 20→30 · 로컬</span><span class="t"><span class="f" style="width:1%"></span></span><span class="x">−0.5%</span></div>
+        <div class="bar"><span class="n">풀 20→30 · 실서버</span><span class="t"><span class="f" style="width:1%"></span></span><span class="x">−2%</span></div>
+        <p class="hint">로컬은 초당 100을 93~94 로 거의 다 처리 = 아직 병목 전 / 실서버 병목 = 한 행의 락 (락 줄 = 풀 − 1, 받기 620ms ≫ 쥐기 84ms)</p>
       </div>
     </div>
     <div class="grid2">
@@ -378,33 +443,32 @@ const LOCAL_CODE = {
 
 // ④ 실서버 측정
 //   p95: 예약 · 결제 · 취소 순서     dim: 참고용 행(회색)
-const SERVER = [
-  { no: 1, name: "01 동시 예약 500명 → 100석", from: "PC", pool: 20, rows: 1, tps: "-", p95: "(전체 4.24s)", fail: "1.5% (503)", ok: true, btn: "01 동시 예약",
-    cards: [["결과", "정확히 100석", "500명 중 100명만 성공"], ["503 응답", "30건", "커넥션 대기 3초 초과"], ["대기 최대", "87", "풀 20개 앞에서 줄 섬"], ["정합성", "OK", "남은 0 + 예약 100 = 100"]],
+const SERVER = [   // [추가]2026.11.24권성애 2026.11.22 재측정 값 (lockq = 락 줄 최대, acq = 커넥션 받기 / 쥐기 ms)
+  { no: 1, name: "01 동시 예약 500명 → 100석", from: "PC", pool: 20, rows: 1, tps: "-", p95: "(예약 1.3~1.6s)", lockq: "17~18", acq: "240 / 60", fail: "0%", ok: true, btn: "01 동시 예약",
+    cards: [["결과", "정확히 100석", "3회 모두 500명 중 100명만 성공"], ["503 응답", "0건", "11-14 첫 측정 30건 → 예열 뒤 0"], ["풀 앞 줄 최대", "179", "길어도 모두 3초 안에 커넥션 받음"], ["정합성", "OK", "남은 0 + 예약 100 = 100"]],
     code: "k6 run -e BASE=https://bustour.trave2026.kro.kr k6/01-reserve-spike.js\n# 로그인 500명을 미리 만들어 두고(setup) 한 번에 예약",
-    story: "500명이 동시에 100석을 노려도 정확히 100명만 성공했다. 503 30건은 커넥션을 3초 안에 못 받은 요청으로, 틀린 판매가 아니라 '나중에 다시'에 해당한다." },
-  { no: 2, name: "02 RATE 50", from: "PC", pool: 20, rows: 1, tps: "29.4", p95: "-", fail: "-", ok: true, dim: true, btn: null },
-  { no: 3, name: "02 RATE 100 (예약 → 결제 → 취소)", from: "PC", pool: 20, rows: 1, tps: "37.5", p95: "4.1 · 5.1 · 4.9s", fail: "0.04%", ok: true, btn: "RATE 100",
-    cards: [["처리량", "37.5/s", "초당 100을 보내도 여기서 멈춤"], ["p95 예약 · 결제 · 취소", "4.1 · 5.1 · 4.9s", "대기가 길어짐"], ["정합성", "OK", "남은 + 예약 = 정원"], ["app CPU", "101%", "mysql 39%"]],
-    code: "k6 run -e BASE=https://bustour.trave2026.kro.kr \\\n       -e RATE=100 k6/02-reserve-pay.js\n# 같은 회차(1행)에 예약 · 결제 · 취소를 섞어서",
-    story: "한 회차에 모든 요청을 몰자 초당 37.5건에서 멈췄다. 로컬처럼 커넥션 풀이 병목인지, 다른 원인인지 확인하려고 조건을 하나씩 바꿔 측정을 이어 갔다." },
-  { no: 4, name: "행 나누기 (회차 2개)", from: "PC", pool: 20, rows: 2, tps: "65.7 (+75%)", p95: "2.0 · 2.8 · 2.4s", fail: "0%", ok: true, btn: "행 나누기",
-    cards: [["처리량", "65.7/s", "한 행 37.5/s → +75%"], ["p95 예약 · 결제 · 취소", "2.0 · 2.8 · 2.4s", "한 행 4.1 · 5.1 · 4.9s → 약 절반"], ["정합성", "OK · OK", "회차 2 · 3 모두"], ["병목", "행 락", "락 대기 ≈ 좌석 변경 횟수"]],
+    story: "500명이 동시에 100석을 노려도 3번 모두 정확히 100명만 성공했다. 풀 앞에 179명까지 줄을 섰지만 3초 안에 모두 차례가 와 503 도 없었다." },
+  { no: 2, name: "02 RATE 50", from: "PC", pool: 20, rows: 1, tps: "35.0", p95: "0.9~2.0 · 1.6~3.1 · 1.3~2.8s", lockq: "19", acq: "345 / 85", fail: "0%", ok: true, dim: true, btn: null },
+  { no: 3, name: "02 RATE 100 (예약 → 결제 → 취소)", from: "PC", pool: 20, rows: 1, tps: "38.4", p95: "4.0 · 5.2 · 4.7s", lockq: "19", acq: "620 / 84", fail: "0.06%", ok: true, btn: "RATE 100",
+    cards: [["처리량", "38.4/s", "3회 38.6 · 38.6 · 38.1 — 초당 100을 보내도 여기서 멈춤"], ["락 줄 최대", "19", "= 풀 20 − 1 : 커넥션 전부가 한 행 앞에"], ["받기 / 쥐기", "620 / 84ms", "쥐는 동안 락을 기다려 풀 앞에 줄 (약 175)"], ["정합성", "OK", "503 5~7건은 3초 초과 = 다시 누르면 됨"]],
+    code: "k6 run -e BASE=https://bustour.trave2026.kro.kr \\\n       -e RATE=100 k6/02-reserve-pay.js\n# 같은 회차(1행)에 예약 · 결제 · 취소\n# 측정 전후: Actuator(hikaricp.connections.*) + SHOW GLOBAL STATUS LIKE 'Innodb_row_lock%'",
+    story: "한 회차에 모든 요청을 몰자 초당 38건에서 멈췄다. 행 락을 기다리는 트랜잭션이 늘 19개(= 풀 20 − 1)였다 — 커넥션 전부가 회차 한 행 앞에 묶여 있었다." },
+  { no: 4, name: "행 나누기 (회차 2개)", from: "PC", pool: 20, rows: 2, tps: "55.0 (+43%)", p95: "2.7 · 3.5 · 3.1s", lockq: "17~18", acq: "411 / 59", fail: "0%", ok: true, btn: "행 나누기",
+    cards: [["처리량", "55.0/s", "한 행 38.4/s → +43%"], ["락 평균 대기", "120ms", "한 행 205ms → 줄이 두 행으로 갈라짐"], ["p95 예약 · 결제 · 취소", "2.7 · 3.5 · 3.1s", "한 행 4.0 · 5.2 · 4.7s"], ["정합성", "OK · OK", "회차 2 · 3 모두"]],
     code: "# 예약을 회차 2 · 3 에 번갈아 → 한 행에 몰리던 락이 두 행으로\nk6 run -e BASE=https://bustour.trave2026.kro.kr \\\n       -e RATE=100 -e SCHEDULES=2,3 k6/02-reserve-pay.js",
-    story: "같은 부하를 회차 두 개로 나누자 처리량이 75% 늘고 응답 시간이 절반이 됐다. 로컬에서는 +7%였던 실험이라, 실서버의 병목이 한 행의 락이라는 증거가 됐다." },
-  { no: 5, name: "풀 30 (예열 전 · 버림)", from: "PC", pool: 30, rows: 1, tps: "21.7", p95: "-", fail: "-", ok: true, dim: true, btn: null },
-  { no: 6, name: "풀 30 (예열 후)", from: "PC", pool: 30, rows: 1, tps: "40.8 (+9%)", p95: "3.7 · 4.5 · 4.3s", fail: "0.01%", ok: true, btn: "풀 30",
-    cards: [["처리량", "40.8/s", "풀 20 → 30 : +9%뿐"], ["행 락 대기", "3,359번", "좌석 변경 3,365번과 거의 같음"], ["락 대기 평균", "약 0.3초", "Innodb_row_lock 통계"], ["정합성", "OK", ""]],
-    code: "-- 측정 전 · 후 차이로 락 대기 확인\nSHOW GLOBAL STATUS LIKE 'Innodb_row_lock%';\n-- waits +3,359 ≈ 좌석 UPDATE 3,365번",
-    story: "커넥션을 늘려도 9%만 올랐다. 락 통계를 보니 거의 모든 좌석 변경이 락을 기다렸다 = 병목은 커넥션이 아니라 한 행 앞의 줄. 예열 전 값(21.7/s)은 버리고 다시 쟀다." },
-  { no: 7, name: "임시 서버에서 부하", from: "k6-temp", pool: 30, rows: 1, tps: "41.6", p95: "3.5 · 4.3 · 4.2s", fail: "0.01%", ok: true, btn: "임시 서버",
-    cards: [["처리량", "41.6/s", "내 PC에서 보낼 때 40.8/s"], ["부하 보낸 곳", "서울 임시 서버", "Lightsail 같은 리전"], ["결론", "PC 원인 ✘", "회선 · PC가 병목 아님"], ["정합성", "OK", ""]],
+    story: "같은 부하를 회차 두 개로 나누자 처리량이 43% 늘었다. 커넥션을 늘린 실험과 달리 행을 나눈 실험만 효과가 있어, 병목이 한 행의 락이라는 것을 확인했다. (앱 CPU 가 100% 근처 → 그다음 병목은 CPU)" },
+  { no: 5, name: "풀 30", from: "PC", pool: 30, rows: 1, tps: "37.8 (−2%)", p95: "3.9 · 5.0 · 4.7s", lockq: "29", acq: "584 / 125", fail: "0.02%", ok: true, btn: "풀 30",
+    cards: [["처리량", "37.8/s", "풀 20 의 38.4/s 와 같음 (−2%)"], ["락 줄 최대", "29", "= 풀 30 − 1 : 늘린 커넥션만큼 줄도 길어짐"], ["락 평균 대기", "320ms", "풀 20 일 때 205ms"], ["쥐기", "125ms", "풀 20 일 때 84ms"]],
+    code: "-- 측정 중 1초마다: 지금 행 락을 기다리는 수\nSHOW GLOBAL STATUS LIKE 'Innodb_row_lock_current_waits';\n-- 풀 20 → 최대 19, 풀 30 → 최대 29",
+    story: "커넥션을 30개로 늘려도 처리량은 그대로였고, 한 행 앞에서 기다리는 줄만 19에서 29로 길어졌다. 풀 대기는 원인이 아니라 결과여서 운영 설정은 20 으로 두었다. (재시작 직후 1회차 32.0 은 예열 전이라 제외)" },
+  { no: 6, name: "임시 서버에서 부하 (11-14)", from: "k6-temp", pool: 30, rows: 1, tps: "41.6", p95: "3.5 · 4.3 · 4.2s", lockq: "-", acq: "-", fail: "0.01%", ok: true, dim: true, btn: "임시 서버",
+    cards: [["처리량", "41.6/s", "같은 날 내 PC에서 보낼 때 40.8/s"], ["부하 보낸 곳", "서울 임시 서버", "Lightsail 같은 리전"], ["결론", "PC 원인 ✘", "회선 · PC가 병목 아님"], ["측정일", "11-14", "재측정 전 첫 측정"]],
     code: "# 같은 리전에 k6 전용 임시 서버를 만들어 같은 명령\nk6 run -e BASE=https://bustour.trave2026.kro.kr \\\n       -e RATE=100 k6/02-reserve-pay.js",
-    story: "부하를 보내는 쪽이 원인일 수 있어 서울 리전 임시 서버에서 다시 쟀다. 결과가 PC와 같아 병목은 네트워크가 아니라 서버 안이라는 것을 확인했다." },
-  { no: 8, name: "03 메인 화면 RATE 200", from: "PC", pool: 30, rows: "-", tps: "199", p95: "78ms", fail: "0%", ok: null, btn: "03 메인",
-    cards: [["처리량", "199/s", "초당 200 요청을 거의 다 처리"], ["p95", "78ms", "조회는 빠름"], ["실패율", "0%", ""], ["날씨", "1시간 캐시", "열 때마다 기상청을 부르지 않음"]],
+    story: "부하를 보내는 쪽이 원인일 수 있어 11-14 첫 측정 때 서울 리전 임시 서버에서 다시 쟀다. 결과가 PC와 같아 병목은 네트워크가 아니라 서버 안이었다." },
+  { no: 7, name: "03 메인 화면 RATE 200", from: "PC", pool: 30, rows: "-", tps: "199.6", p95: "89~94ms", lockq: "0", acq: "0.1 / 9", fail: "0%", ok: null, btn: "03 메인",
+    cards: [["처리량", "199.6/s", "초당 200 요청을 거의 다 처리"], ["p95", "89~94ms", "1회차 153ms (예열 중)"], ["락 · 커넥션 대기", "0 · 0.1ms", "조회는 줄이 없음"], ["날씨", "1시간 캐시", "열 때마다 기상청을 부르지 않음"]],
     code: "k6 run -e BASE=https://bustour.trave2026.kro.kr \\\n       -e RATE=200 k6/03-main-page.js\n# 투어 목록 + 날씨(@Cacheable) 메인 화면",
-    story: "락이 없는 조회 화면은 초당 200건도 78ms 안에 응답했다. 느린 것은 서버 전체가 아니라 한 행에 몰리는 쓰기라는 점이 다시 확인됐다." }
+    story: "락이 없는 조회 화면은 초당 200건도 0.1초 안에 응답했다. 느린 것은 서버 전체가 아니라 한 행에 몰리는 쓰기라는 점이 다시 확인됐다." }
 ];
 
 /* =====================================================================
@@ -477,11 +541,11 @@ function drawLocal() {
 // ④ 실서버
 let curS = 4;
 function drawServer() {
-  let h = "<thead><tr><th>#</th><th>측정</th><th>보낸 곳</th><th>풀</th><th>행</th><th>처리량 /s</th><th>p95 예약 · 결제 · 취소</th><th>실패율</th><th>정합성</th></tr></thead><tbody>";
+  let h = "<thead><tr><th>#</th><th>측정</th><th>보낸 곳</th><th>풀</th><th>행</th><th>처리량 /s</th><th>p95 예약 · 결제 · 취소</th><th>락 줄</th><th>받기 / 쥐기 ms</th><th>실패율</th><th>정합성</th></tr></thead><tbody>";
   SERVER.forEach(s => {
     const cls = s.dim ? "dim" : (s.no === curS ? "sel" : "");
     h += `<tr class="${cls}" data-no="${s.no}"><td>${s.no}</td><td>${s.no === 4 ? "<b>" + s.name + "</b>" : s.name}</td><td>${s.from}</td>` +
-         `<td>${s.pool}</td><td>${s.rows}</td><td>${s.tps}</td><td>${s.p95}</td><td>${s.fail}</td><td>${badge(s.ok)}</td></tr>`;
+         `<td>${s.pool}</td><td>${s.rows}</td><td>${s.tps}</td><td>${s.p95}</td><td>${s.lockq}</td><td>${s.acq}</td><td>${s.fail}</td><td>${badge(s.ok)}</td></tr>`;
   });
   document.getElementById("serverTable").innerHTML = h + "</tbody>";
   document.querySelectorAll("#serverTable tbody tr").forEach(tr => {

@@ -53,7 +53,11 @@ function NeedPool([int]$want) {
 function Many([string]$sub, [hashtable]$opt) {
     for ($r = 1; $r -le $Rounds; $r++) {
         try { & $one @opt -Round $r -OutDir "$OutRoot\$sub" -DbPass $DbPass }
-        catch { Write-Host "[실패] $sub round$r : $_  → 다음 회차 계속" }
+        catch {
+            # [수정]2026.11.22권성애 [중지] 로 시작하는 오류(초기화 실패 · 로그인 실패)는 다음 회차도 똑같이 실패 → 전체 멈춤
+            if ("$_".Contains("[중지]")) { throw }   # -like 는 [ ] 를 패턴으로 읽어서 .Contains 사용
+            Write-Host "[실패] $sub round$r : $_  → 다음 회차 계속"
+        }
         Start-Sleep -Seconds $Rest
     }
 }
